@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/homeFeedFragment"
+    android:id="@+id/nav_graph">
+    <fragment
+        android:id="@+id/homeFeedFragment"
+        android:name="co.icanteach.apps.android.droidfeeds.feed.HomeFeedFragment"
+        android:label="@string/bottom_nav_menu_1"
+        tools:layout="@layout/fragment_home_feed" />
+
+    <fragment
+        android:id="@+id/bookmarkFragment"
+        android:name="co.icanteach.apps.android.droidfeeds.bookmark.BookmarkFragment"
+        android:label="@string/bottom_nav_menu_2"
+        tools:layout="@layout/fragment_bookmark" />
+</navigation>
