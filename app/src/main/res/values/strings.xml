@@ -3,4 +3,6 @@
 
     <string name="bottom_nav_menu_1">Home</string>
     <string name="bottom_nav_menu_2">Reading List</string>
+    <string name="action_save">SAVE</string>
+    <string name="action_explore">EXPLORE</string>
 </resources>
