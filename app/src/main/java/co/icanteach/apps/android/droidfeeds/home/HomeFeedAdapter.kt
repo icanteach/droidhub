@@ -8,8 +8,9 @@ import co.icanteach.apps.android.droidfeeds.core.DataClassDiffCallback
 import co.icanteach.apps.android.droidfeeds.core.inflate
 import co.icanteach.apps.android.droidfeeds.databinding.ItemDroidFeedsContentBinding
 import co.icanteach.apps.android.droidfeeds.news.NewsItem
+import javax.inject.Inject
 
-class HomeFeedAdapter constructor() :
+class HomeFeedAdapter @Inject constructor() :
     BaseAdapter<NewsItem, HomeFeedAdapter.HomeFeedItemViewHolder>(
         DataClassDiffCallback { it.originUrl }
     ) {
