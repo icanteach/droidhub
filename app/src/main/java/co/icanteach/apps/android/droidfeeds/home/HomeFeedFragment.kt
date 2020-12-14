@@ -1,4 +1,4 @@
-package co.icanteach.apps.android.droidfeeds.feed
+package co.icanteach.apps.android.droidfeeds.home
 
 import co.icanteach.apps.android.droidfeeds.R
 import co.icanteach.apps.android.droidfeeds.core.BaseFragment
