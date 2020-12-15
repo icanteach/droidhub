@@ -1,10 +1,11 @@
 package co.icanteach.apps.android.droidfeeds.news
 
-import co.icanteach.apps.android.droidfeeds.data.source.remote.model.NewsResponse
+import co.icanteach.apps.android.droidfeeds.data.repository.model.NewsResponse
+import co.icanteach.apps.android.droidfeeds.home.domain.HomeFeedListing
 
 class NewsItemMapper {
-    fun mapFrom(response: List<NewsResponse>): List<NewsItem> {
-        return response.map { it
+    fun mapFrom(response: List<NewsResponse>): HomeFeedListing {
+        val list = response.map {
             NewsItem(
                 originUrl = it.originUrl,
                 image = it.image,
@@ -12,5 +13,6 @@ class NewsItemMapper {
                 description = it.description
             )
         }
+        return HomeFeedListing(list)
     }
 }
