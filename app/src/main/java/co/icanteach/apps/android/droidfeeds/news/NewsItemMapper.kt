@@ -2,8 +2,10 @@ package co.icanteach.apps.android.droidfeeds.news
 
 import co.icanteach.apps.android.droidfeeds.data.repository.model.NewsResponse
 import co.icanteach.apps.android.droidfeeds.home.domain.HomeFeedListing
+import javax.inject.Inject
 
-class NewsItemMapper {
+class NewsItemMapper @Inject constructor() {
+
     fun mapFrom(response: List<NewsResponse>): HomeFeedListing {
         val list = response.map {
             NewsItem(

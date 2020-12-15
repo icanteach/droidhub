@@ -1,6 +1,7 @@
 package co.icanteach.apps.android.droidfeeds.data.repository
 
 import co.icanteach.apps.android.droidfeeds.core.Resource
+import co.icanteach.apps.android.droidfeeds.data.repository.model.HomeFeedDocument
 import co.icanteach.apps.android.droidfeeds.data.repository.model.NewsResponse
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
@@ -15,19 +16,21 @@ class DroidFeedsRepository @Inject constructor(
 ) {
 
     private val mPostsCollection =
-        firestore.collection("")
+        firestore.collection("home-feed")
 
     fun fetchHomeFeed() = flow<Resource<List<NewsResponse>>> {
 
         // Emit loading state
         emit(Resource.Loading)
 
-        val snapshot = mPostsCollection.get().await()
-        val homeFeed = snapshot.toObjects(NewsResponse::class.java)
+        val snapshot = mPostsCollection.document("QKeRBMngTnyOzrUjk3q4").get().await()
+        val homeFeed = snapshot.toObject(HomeFeedDocument::class.java)
 
         // Emit success state with data
-        emit(Resource.Success(homeFeed))
+        homeFeed?.let {
+            emit(Resource.Success(homeFeed.contents))
 
+        }
     }.catch { exception ->
         emit(Resource.Error(exception))
     }.flowOn(Dispatchers.IO)

@@ -6,10 +6,11 @@ import co.icanteach.apps.android.droidfeeds.data.repository.DroidFeedsRepository
 import co.icanteach.apps.android.droidfeeds.news.NewsItemMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class FetchHomeFeedUseCase(
-    val repository: DroidFeedsRepository,
-    val mapper: NewsItemMapper
+class FetchHomeFeedUseCase @Inject constructor(
+    private val repository: DroidFeedsRepository,
+    private val mapper: NewsItemMapper
 ) {
 
     fun fetchContent(): Flow<Resource<HomeFeedListing>> {

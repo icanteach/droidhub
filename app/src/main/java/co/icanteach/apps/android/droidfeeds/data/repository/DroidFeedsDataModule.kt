@@ -11,8 +11,7 @@ import dagger.hilt.android.components.ActivityComponent
 object DroidFeedsDataModule {
 
     @Provides
-    fun provideFirebaseFirestore(
-    ): FirebaseFirestore {
+    fun provideFirestore(): FirebaseFirestore {
         return FirebaseFirestore.getInstance()
     }
 }
