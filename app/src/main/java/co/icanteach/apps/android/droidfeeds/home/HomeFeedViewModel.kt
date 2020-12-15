@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import co.icanteach.apps.android.droidfeeds.auth.AuthenticationUseCase
 import co.icanteach.apps.android.droidfeeds.core.Resource
 import co.icanteach.apps.android.droidfeeds.home.domain.FetchHomeFeedUseCase
 import co.icanteach.apps.android.droidfeeds.home.domain.HomeFeedListing
@@ -12,7 +13,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class HomeFeedViewModel @ViewModelInject constructor(
-    private val useCase: FetchHomeFeedUseCase
+    private val useCase: FetchHomeFeedUseCase,
+    private val authenticationUseCase: AuthenticationUseCase
 ) : ViewModel() {
 
 
@@ -29,8 +31,10 @@ class HomeFeedViewModel @ViewModelInject constructor(
 
                 when (resource) {
                     is Resource.Success -> homeFeedListing.value = resource.data
-                    is Resource.Error -> {}
-                    Resource.Loading -> {}
+                    is Resource.Error -> {
+                    }
+                    Resource.Loading -> {
+                    }
                 }
             }
         }

@@ -6,10 +6,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class AuthenticationDataRepository constructor(
+class AuthenticationDataRepository @Inject constructor(
     private val firebaseAuth: FirebaseAuth
-
 ) {
 
     fun authenticate() = flow {
@@ -20,5 +20,4 @@ class AuthenticationDataRepository constructor(
             emit(Resource.Error(exception))
         }
     }.flowOn(Dispatchers.IO)
-
 }
