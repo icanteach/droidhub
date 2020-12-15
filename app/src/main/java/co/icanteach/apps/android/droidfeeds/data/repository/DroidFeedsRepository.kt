@@ -2,7 +2,6 @@ package co.icanteach.apps.android.droidfeeds.data.repository
 
 import co.icanteach.apps.android.droidfeeds.core.Resource
 import co.icanteach.apps.android.droidfeeds.data.repository.model.HomeFeedDocument
-import co.icanteach.apps.android.droidfeeds.data.repository.model.NewsResponse
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
@@ -18,7 +17,7 @@ class DroidFeedsRepository @Inject constructor(
     private val mPostsCollection =
         firestore.collection("home-feed")
 
-    fun fetchHomeFeed() = flow<Resource<List<NewsResponse>>> {
+    fun fetchHomeFeed() = flow {
 
         // Emit loading state
         emit(Resource.Loading)
@@ -29,7 +28,6 @@ class DroidFeedsRepository @Inject constructor(
         // Emit success state with data
         homeFeed?.let {
             emit(Resource.Success(homeFeed.contents))
-
         }
     }.catch { exception ->
         emit(Resource.Error(exception))

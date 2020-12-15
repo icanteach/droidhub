@@ -31,7 +31,7 @@ class HomeFeedFragment : BaseFragment<FragmentHomeFeedBinding>() {
         homeFeedViewModel.homeFeedListing_.observe(viewLifecycleOwner, Observer {
             homeFeedAdapter.submitList(it.newsList)
         })
-        binding.recyclerViewInfo.apply {
+        binding.recyclerViewHomeFeeds.apply {
             adapter = homeFeedAdapter
         }
 
