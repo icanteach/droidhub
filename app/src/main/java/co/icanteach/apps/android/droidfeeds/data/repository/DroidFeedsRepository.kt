@@ -32,5 +32,4 @@ class DroidFeedsRepository @Inject constructor(
     }.catch { exception ->
         emit(Resource.Error(exception))
     }.flowOn(Dispatchers.IO)
-
 }

@@ -16,6 +16,7 @@ class HomeFeedAdapter @Inject constructor() :
     ) {
 
     var onExploreClicked: ((String) -> Unit)? = null
+    var onBookmarkClicked: ((NewsItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeFeedItemViewHolder {
         val binding: ItemDroidFeedsContentBinding =
@@ -38,7 +39,7 @@ class HomeFeedAdapter @Inject constructor() :
             }
 
             binding.buttonSave.setOnClickListener {
-
+                onBookmarkClicked?.invoke(getItem(adapterPosition))
             }
         }
 

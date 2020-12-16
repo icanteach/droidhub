@@ -6,14 +6,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.icanteach.apps.android.droidfeeds.auth.AuthenticationUseCase
+import co.icanteach.apps.android.droidfeeds.bookmark.domain.BookmarkActionsUseCase
 import co.icanteach.apps.android.droidfeeds.core.Resource
 import co.icanteach.apps.android.droidfeeds.home.domain.FetchHomeFeedUseCase
 import co.icanteach.apps.android.droidfeeds.home.domain.HomeFeedListing
+import co.icanteach.apps.android.droidfeeds.news.NewsItem
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class HomeFeedViewModel @ViewModelInject constructor(
     private val useCase: FetchHomeFeedUseCase,
+    private val bookmarkActionsUseCase: BookmarkActionsUseCase,
     private val authenticationUseCase: AuthenticationUseCase
 ) : ViewModel() {
 
@@ -25,8 +28,14 @@ class HomeFeedViewModel @ViewModelInject constructor(
         fetchHomeFeed()
     }
 
-    public fun fetchHomeFeed() {
+    fun fetchHomeFeed() {
+
         viewModelScope.launch {
+
+            authenticationUseCase.authenticate().collect {
+
+            }
+
             useCase.fetchContent().collect { resource ->
 
                 when (resource) {
@@ -38,5 +47,30 @@ class HomeFeedViewModel @ViewModelInject constructor(
                 }
             }
         }
+    }
+
+    fun addBookmark(
+        newsItem: NewsItem
+    ) {
+
+        viewModelScope.launch {
+            bookmarkActionsUseCase
+                .addBookmark(
+                    originUrl = newsItem.originUrl,
+                    title = newsItem.title,
+                    description = newsItem.description,
+                    image = newsItem.image
+                ).collect { resource ->
+                    when (resource) {
+                        is Resource.Success -> {
+                        }
+                        is Resource.Error -> {
+                        }
+                        Resource.Loading -> {
+                        }
+                    }
+                }
+        }
+
     }
 }

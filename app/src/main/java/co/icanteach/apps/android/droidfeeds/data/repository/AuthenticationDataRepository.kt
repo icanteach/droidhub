@@ -20,4 +20,6 @@ class AuthenticationDataRepository @Inject constructor(
             emit(Resource.Error(exception))
         }
     }.flowOn(Dispatchers.IO)
+
+    fun getUserId() = firebaseAuth.currentUser?.uid ?: ""
 }

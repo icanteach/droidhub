@@ -26,8 +26,6 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bookmarkViewModel.fetchHomeFeed()
-
         bookmarkViewModel.homeFeedListing_.observe(viewLifecycleOwner, Observer {
             homeFeedAdapter.submitList(it.newsList)
         })

@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import co.icanteach.apps.android.droidfeeds.R
 import co.icanteach.apps.android.droidfeeds.core.BaseFragment
 import co.icanteach.apps.android.droidfeeds.databinding.FragmentHomeFeedBinding
+import co.icanteach.apps.android.droidfeeds.news.NewsItem
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -26,8 +27,6 @@ class HomeFeedFragment : BaseFragment<FragmentHomeFeedBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        homeFeedViewModel.fetchHomeFeed()
-
         homeFeedViewModel.homeFeedListing_.observe(viewLifecycleOwner, Observer {
             homeFeedAdapter.submitList(it.newsList)
         })
@@ -36,10 +35,17 @@ class HomeFeedFragment : BaseFragment<FragmentHomeFeedBinding>() {
         }
 
         homeFeedAdapter.onExploreClicked = {
-
             openOriginContent(it)
         }
 
+        homeFeedAdapter.onBookmarkClicked = { newsItem ->
+            addBookmark(newsItem)
+        }
+
+    }
+
+    private fun addBookmark(newsItem: NewsItem) {
+        homeFeedViewModel.addBookmark(newsItem)
     }
 
     private fun openOriginContent(url: String) {
