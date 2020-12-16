@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import co.icanteach.apps.android.droidfeeds.auth.AuthenticationUseCase
 import co.icanteach.apps.android.droidfeeds.bookmark.domain.BookmarkActionsUseCase
 import co.icanteach.apps.android.droidfeeds.core.Resource
 import co.icanteach.apps.android.droidfeeds.home.domain.FetchHomeFeedUseCase
@@ -16,8 +15,7 @@ import kotlinx.coroutines.launch
 
 class HomeFeedViewModel @ViewModelInject constructor(
     private val useCase: FetchHomeFeedUseCase,
-    private val bookmarkActionsUseCase: BookmarkActionsUseCase,
-    private val authenticationUseCase: AuthenticationUseCase
+    private val bookmarkActionsUseCase: BookmarkActionsUseCase
 ) : ViewModel() {
 
 
@@ -31,11 +29,6 @@ class HomeFeedViewModel @ViewModelInject constructor(
     private fun fetchHomeFeed() {
 
         viewModelScope.launch {
-
-            authenticationUseCase.authenticate().collect {
-
-            }
-
             useCase.fetchContent().collect { resource ->
 
                 when (resource) {
