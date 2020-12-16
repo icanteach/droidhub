@@ -28,7 +28,7 @@ class HomeFeedViewModel @ViewModelInject constructor(
         fetchHomeFeed()
     }
 
-    fun fetchHomeFeed() {
+    private fun fetchHomeFeed() {
 
         viewModelScope.launch {
 

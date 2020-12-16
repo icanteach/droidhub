@@ -22,14 +22,21 @@ class BookmarkRepository @Inject constructor(
 
     fun createBookmarkDocument(documentId: String) = flow {
 
+        emit(Resource.Loading)
+
+        val confirmData = hashMapOf(
+            "exists" to true
+        )
+
         val postRef = bookmarkCollections
             .document(documentId)
-            .set(true)
+            .set(confirmData)
             .await()
 
         emit(Resource.Success(postRef))
 
     }.catch {
+        emit(Resource.Error(it))
     }.flowOn(Dispatchers.IO)
 
     fun addBookmark(

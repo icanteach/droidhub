@@ -6,6 +6,7 @@ import co.icanteach.apps.android.droidfeeds.data.repository.AuthenticationDataRe
 import co.icanteach.apps.android.droidfeeds.data.repository.BookmarkRepository
 import com.google.firebase.auth.AuthResult
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 class AuthenticationUseCase @Inject constructor(
@@ -18,7 +19,7 @@ class AuthenticationUseCase @Inject constructor(
         return authenticationRepository
             .authenticate()
             .doOnSuccess {
-                bookmarkRepository.createBookmarkDocument(getUserId())
+                bookmarkRepository.createBookmarkDocument(getUserId()).collect {}
             }
     }
 
