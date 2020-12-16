@@ -7,10 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.icanteach.apps.android.droidfeeds.bookmark.domain.BookmarkActionsUseCase
 import co.icanteach.apps.android.droidfeeds.core.Resource
+import co.icanteach.apps.android.droidfeeds.core.StatusViewState
+import co.icanteach.apps.android.droidfeeds.core.doOnStatusChanged
+import co.icanteach.apps.android.droidfeeds.core.doOnSuccess
 import co.icanteach.apps.android.droidfeeds.home.domain.FetchHomeFeedUseCase
 import co.icanteach.apps.android.droidfeeds.home.domain.HomeFeedListing
 import co.icanteach.apps.android.droidfeeds.news.NewsItem
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 
 class HomeFeedViewModel @ViewModelInject constructor(
@@ -22,24 +26,24 @@ class HomeFeedViewModel @ViewModelInject constructor(
     private val homeFeedListing = MutableLiveData<HomeFeedListing>()
     val homeFeedListing_: LiveData<HomeFeedListing> = homeFeedListing
 
+    private val statusState = MutableLiveData<StatusViewState>()
+    val status_: LiveData<StatusViewState> = statusState
+
     init {
         fetchHomeFeed()
     }
 
     private fun fetchHomeFeed() {
 
-        viewModelScope.launch {
-            useCase.fetchContent().collect { resource ->
-
-                when (resource) {
-                    is Resource.Success -> homeFeedListing.value = resource.data
-                    is Resource.Error -> {
-                    }
-                    Resource.Loading -> {
-                    }
-                }
+        useCase
+            .fetchContent()
+            .doOnSuccess { data ->
+                homeFeedListing.value = data
             }
-        }
+            .doOnStatusChanged { status ->
+                statusState.value = StatusViewState(status)
+            }
+            .launchIn(viewModelScope)
     }
 
     fun addBookmark(

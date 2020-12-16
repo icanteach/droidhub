@@ -102,4 +102,5 @@ dependencies {
     // Chrome Custom Tabs
     implementation "androidx.browser:browser:1.3.0"
 
+    implementation "com.github.Trendyol:StateLayout:1.4.4"
 }

@@ -2,8 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/homeFeedFragment"
-    android:id="@+id/nav_graph">
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFeedFragment">
     <fragment
         android:id="@+id/homeFeedFragment"
         android:name="co.icanteach.apps.android.droidfeeds.home.HomeFeedFragment"
@@ -14,5 +14,9 @@
         android:id="@+id/bookmarkFragment"
         android:name="co.icanteach.apps.android.droidfeeds.bookmark.BookmarkFragment"
         android:label="@string/bottom_nav_menu_2"
-        tools:layout="@layout/fragment_bookmark" />
+        tools:layout="@layout/fragment_bookmark">
+        <action
+            android:id="@+id/action_to_homefeed"
+            app:destination="@id/homeFeedFragment" />
+    </fragment>
 </navigation>

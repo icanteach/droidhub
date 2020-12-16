@@ -5,4 +5,9 @@
     <string name="bottom_nav_menu_2">Reading List</string>
     <string name="action_save">SAVE</string>
     <string name="action_explore">EXPLORE</string>
+    <string name="common_action_retry">Retry</string>
+    <string name="default_error_message">there is something weird going on in the world right now!</string>
+    <string name="default_error_title">Opps!</string>
+    <string name="no_content_error_action">EXPLORE</string>
+    <string name="no_content_error_message">There are so many articles to discover.</string>
 </resources>

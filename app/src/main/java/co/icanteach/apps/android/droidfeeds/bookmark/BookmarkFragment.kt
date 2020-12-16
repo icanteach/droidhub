@@ -6,8 +6,10 @@ import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import co.icanteach.apps.android.droidfeeds.R
 import co.icanteach.apps.android.droidfeeds.core.BaseFragment
+import co.icanteach.apps.android.droidfeeds.core.StatusViewState
 import co.icanteach.apps.android.droidfeeds.databinding.FragmentBookmarkBinding
 import co.icanteach.apps.android.droidfeeds.home.HomeFeedAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,6 +32,10 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
             homeFeedAdapter.submitList(it.newsList)
         })
 
+        bookmarkViewModel.status_.observe(viewLifecycleOwner, Observer { viewState ->
+            onRenderPageStatusState(viewState)
+        })
+
         binding.recyclerViewBookmarks.apply {
             adapter = homeFeedAdapter
         }
@@ -38,6 +44,15 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
             openOriginContent(it)
         }
 
+        binding.stateLayout.infoButtonListener {
+            findNavController(this).navigate(R.id.action_to_homefeed)
+        }
+
+    }
+
+    private fun onRenderPageStatusState(viewState: StatusViewState) {
+        binding.viewState = viewState
+        binding.executePendingBindings()
     }
 
     private fun openOriginContent(url: String) {

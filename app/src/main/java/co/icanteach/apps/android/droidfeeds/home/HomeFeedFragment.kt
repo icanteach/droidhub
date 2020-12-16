@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import co.icanteach.apps.android.droidfeeds.R
 import co.icanteach.apps.android.droidfeeds.core.BaseFragment
+import co.icanteach.apps.android.droidfeeds.core.StatusViewState
 import co.icanteach.apps.android.droidfeeds.databinding.FragmentHomeFeedBinding
 import co.icanteach.apps.android.droidfeeds.news.NewsItem
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,6 +31,11 @@ class HomeFeedFragment : BaseFragment<FragmentHomeFeedBinding>() {
         homeFeedViewModel.homeFeedListing_.observe(viewLifecycleOwner, Observer {
             homeFeedAdapter.submitList(it.newsList)
         })
+
+        homeFeedViewModel.status_.observe(viewLifecycleOwner, Observer { viewState ->
+            onRenderPageStatusState(viewState)
+        })
+
         binding.recyclerViewHomeFeeds.apply {
             adapter = homeFeedAdapter
         }
@@ -42,6 +48,11 @@ class HomeFeedFragment : BaseFragment<FragmentHomeFeedBinding>() {
             addBookmark(newsItem)
         }
 
+    }
+
+    private fun onRenderPageStatusState(viewState: StatusViewState) {
+        binding.viewState = viewState
+        binding.executePendingBindings()
     }
 
     private fun addBookmark(newsItem: NewsItem) {

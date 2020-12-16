@@ -1,5 +1,6 @@
 package co.icanteach.apps.android.droidfeeds.data.repository
 
+import co.icanteach.apps.android.droidfeeds.core.NoContentListingException
 import co.icanteach.apps.android.droidfeeds.core.Resource
 import co.icanteach.apps.android.droidfeeds.data.repository.model.HomeFeedDocument
 import com.google.firebase.firestore.FieldValue
@@ -61,16 +62,26 @@ class BookmarkRepository @Inject constructor(
 
     fun fetchUserBookmarks(documentId: String) = flow {
 
-        // Emit loading state
         emit(Resource.Loading)
 
         val snapshot = bookmarkCollections.document(documentId).get().await()
         val homeFeed = snapshot.toObject(HomeFeedDocument::class.java)
 
-        // Emit success state with data
         homeFeed?.let {
-            emit(Resource.Success(homeFeed.contents))
-        }
+            if (homeFeed.contents.isEmpty()) {
+                emit(
+                    Resource.Error(
+                        NoContentListingException()
+                    )
+                )
+            } else {
+                emit(Resource.Success(homeFeed.contents))
+            }
+        } ?: emit(
+            Resource.Error(
+                NoContentListingException()
+            )
+        )
     }.catch { exception ->
         emit(Resource.Error(exception))
     }.flowOn(Dispatchers.IO)
