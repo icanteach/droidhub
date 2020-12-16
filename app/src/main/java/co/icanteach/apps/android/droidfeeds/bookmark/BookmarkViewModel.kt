@@ -23,7 +23,7 @@ class BookmarkViewModel @ViewModelInject constructor(
         fetchHomeFeed()
     }
 
-    fun fetchHomeFeed() {
+    private fun fetchHomeFeed() {
         viewModelScope.launch {
             useCase.fetchContent().collect { resource ->
 

@@ -1,9 +1,9 @@
 package co.icanteach.apps.android.droidfeeds.data.repository
 
 import co.icanteach.apps.android.droidfeeds.core.Resource
+import co.icanteach.apps.android.droidfeeds.data.repository.model.HomeFeedDocument
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -58,4 +58,21 @@ class BookmarkRepository @Inject constructor(
     }.catch {
         emit(Resource.Error(it))
     }.flowOn(Dispatchers.IO)
+
+    fun fetchUserBookmarks(documentId: String) = flow {
+
+        // Emit loading state
+        emit(Resource.Loading)
+
+        val snapshot = bookmarkCollections.document(documentId).get().await()
+        val homeFeed = snapshot.toObject(HomeFeedDocument::class.java)
+
+        // Emit success state with data
+        homeFeed?.let {
+            emit(Resource.Success(homeFeed.contents))
+        }
+    }.catch { exception ->
+        emit(Resource.Error(exception))
+    }.flowOn(Dispatchers.IO)
+
 }
