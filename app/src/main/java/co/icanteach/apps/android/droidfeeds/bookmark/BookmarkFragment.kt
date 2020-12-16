@@ -12,6 +12,7 @@ import co.icanteach.apps.android.droidfeeds.core.BaseFragment
 import co.icanteach.apps.android.droidfeeds.core.StatusViewState
 import co.icanteach.apps.android.droidfeeds.databinding.FragmentBookmarkBinding
 import co.icanteach.apps.android.droidfeeds.home.HomeFeedAdapter
+import co.icanteach.apps.android.droidfeeds.news.NewsItem
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -19,7 +20,7 @@ import javax.inject.Inject
 class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
 
     @Inject
-    lateinit var homeFeedAdapter: HomeFeedAdapter
+    lateinit var bookmarkAdapter: BookmarkAdapter
 
     private val bookmarkViewModel: BookmarkViewModel by viewModels()
 
@@ -29,7 +30,7 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         bookmarkViewModel.homeFeedListing_.observe(viewLifecycleOwner, Observer {
-            homeFeedAdapter.submitList(it.newsList)
+            bookmarkAdapter.submitList(it.newsList)
         })
 
         bookmarkViewModel.status_.observe(viewLifecycleOwner, Observer { viewState ->
@@ -37,17 +38,25 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
         })
 
         binding.recyclerViewBookmarks.apply {
-            adapter = homeFeedAdapter
+            adapter = bookmarkAdapter
         }
 
-        homeFeedAdapter.onExploreClicked = {
+        bookmarkAdapter.onExploreClicked = {
             openOriginContent(it)
+        }
+
+        bookmarkAdapter.onRemoveClicked = {
+            removeBookmark(it)
         }
 
         binding.stateLayout.infoButtonListener {
             findNavController(this).navigate(R.id.action_to_homefeed)
         }
 
+    }
+
+    private fun removeBookmark(newsItem: NewsItem) {
+        bookmarkViewModel.removeBookmark(newsItem)
     }
 
     private fun onRenderPageStatusState(viewState: StatusViewState) {

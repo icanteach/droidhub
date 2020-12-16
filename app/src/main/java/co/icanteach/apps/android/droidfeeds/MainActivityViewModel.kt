@@ -11,10 +11,6 @@ class MainActivityViewModel @ViewModelInject constructor(
     private val authenticationUseCase: AuthenticationUseCase
 ) : ViewModel() {
 
-    init {
-        auth()
-    }
-
     fun auth() {
         viewModelScope.launch {
             authenticationUseCase.authenticate().collect {}

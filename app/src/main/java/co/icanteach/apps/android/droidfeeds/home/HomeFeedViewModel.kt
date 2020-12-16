@@ -6,10 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.icanteach.apps.android.droidfeeds.bookmark.domain.BookmarkActionsUseCase
-import co.icanteach.apps.android.droidfeeds.core.Resource
-import co.icanteach.apps.android.droidfeeds.core.StatusViewState
-import co.icanteach.apps.android.droidfeeds.core.doOnStatusChanged
-import co.icanteach.apps.android.droidfeeds.core.doOnSuccess
+import co.icanteach.apps.android.droidfeeds.core.*
 import co.icanteach.apps.android.droidfeeds.home.domain.FetchHomeFeedUseCase
 import co.icanteach.apps.android.droidfeeds.home.domain.HomeFeedListing
 import co.icanteach.apps.android.droidfeeds.news.NewsItem
@@ -46,10 +43,7 @@ class HomeFeedViewModel @ViewModelInject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun addBookmark(
-        newsItem: NewsItem
-    ) {
-
+    fun addBookmark(newsItem: NewsItem) {
         viewModelScope.launch {
             bookmarkActionsUseCase
                 .addBookmark(
@@ -57,17 +51,14 @@ class HomeFeedViewModel @ViewModelInject constructor(
                     title = newsItem.title,
                     description = newsItem.description,
                     image = newsItem.image
-                ).collect { resource ->
-                    when (resource) {
-                        is Resource.Success -> {
-                        }
-                        is Resource.Error -> {
-                        }
-                        Resource.Loading -> {
-                        }
-                    }
+                ).doOnLoading {
+                    statusState.value = StatusViewState(Status.ContentWithLoading)
+                }.doOnSuccess {
+                    statusState.value = StatusViewState(Status.Content)
+                }.doOnError {
+                    statusState.value = StatusViewState(Status.Content)
                 }
+                .launchIn(viewModelScope)
         }
-
     }
 }

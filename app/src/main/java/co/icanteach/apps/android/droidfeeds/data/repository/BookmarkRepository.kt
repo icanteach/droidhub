@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
+import java.util.HashMap
 import javax.inject.Inject
 
 private const val BOOKMARK_COLLECTION = "bookmarks"
@@ -84,6 +85,26 @@ class BookmarkRepository @Inject constructor(
         )
     }.catch { exception ->
         emit(Resource.Error(exception))
+    }.flowOn(Dispatchers.IO)
+
+    fun removeBookmark(
+        bookmarkItem: Map<String, Any>,
+        documentId: String,
+    ) = flow {
+
+        // Emit loading state
+        emit(Resource.Loading)
+
+        val postRef = bookmarkCollections
+            .document(documentId).update("contents", FieldValue.arrayRemove(bookmarkItem))
+            .await()
+
+
+        // Emit success state with post reference
+        emit(Resource.Success(postRef))
+
+    }.catch {
+        emit(Resource.Error(it))
     }.flowOn(Dispatchers.IO)
 
 }

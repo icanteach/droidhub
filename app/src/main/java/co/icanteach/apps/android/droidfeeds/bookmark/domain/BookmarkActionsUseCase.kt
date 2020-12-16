@@ -29,4 +29,16 @@ class BookmarkActionsUseCase @Inject constructor(
 
         return bookmarkRepository.addBookmark(bookmarkItem, documentId)
     }
+
+    fun removeBookmark(originUrl: String, title: String, description: String, image: String): Flow<Resource<Void>> {
+        val bookmarkItem = hashMapOf(
+            "originUrl" to originUrl,
+            "image" to image,
+            "title" to title,
+            "description" to description
+        )
+
+        val documentId = authenticationUseCase.getUserId()
+        return bookmarkRepository.removeBookmark(bookmarkItem, documentId)
+    }
 }
