@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import co.icanteach.apps.android.droidfeeds.analytics.AnalyticsKeys
+import co.icanteach.apps.android.droidfeeds.analytics.AnalyticsUseCase
 import co.icanteach.apps.android.droidfeeds.bookmark.domain.BookmarkActionsUseCase
 import co.icanteach.apps.android.droidfeeds.core.*
 import co.icanteach.apps.android.droidfeeds.home.domain.FetchHomeFeedUseCase
@@ -16,7 +18,8 @@ import kotlinx.coroutines.launch
 
 class HomeFeedViewModel @ViewModelInject constructor(
     private val useCase: FetchHomeFeedUseCase,
-    private val bookmarkActionsUseCase: BookmarkActionsUseCase
+    private val bookmarkActionsUseCase: BookmarkActionsUseCase,
+    private val analyticsUseCase: AnalyticsUseCase
 ) : ViewModel() {
 
 
@@ -28,6 +31,7 @@ class HomeFeedViewModel @ViewModelInject constructor(
 
     init {
         fetchHomeFeed()
+        analyticsUseCase.sendScreenView(AnalyticsKeys.PAGE.HOME)
     }
 
     private fun fetchHomeFeed() {
@@ -44,6 +48,9 @@ class HomeFeedViewModel @ViewModelInject constructor(
     }
 
     fun addBookmark(newsItem: NewsItem) {
+
+        analyticsUseCase.sendClickEvent(AnalyticsKeys.CLICK.SAVE,AnalyticsKeys.PAGE.HOME)
+
         viewModelScope.launch {
             bookmarkActionsUseCase
                 .addBookmark(
