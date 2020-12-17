@@ -27,6 +27,8 @@ class BookmarkViewModel @ViewModelInject constructor(
     private val statusState = MutableLiveData<StatusViewState>()
     val status_: LiveData<StatusViewState> = statusState
 
+    val bookmarkSuccessResult: ActionEvent = ActionEvent()
+
     init {
         fetchHomeFeed()
         analyticsUseCase.sendScreenView(AnalyticsKeys.PAGE.HOME)
@@ -58,6 +60,7 @@ class BookmarkViewModel @ViewModelInject constructor(
                 ).doOnLoading {
                     statusState.value = StatusViewState(Status.ContentWithLoading)
                 }.doOnSuccess {
+                    bookmarkSuccessResult.call()
                     statusState.value = StatusViewState(Status.Content)
                     fetchHomeFeed()
                 }.doOnError {

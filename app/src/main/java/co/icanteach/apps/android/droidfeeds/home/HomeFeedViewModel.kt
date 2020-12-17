@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 
 class HomeFeedViewModel @ViewModelInject constructor(
-    private val useCase: FetchHomeFeedUseCase,
+    private val fetchHomeFeedUseCase: FetchHomeFeedUseCase,
     private val bookmarkActionsUseCase: BookmarkActionsUseCase,
     private val analyticsUseCase: AnalyticsUseCase
 ) : ViewModel() {
@@ -29,6 +29,8 @@ class HomeFeedViewModel @ViewModelInject constructor(
     private val statusState = MutableLiveData<StatusViewState>()
     val status_: LiveData<StatusViewState> = statusState
 
+    val bookmarkSuccessResult: ActionEvent = ActionEvent()
+
     init {
         fetchHomeFeed()
         analyticsUseCase.sendScreenView(AnalyticsKeys.PAGE.HOME)
@@ -36,7 +38,7 @@ class HomeFeedViewModel @ViewModelInject constructor(
 
     private fun fetchHomeFeed() {
 
-        useCase
+        fetchHomeFeedUseCase
             .fetchContent()
             .doOnSuccess { data ->
                 homeFeedListing.value = data
@@ -49,7 +51,7 @@ class HomeFeedViewModel @ViewModelInject constructor(
 
     fun addBookmark(newsItem: NewsItem) {
 
-        analyticsUseCase.sendClickEvent(AnalyticsKeys.CLICK.SAVE,AnalyticsKeys.PAGE.HOME)
+        analyticsUseCase.sendClickEvent(AnalyticsKeys.CLICK.SAVE, AnalyticsKeys.PAGE.HOME)
 
         viewModelScope.launch {
             bookmarkActionsUseCase
@@ -61,6 +63,7 @@ class HomeFeedViewModel @ViewModelInject constructor(
                 ).doOnLoading {
                     statusState.value = StatusViewState(Status.ContentWithLoading)
                 }.doOnSuccess {
+                    bookmarkSuccessResult.call()
                     statusState.value = StatusViewState(Status.Content)
                 }.doOnError {
                     statusState.value = StatusViewState(Status.Content)

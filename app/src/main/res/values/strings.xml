@@ -10,4 +10,6 @@
     <string name="default_error_title">Opps!</string>
     <string name="no_content_error_action">EXPLORE</string>
     <string name="no_content_error_message">There are so many articles to discover.</string>
+    <string name="add_bookmark_success_message">Successfully added to the list</string>
+    <string name="remove_bookmark_success_message">Successfully removed from the list</string>
 </resources>

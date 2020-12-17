@@ -13,6 +13,7 @@ import co.icanteach.apps.android.droidfeeds.core.StatusViewState
 import co.icanteach.apps.android.droidfeeds.databinding.FragmentBookmarkBinding
 import co.icanteach.apps.android.droidfeeds.home.HomeFeedAdapter
 import co.icanteach.apps.android.droidfeeds.news.NewsItem
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -37,6 +38,10 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
             onRenderPageStatusState(viewState)
         })
 
+        bookmarkViewModel.bookmarkSuccessResult.observe(viewLifecycleOwner, Observer {
+            showBookmarkSuccessResult()
+        })
+
         binding.recyclerViewBookmarks.apply {
             adapter = bookmarkAdapter
         }
@@ -53,6 +58,13 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
             findNavController(this).navigate(R.id.action_to_homefeed)
         }
 
+    }
+
+    private fun showBookmarkSuccessResult() {
+        Snackbar.make(
+            requireActivity().findViewById(android.R.id.content),
+            requireContext().getString(R.string.remove_bookmark_success_message), Snackbar.LENGTH_SHORT
+        ).show()
     }
 
     private fun removeBookmark(newsItem: NewsItem) {
