@@ -47,12 +47,12 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    testImplementation 'junit:junit:4.13'
+    testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
 
-    implementation 'com.google.android.material:material:1.3.0-alpha04'
+    implementation 'com.google.android.material:material:1.3.0-beta01'
 
     // firebase
     implementation platform('com.google.firebase:firebase-bom:26.1.1')
@@ -103,5 +103,15 @@ dependencies {
     implementation "androidx.browser:browser:1.3.0"
 
     implementation "com.github.Trendyol:StateLayout:1.4.4"
+
+    // Robolectric environment
+    testImplementation 'androidx.test:core:1.3.0'
+
+    // mocking library for Kotlin
+    testImplementation "io.mockk:mockk:1.10.0"
+
+    // Truth - Fluent assertions for Java and Android
+    testImplementation "com.google.truth:truth:1.1"
+
 
 }
