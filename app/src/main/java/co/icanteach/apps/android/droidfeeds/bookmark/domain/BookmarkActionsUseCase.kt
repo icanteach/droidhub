@@ -25,6 +25,7 @@ class BookmarkActionsUseCase @Inject constructor(
             "description" to description
         )
 
+
         val documentId = authenticationUseCase.getUserId()
 
         return bookmarkRepository.addBookmark(bookmarkItem, documentId)
