@@ -4,6 +4,7 @@ import co.icanteach.apps.android.droidfeeds.core.Resource
 import co.icanteach.apps.android.droidfeeds.core.doOnSuccess
 import co.icanteach.apps.android.droidfeeds.data.repository.AuthenticationDataRepository
 import co.icanteach.apps.android.droidfeeds.data.repository.BookmarkRepository
+import co.icanteach.apps.android.droidfeeds.data.repository.model.UserResponse
 import com.google.firebase.auth.AuthResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -24,11 +25,11 @@ class AuthenticationUseCase @Inject constructor(
      *
      * If the authentication process is successful, create an empty bookmark collection for the user.
      */
-    fun authenticate(): Flow<Resource<AuthResult>> {
+    fun authenticate(): Flow<Resource<UserResponse>> {
         return authenticationRepository
             .authenticate()
-            .doOnSuccess {
-                bookmarkRepository.createBookmarkDocument(getUserId()).collect {}
+            .doOnSuccess { userResponse ->
+                bookmarkRepository.createBookmarkDocument(userResponse.userId).collect {}
             }
     }
 

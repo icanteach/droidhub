@@ -35,7 +35,7 @@ class BookmarkRepository @Inject constructor(
             .set(confirmData)
             .await()
 
-        emit(Resource.Success(postRef))
+        emit(Resource.Success(true))
 
     }.catch {
         emit(Resource.Error(it))

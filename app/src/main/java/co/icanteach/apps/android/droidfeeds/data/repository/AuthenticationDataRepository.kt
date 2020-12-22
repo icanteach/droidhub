@@ -1,6 +1,7 @@
 package co.icanteach.apps.android.droidfeeds.data.repository
 
 import co.icanteach.apps.android.droidfeeds.core.Resource
+import co.icanteach.apps.android.droidfeeds.data.repository.model.UserResponse
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
@@ -15,7 +16,7 @@ class AuthenticationDataRepository @Inject constructor(
     fun authenticate() = flow {
         try {
             val user = firebaseAuth.signInAnonymously().await()
-            emit(Resource.Success(user))
+            emit(Resource.Success(UserResponse(user.user?.uid ?: "")))
         } catch (exception: Exception) {
             emit(Resource.Error(exception))
         }
