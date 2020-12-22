@@ -22,7 +22,7 @@ class DroidFeedsRepository @Inject constructor(
         // Emit loading state
         emit(Resource.Loading)
 
-        val snapshot = mPostsCollection.document("QKeRBMngTnyOzrUjk3q4").get().await()
+        val snapshot = mPostsCollection.document("main-feed").get().await()
         val homeFeed = snapshot.toObject(HomeFeedDocument::class.java)
 
         // Emit success state with data
