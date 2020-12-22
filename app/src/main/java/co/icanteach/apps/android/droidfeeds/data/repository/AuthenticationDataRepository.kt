@@ -13,6 +13,13 @@ class AuthenticationDataRepository @Inject constructor(
     private val firebaseAuth: FirebaseAuth
 ) {
 
+    /**
+     * authenticate user via FirebaseAuth signInAnonymously.
+     *
+     * If the authentication process is successful,
+     * return Resource.Success(UserResponse()),
+     * otherwise return Resource.Error(exception)
+     */
     fun authenticate() = flow {
         try {
             val user = firebaseAuth.signInAnonymously().await()

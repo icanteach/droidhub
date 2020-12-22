@@ -29,7 +29,7 @@ class AuthenticationUseCase @Inject constructor(
         return authenticationRepository
             .authenticate()
             .doOnSuccess { userResponse ->
-                bookmarkRepository.createBookmarkDocument(userResponse.userId).collect {}
+                bookmarkRepository.createBookmarkDocument(userResponse.userId)
             }
     }
 

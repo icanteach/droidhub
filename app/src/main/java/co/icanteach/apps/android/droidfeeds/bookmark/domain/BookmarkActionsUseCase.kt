@@ -17,7 +17,7 @@ class BookmarkActionsUseCase @Inject constructor(
         image: String,
         title: String,
         description: String
-    ): Flow<Resource<Void>> {
+    ): Flow<Resource<Boolean>> {
         val bookmarkItem = hashMapOf(
             "originUrl" to originUrl,
             "image" to image,
@@ -30,7 +30,13 @@ class BookmarkActionsUseCase @Inject constructor(
         return bookmarkRepository.addBookmark(bookmarkItem, documentId)
     }
 
-    fun removeBookmark(originUrl: String, title: String, description: String, image: String): Flow<Resource<Void>> {
+    fun removeBookmark(
+        originUrl: String,
+        title: String,
+        description: String,
+        image: String
+    ): Flow<Resource<Boolean>> {
+
         val bookmarkItem = hashMapOf(
             "originUrl" to originUrl,
             "image" to image,

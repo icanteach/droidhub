@@ -1,4 +1,4 @@
-package co.icanteach.apps.android.droidfeeds.auth
+package co.icanteach.apps.android.droidfeeds
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

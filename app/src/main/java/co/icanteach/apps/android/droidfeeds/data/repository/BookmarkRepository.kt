@@ -41,26 +41,6 @@ class BookmarkRepository @Inject constructor(
         emit(Resource.Error(it))
     }.flowOn(Dispatchers.IO)
 
-    fun addBookmark(
-        bookmarkItem: Map<String, Any>,
-        documentId: String,
-    ) = flow {
-
-        // Emit loading state
-        emit(Resource.Loading)
-
-        val postRef = bookmarkCollections
-            .document(documentId).update("contents", FieldValue.arrayUnion(bookmarkItem))
-            .await()
-
-
-        // Emit success state with post reference
-        emit(Resource.Success(postRef))
-
-    }.catch {
-        emit(Resource.Error(it))
-    }.flowOn(Dispatchers.IO)
-
     fun fetchUserBookmarks(documentId: String) = flow {
 
         emit(Resource.Loading)
@@ -87,6 +67,26 @@ class BookmarkRepository @Inject constructor(
         emit(Resource.Error(exception))
     }.flowOn(Dispatchers.IO)
 
+    fun addBookmark(
+        bookmarkItem: Map<String, Any>,
+        documentId: String,
+    ) = flow {
+
+        // Emit loading state
+        emit(Resource.Loading)
+
+        bookmarkCollections
+            .document(documentId).update("contents", FieldValue.arrayUnion(bookmarkItem))
+            .await()
+
+        // Emit success state with post reference
+        emit(Resource.Success(true))
+
+    }.catch {
+        emit(Resource.Error(it))
+    }.flowOn(Dispatchers.IO)
+
+
     fun removeBookmark(
         bookmarkItem: Map<String, Any>,
         documentId: String,
@@ -95,13 +95,12 @@ class BookmarkRepository @Inject constructor(
         // Emit loading state
         emit(Resource.Loading)
 
-        val postRef = bookmarkCollections
+        bookmarkCollections
             .document(documentId).update("contents", FieldValue.arrayRemove(bookmarkItem))
             .await()
 
-
         // Emit success state with post reference
-        emit(Resource.Success(postRef))
+        emit(Resource.Success(true))
 
     }.catch {
         emit(Resource.Error(it))
