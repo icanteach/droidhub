@@ -12,7 +12,6 @@ import co.icanteach.apps.android.droidfeeds.core.*
 import co.icanteach.apps.android.droidfeeds.home.domain.FetchHomeFeedUseCase
 import co.icanteach.apps.android.droidfeeds.home.domain.HomeFeedListing
 import co.icanteach.apps.android.droidfeeds.news.NewsItem
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 

@@ -29,30 +29,33 @@ class HomeFeedFragment : BaseFragment<FragmentHomeFeedBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        homeFeedViewModel.homeFeedListing_.observe(viewLifecycleOwner, Observer {
-            homeFeedAdapter.submitList(it.newsList)
-        })
+        with(homeFeedViewModel) {
+            homeFeedListing_.observe(viewLifecycleOwner, Observer {
+                homeFeedAdapter.submitList(it.newsList)
+            })
 
-        homeFeedViewModel.status_.observe(viewLifecycleOwner, Observer { viewState ->
-            onRenderPageStatusState(viewState)
-        })
+            status_.observe(viewLifecycleOwner, Observer { viewState ->
+                onRenderPageStatusState(viewState)
+            })
 
-        homeFeedViewModel.bookmarkSuccessResult.observe(viewLifecycleOwner, Observer {
-            showBookmarkSuccessResult()
-        })
+            bookmarkSuccessResult.observe(viewLifecycleOwner, Observer {
+                showBookmarkSuccessResult()
+            })
+        }
 
         binding.recyclerViewHomeFeeds.apply {
             adapter = homeFeedAdapter
         }
 
-        homeFeedAdapter.onExploreClicked = {
-            openOriginContent(it)
-        }
+        with(homeFeedAdapter) {
+            onExploreClicked = {
+                openOriginContent(it)
+            }
 
-        homeFeedAdapter.onBookmarkClicked = { newsItem ->
-            addBookmark(newsItem)
+            onBookmarkClicked = { newsItem ->
+                addBookmark(newsItem)
+            }
         }
-
     }
 
     private fun showBookmarkSuccessResult() {

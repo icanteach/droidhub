@@ -30,7 +30,7 @@ class BookmarkRepository @Inject constructor(
             "exists" to true
         )
 
-        val postRef = bookmarkCollections
+        bookmarkCollections
             .document(documentId)
             .set(confirmData)
             .await()

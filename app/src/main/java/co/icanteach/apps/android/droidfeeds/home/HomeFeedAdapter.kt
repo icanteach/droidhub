@@ -33,13 +33,14 @@ class HomeFeedAdapter @Inject constructor() :
     ) : RecyclerView.ViewHolder(binding.root) {
 
         init {
+            with(binding) {
+                buttonExplore.setOnClickListener {
+                    onExploreClicked?.invoke(getItem(adapterPosition).originUrl)
+                }
 
-            binding.buttonExplore.setOnClickListener {
-                onExploreClicked?.invoke(getItem(adapterPosition).originUrl)
-            }
-
-            binding.buttonSave.setOnClickListener {
-                onBookmarkClicked?.invoke(getItem(adapterPosition))
+                buttonSave.setOnClickListener {
+                    onBookmarkClicked?.invoke(getItem(adapterPosition))
+                }
             }
         }
 

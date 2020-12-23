@@ -3,9 +3,13 @@ package co.icanteach.apps.android.droidfeeds.bookmark.domain
 import co.icanteach.apps.android.droidfeeds.auth.AuthenticationUseCase
 import co.icanteach.apps.android.droidfeeds.core.Resource
 import co.icanteach.apps.android.droidfeeds.data.repository.BookmarkRepository
-import com.google.firebase.firestore.DocumentReference
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+
+private const val PARAM_ORIGIN_URL = "originUrl"
+private const val PARAM_IMAGE = "image"
+private const val PARAM_TITLE = "title"
+private const val PARAM_DESCRIPTION = "description"
 
 class BookmarkActionsUseCase @Inject constructor(
     private val authenticationUseCase: AuthenticationUseCase,
@@ -19,10 +23,10 @@ class BookmarkActionsUseCase @Inject constructor(
         description: String
     ): Flow<Resource<Boolean>> {
         val bookmarkItem = hashMapOf(
-            "originUrl" to originUrl,
-            "image" to image,
-            "title" to title,
-            "description" to description
+            PARAM_ORIGIN_URL to originUrl,
+            PARAM_IMAGE to image,
+            PARAM_TITLE to title,
+            PARAM_DESCRIPTION to description
         )
 
         val documentId = authenticationUseCase.getUserId()
@@ -38,10 +42,10 @@ class BookmarkActionsUseCase @Inject constructor(
     ): Flow<Resource<Boolean>> {
 
         val bookmarkItem = hashMapOf(
-            "originUrl" to originUrl,
-            "image" to image,
-            "title" to title,
-            "description" to description
+            PARAM_ORIGIN_URL to originUrl,
+            PARAM_IMAGE to image,
+            PARAM_TITLE to title,
+            PARAM_DESCRIPTION to description
         )
 
         val documentId = authenticationUseCase.getUserId()

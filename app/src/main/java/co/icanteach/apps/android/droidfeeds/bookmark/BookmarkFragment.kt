@@ -30,40 +30,46 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bookmarkViewModel.homeFeedListing_.observe(viewLifecycleOwner, Observer {
-            bookmarkAdapter.submitList(it.newsList)
-        })
-
-        bookmarkViewModel.status_.observe(viewLifecycleOwner, Observer { viewState ->
-            onRenderPageStatusState(viewState)
-        })
-
-        bookmarkViewModel.bookmarkSuccessResult.observe(viewLifecycleOwner, Observer {
-            showBookmarkSuccessResult()
-        })
-
-        binding.recyclerViewBookmarks.apply {
-            adapter = bookmarkAdapter
+        with(bookmarkViewModel) {
+            homeFeedListing_.observe(viewLifecycleOwner, Observer {
+                bookmarkAdapter.submitList(it.newsList)
+            })
+            status_.observe(viewLifecycleOwner, Observer { viewState ->
+                onRenderPageStatusState(viewState)
+            })
+            bookmarkSuccessResult.observe(viewLifecycleOwner, Observer {
+                showBookmarkSuccessResult()
+            })
         }
 
-        bookmarkAdapter.onExploreClicked = {
-            openOriginContent(it)
+        with(binding) {
+            recyclerViewBookmarks.apply {
+                adapter = bookmarkAdapter
+            }
+            stateLayout.infoButtonListener {
+                navigateToHomeFeed()
+            }
         }
 
-        bookmarkAdapter.onRemoveClicked = {
-            removeBookmark(it)
+        with(bookmarkAdapter) {
+            onExploreClicked = {
+                openOriginContent(it)
+            }
+            onRemoveClicked = {
+                removeBookmark(it)
+            }
         }
+    }
 
-        binding.stateLayout.infoButtonListener {
-            findNavController(this).navigate(R.id.action_to_homefeed)
-        }
-
+    private fun navigateToHomeFeed() {
+        findNavController(this@BookmarkFragment).navigate(R.id.action_to_homefeed)
     }
 
     private fun showBookmarkSuccessResult() {
         Snackbar.make(
             requireActivity().findViewById(android.R.id.content),
-            requireContext().getString(R.string.remove_bookmark_success_message), Snackbar.LENGTH_SHORT
+            requireContext().getString(R.string.remove_bookmark_success_message),
+            Snackbar.LENGTH_SHORT
         ).show()
     }
 
