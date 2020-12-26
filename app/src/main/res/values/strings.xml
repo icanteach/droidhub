@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DroidFeed</string>
+    <string name="app_name">droidhub</string>
     <string name="bottom_nav_menu_1">Home</string>
     <string name="bottom_nav_menu_2">Reading List</string>
     <string name="action_save">SAVE</string>
