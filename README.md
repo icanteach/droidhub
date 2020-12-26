@@ -1,10 +1,10 @@
-# droidfeed
+# droidhub
 
 droidfeed is a work-in-progress Android app
 
 ## Android development!
 
-**droidfeed** is an app that attempts to use the latest cutting edge libraries and tools. As a summary:
+**droidhub** is an app that attempts to use the latest cutting edge libraries and tools. As a summary:
 
 * Entirely written in Kotlin.
 * Uses Kotlin Coroutines throughout.
