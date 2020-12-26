@@ -12,6 +12,7 @@ import co.icanteach.apps.android.droidfeeds.bookmark.domain.FetchBookmarksUseCas
 import co.icanteach.apps.android.droidfeeds.core.*
 import co.icanteach.apps.android.droidfeeds.home.domain.HomeFeedListing
 import co.icanteach.apps.android.droidfeeds.news.NewsItem
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 
@@ -26,8 +27,6 @@ class BookmarkViewModel @ViewModelInject constructor(
 
     private val statusState = MutableLiveData<StatusViewState>()
     val status_: LiveData<StatusViewState> = statusState
-
-    val bookmarkSuccessResult: ActionEvent = ActionEvent()
 
     init {
         fetchHomeFeed()
@@ -46,6 +45,7 @@ class BookmarkViewModel @ViewModelInject constructor(
             .launchIn(viewModelScope)
     }
 
+    @ExperimentalCoroutinesApi
     fun removeBookmark(newsItem: NewsItem) {
 
         analyticsUseCase.sendClickEvent(AnalyticsKeys.CLICK.REMOVE, AnalyticsKeys.PAGE.READING_LIST)
@@ -57,14 +57,15 @@ class BookmarkViewModel @ViewModelInject constructor(
                     title = newsItem.title,
                     description = newsItem.description,
                     image = newsItem.image
-                ).doOnLoading {
-                    statusState.value = StatusViewState(Status.ContentWithLoading)
-                }.doOnSuccess {
-                    bookmarkSuccessResult.call()
-                    statusState.value = StatusViewState(Status.Content)
-                    fetchHomeFeed()
-                }.doOnError {
-                    statusState.value = StatusViewState(Status.Content)
+                ).doOnSuccess { data ->
+                    homeFeedListing.value = data
+                }
+                .doOnStatusChanged { status ->
+                    if (status == Status.Loading) {
+                        statusState.value = StatusViewState(Status.ContentWithLoading)
+                    } else {
+                        statusState.value = StatusViewState(status)
+                    }
                 }
                 .launchIn(viewModelScope)
         }

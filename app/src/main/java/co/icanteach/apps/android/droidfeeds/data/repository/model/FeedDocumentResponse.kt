@@ -1,5 +1,5 @@
 package co.icanteach.apps.android.droidfeeds.data.repository.model
 
-class HomeFeedDocument(
+class FeedDocumentResponse(
     val contents: List<NewsResponse> = mutableListOf()
 )

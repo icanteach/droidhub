@@ -3,6 +3,9 @@ package co.icanteach.apps.android.droidfeeds.bookmark.domain
 import co.icanteach.apps.android.droidfeeds.auth.AuthenticationUseCase
 import co.icanteach.apps.android.droidfeeds.core.Resource
 import co.icanteach.apps.android.droidfeeds.data.repository.BookmarkRepository
+import co.icanteach.apps.android.droidfeeds.data.repository.model.NewsResponse
+import co.icanteach.apps.android.droidfeeds.home.domain.HomeFeedListing
+import co.icanteach.apps.android.droidfeeds.news.NewsItemMapper
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -22,6 +25,10 @@ class BookmarkActionsUseCaseTest {
     @MockK
     lateinit var bookmarkRepository: BookmarkRepository
 
+    @MockK
+    lateinit var mapper: NewsItemMapper
+
+
     lateinit var bookmarkActionsUseCase: BookmarkActionsUseCase
 
     @Before
@@ -30,7 +37,7 @@ class BookmarkActionsUseCaseTest {
         MockKAnnotations.init(this)
 
         bookmarkActionsUseCase = BookmarkActionsUseCase(
-            authenticationUseCase, bookmarkRepository
+            authenticationUseCase, bookmarkRepository, mapper
         )
     }
 
@@ -104,9 +111,14 @@ class BookmarkActionsUseCaseTest {
 
         runBlocking {
 
+            val bookmarkResponse = listOf(NewsResponse())
             val flowResult = flow {
-                emit(Resource.Success(true))
+                emit(Resource.Success((bookmarkResponse)))
             }
+
+            every {
+                mapper.mapFrom(bookmarkResponse)
+            } returns HomeFeedListing(emptyList())
 
             every {
                 authenticationUseCase.getUserId()
@@ -126,6 +138,10 @@ class BookmarkActionsUseCaseTest {
             // Then
             verify(exactly = 1) {
                 authenticationUseCase.getUserId()
+            }
+
+            verify (exactly = 1){
+                mapper.mapFrom(bookmarkResponse)
             }
 
             verify(exactly = 1) {

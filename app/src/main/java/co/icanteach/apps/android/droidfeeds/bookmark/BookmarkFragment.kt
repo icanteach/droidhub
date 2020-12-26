@@ -37,9 +37,6 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
             status_.observe(viewLifecycleOwner, Observer { viewState ->
                 onRenderPageStatusState(viewState)
             })
-            bookmarkSuccessResult.observe(viewLifecycleOwner, Observer {
-                showBookmarkSuccessResult()
-            })
         }
 
         with(binding) {
@@ -63,14 +60,6 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
 
     private fun navigateToHomeFeed() {
         findNavController(this@BookmarkFragment).navigate(R.id.action_to_homefeed)
-    }
-
-    private fun showBookmarkSuccessResult() {
-        Snackbar.make(
-            requireActivity().findViewById(android.R.id.content),
-            requireContext().getString(R.string.remove_bookmark_success_message),
-            Snackbar.LENGTH_SHORT
-        ).show()
     }
 
     private fun removeBookmark(newsItem: NewsItem) {
