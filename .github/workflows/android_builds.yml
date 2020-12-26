@@ -19,7 +19,7 @@ jobs:
       - name: Provide Firebase Android
         env:
           FIREBASE_CONFIG_DEV: ${{ secrets.GOOGLE_SERVICES }}
-        run: echo GOOGLE_SERVICES > ./app/google-services.json
+        run: echo $GOOGLE_SERVICES > ./app/google-services.json
 
       - name: Run Tests
         run: ./gradlew test
