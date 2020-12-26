@@ -12,7 +12,7 @@ droidfeed is a work-in-progress Android app
 * Uses Hilt for dependency injection.
 
 
-## Early preview of droidfeed!
+## Early preview of droidhub!
 
 <p float="left">
  <img src="https://github.com/muratcanbur/droidfeed/blob/main/art/home_feed_ss.png" width="150" height="300"/>
