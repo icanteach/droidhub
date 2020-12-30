@@ -5,3 +5,4 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class DroidFeedsApplication : Application()
+
