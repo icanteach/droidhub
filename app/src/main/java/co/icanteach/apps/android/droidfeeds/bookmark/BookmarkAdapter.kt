@@ -1,14 +1,11 @@
 package co.icanteach.apps.android.droidfeeds.bookmark
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import co.icanteach.apps.android.droidfeeds.R
 import co.icanteach.apps.android.droidfeeds.core.BaseAdapter
 import co.icanteach.apps.android.droidfeeds.core.DataClassDiffCallback
-import co.icanteach.apps.android.droidfeeds.core.inflate
 import co.icanteach.apps.android.droidfeeds.databinding.ItemBookmarkCotentBinding
-import co.icanteach.apps.android.droidfeeds.databinding.ItemDroidFeedsContentBinding
-import co.icanteach.apps.android.droidfeeds.home.HomeFeedItemViewState
 import co.icanteach.apps.android.droidfeeds.news.NewsItem
 import javax.inject.Inject
 
@@ -21,8 +18,7 @@ class BookmarkAdapter @Inject constructor() :
     var onRemoveClicked: ((NewsItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkItemViewHolder {
-        val binding: ItemBookmarkCotentBinding =
-            parent.inflate(R.layout.item_bookmark_cotent, false)
+        val binding = ItemBookmarkCotentBinding.inflate(LayoutInflater.from(parent.context))
         return BookmarkItemViewHolder(binding)
     }
 

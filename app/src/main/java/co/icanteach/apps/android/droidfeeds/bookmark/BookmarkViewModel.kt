@@ -9,7 +9,10 @@ import co.icanteach.apps.android.droidfeeds.analytics.AnalyticsKeys
 import co.icanteach.apps.android.droidfeeds.analytics.AnalyticsUseCase
 import co.icanteach.apps.android.droidfeeds.bookmark.domain.BookmarkActionsUseCase
 import co.icanteach.apps.android.droidfeeds.bookmark.domain.FetchBookmarksUseCase
-import co.icanteach.apps.android.droidfeeds.core.*
+import co.icanteach.apps.android.droidfeeds.core.Status
+import co.icanteach.apps.android.droidfeeds.core.StatusViewState
+import co.icanteach.apps.android.droidfeeds.core.extensions.doOnStatusChanged
+import co.icanteach.apps.android.droidfeeds.core.extensions.doOnSuccess
 import co.icanteach.apps.android.droidfeeds.home.domain.HomeFeedListing
 import co.icanteach.apps.android.droidfeeds.news.NewsItem
 import kotlinx.coroutines.ExperimentalCoroutinesApi

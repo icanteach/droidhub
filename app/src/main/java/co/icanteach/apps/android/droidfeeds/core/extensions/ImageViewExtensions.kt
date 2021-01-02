@@ -1,4 +1,4 @@
-package co.icanteach.apps.android.droidfeeds.core
+package co.icanteach.apps.android.droidfeeds.core.extensions
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter

@@ -16,7 +16,6 @@ import org.junit.Test
 
 class AuthenticationUseCaseTest {
 
-
     @MockK
     lateinit var authenticationRepository: AuthenticationDataRepository
 
@@ -29,7 +28,6 @@ class AuthenticationUseCaseTest {
     fun setUp() {
 
         MockKAnnotations.init(this)
-
 
         authenticationUseCase = AuthenticationUseCase(
             authenticationRepository, bookmarkRepository

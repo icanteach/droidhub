@@ -1,13 +1,11 @@
 package co.icanteach.apps.android.droidfeeds.auth
 
 import co.icanteach.apps.android.droidfeeds.core.Resource
-import co.icanteach.apps.android.droidfeeds.core.doOnSuccess
+import co.icanteach.apps.android.droidfeeds.core.extensions.doOnSuccess
 import co.icanteach.apps.android.droidfeeds.data.repository.AuthenticationDataRepository
 import co.icanteach.apps.android.droidfeeds.data.repository.BookmarkRepository
 import co.icanteach.apps.android.droidfeeds.data.repository.model.UserResponse
-import com.google.firebase.auth.AuthResult
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 /**
@@ -18,7 +16,6 @@ class AuthenticationUseCase @Inject constructor(
     private val authenticationRepository: AuthenticationDataRepository,
     private val bookmarkRepository: BookmarkRepository
 ) {
-
 
     /**
      * authenticate user via AuthenticationDataRepository.

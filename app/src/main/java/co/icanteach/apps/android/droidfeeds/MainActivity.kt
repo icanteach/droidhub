@@ -4,13 +4,10 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import co.icanteach.apps.android.droidfeeds.bookmark.BookmarkViewModel
 import co.icanteach.apps.android.droidfeeds.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
