@@ -8,7 +8,13 @@ import androidx.lifecycle.viewModelScope
 import co.icanteach.apps.android.droidfeeds.analytics.AnalyticsKeys
 import co.icanteach.apps.android.droidfeeds.analytics.AnalyticsUseCase
 import co.icanteach.apps.android.droidfeeds.bookmark.domain.BookmarkActionsUseCase
-import co.icanteach.apps.android.droidfeeds.core.*
+import co.icanteach.apps.android.droidfeeds.core.ActionEvent
+import co.icanteach.apps.android.droidfeeds.core.extensions.doOnSuccess
+import co.icanteach.apps.android.droidfeeds.core.extensions.doOnStatusChanged
+import co.icanteach.apps.android.droidfeeds.core.extensions.doOnLoading
+import co.icanteach.apps.android.droidfeeds.core.extensions.doOnError
+import co.icanteach.apps.android.droidfeeds.core.Status
+import co.icanteach.apps.android.droidfeeds.core.StatusViewState
 import co.icanteach.apps.android.droidfeeds.home.domain.FetchHomeFeedUseCase
 import co.icanteach.apps.android.droidfeeds.home.domain.HomeFeedListing
 import co.icanteach.apps.android.droidfeeds.news.NewsItem
@@ -20,7 +26,6 @@ class HomeFeedViewModel @ViewModelInject constructor(
     private val bookmarkActionsUseCase: BookmarkActionsUseCase,
     private val analyticsUseCase: AnalyticsUseCase
 ) : ViewModel() {
-
 
     private val homeFeedListing = MutableLiveData<HomeFeedListing>()
     val homeFeedListing_: LiveData<HomeFeedListing> = homeFeedListing

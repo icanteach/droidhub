@@ -107,7 +107,6 @@ class BookmarkRepository @Inject constructor(
             .update(BOOKMARK_PARENT_FIELD, FieldValue.arrayRemove(bookmarkItem))
             .await()
 
-
         // Register listener
         val listener = bookmarkDocument.addSnapshotListener { snapshot, exception ->
 
@@ -129,7 +128,7 @@ class BookmarkRepository @Inject constructor(
                 )
             )
 
-            // If exception occurs, cancel this scope with exception message.
+            // If an exception occurs, cancel this scope with an exception message.
             exception?.let {
                 offer(Resource.Error(exception))
                 cancel(it.message.toString())
@@ -137,7 +136,7 @@ class BookmarkRepository @Inject constructor(
         }
 
         awaitClose {
-            // This block is executed when producer channel is cancelled
+            // This block is executed when the producer channel is canceled
             // This function resumes with a cancellation exception.
             // Dispose listener
             listener.remove()

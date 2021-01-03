@@ -1,5 +1,7 @@
-package co.icanteach.apps.android.droidfeeds.core
+package co.icanteach.apps.android.droidfeeds.core.extensions
 
+import co.icanteach.apps.android.droidfeeds.core.Resource
+import co.icanteach.apps.android.droidfeeds.core.Status
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.transform
 
@@ -36,4 +38,3 @@ fun <T> Flow<Resource<T>>.doOnLoading(action: suspend () -> Unit): Flow<Resource
         }
         return@transform emit(value)
     }
-
