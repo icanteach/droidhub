@@ -18,7 +18,7 @@ class HomeFeedAdapter @Inject constructor() :
     var onBookmarkClicked: ((NewsItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeFeedItemViewHolder {
-        val binding = ItemDroidFeedsContentBinding.inflate(LayoutInflater.from(parent.context))
+        val binding = ItemDroidFeedsContentBinding.inflate(LayoutInflater.from(parent.context),parent, false)
         return HomeFeedItemViewHolder(binding)
     }
 

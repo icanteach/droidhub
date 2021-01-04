@@ -18,7 +18,8 @@ class BookmarkAdapter @Inject constructor() :
     var onRemoveClicked: ((NewsItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkItemViewHolder {
-        val binding = ItemBookmarkContentBinding.inflate(LayoutInflater.from(parent.context))
+        val binding =
+            ItemBookmarkContentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return BookmarkItemViewHolder(binding)
     }
 
