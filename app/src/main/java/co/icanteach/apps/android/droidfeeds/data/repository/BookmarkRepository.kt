@@ -6,7 +6,6 @@ import co.icanteach.apps.android.droidfeeds.data.repository.model.FeedDocumentRe
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
@@ -92,7 +91,6 @@ class BookmarkRepository @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
 
-    @ExperimentalCoroutinesApi
     fun removeBookmark(
         bookmarkItem: Map<String, Any>,
         documentId: String,

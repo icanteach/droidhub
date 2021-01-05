@@ -40,6 +40,13 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+
+        // Disabling coroutine's ExperimentalCoroutinesApi warning
+        // see https://github.com/Kotlin/kotlinx.coroutines/issues/859#issuecomment-752007408
+        freeCompilerArgs += [
+                "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "-Xuse-experimental=kotlinx.coroutines.TheAnnotationYouWantToDisable"
+        ]
     }
 }
 
