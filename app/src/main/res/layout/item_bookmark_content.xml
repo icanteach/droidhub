@@ -8,7 +8,7 @@
 
         <variable
             name="viewState"
-            type="co.icanteach.apps.android.droidfeeds.home.HomeFeedItemViewState" />
+            type="co.icanteach.apps.android.droidfeeds.bookmark.BookmarkItemViewState" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -22,8 +22,8 @@
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imageView_feed_news_item"
-                android:layout_width="match_parent"
+                android:id="@+id/imageView_bookmark_news_item"
+                android:layout_width="0dp"
                 android:layout_height="164dp"
                 android:scaleType="centerCrop"
                 app:imageUrl="@{viewState.newsItem.image}"
@@ -33,21 +33,20 @@
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/textView_feed_news_item_title"
+                android:id="@+id/textView_bookmark_news_item_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:text="@{viewState.newsItem.title}"
                 android:textAppearance="?attr/textAppearanceHeadline6"
                 app:layout_constraintEnd_toEndOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/imageView_feed_news_item"
+                app:layout_constraintTop_toBottomOf="@+id/imageView_bookmark_news_item"
                 tools:text="@tools:sample/lorem" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/textView_feed_news_item_desc"
+                android:id="@+id/textView_bookmark_news_item_desc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -57,7 +56,7 @@
                 android:textColor="?android:attr/textColorSecondary"
                 app:layout_constraintEnd_toEndOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/textView_feed_news_item_title"
+                app:layout_constraintTop_toBottomOf="@+id/textView_bookmark_news_item_title"
                 tools:text="@tools:sample/lorem" />
 
             <com.google.android.material.button.MaterialButton
@@ -65,19 +64,19 @@
                 style="?attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:text="@string/action_explore"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_feed_news_item_desc" />
+                app:layout_constraintTop_toBottomOf="@+id/textView_bookmark_news_item_desc" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonSave"
                 style="?attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="@string/action_save"
+                android:text="@string/action_remove"
                 app:layout_constraintStart_toEndOf="@+id/buttonExplore"
-                app:layout_constraintTop_toBottomOf="@+id/textView_feed_news_item_desc" />
+                app:layout_constraintTop_toBottomOf="@+id/textView_bookmark_news_item_desc" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_start"

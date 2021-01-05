@@ -1,11 +1,10 @@
 package co.icanteach.apps.android.droidfeeds.home
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import co.icanteach.apps.android.droidfeeds.R
 import co.icanteach.apps.android.droidfeeds.core.BaseAdapter
 import co.icanteach.apps.android.droidfeeds.core.DataClassDiffCallback
-import co.icanteach.apps.android.droidfeeds.core.inflate
 import co.icanteach.apps.android.droidfeeds.databinding.ItemDroidFeedsContentBinding
 import co.icanteach.apps.android.droidfeeds.news.NewsItem
 import javax.inject.Inject
@@ -19,8 +18,7 @@ class HomeFeedAdapter @Inject constructor() :
     var onBookmarkClicked: ((NewsItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeFeedItemViewHolder {
-        val binding: ItemDroidFeedsContentBinding =
-            parent.inflate(R.layout.item_droid_feeds_content, false)
+        val binding = ItemDroidFeedsContentBinding.inflate(LayoutInflater.from(parent.context),parent, false)
         return HomeFeedItemViewHolder(binding)
     }
 

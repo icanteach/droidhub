@@ -14,9 +14,6 @@
         android:id="@+id/stateLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headerLayout"
         app:showState="@{viewState.getStateInfo(context)}"
         tools:sl_state="content">
 
@@ -24,6 +21,7 @@
             android:id="@+id/recyclerView_home_feeds"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:spanCount="1"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_droid_feeds_content" />
     </com.erkutaras.statelayout.StateLayout>

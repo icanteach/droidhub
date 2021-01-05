@@ -5,16 +5,15 @@ import android.os.Bundle
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import co.icanteach.apps.android.droidfeeds.R
 import co.icanteach.apps.android.droidfeeds.core.BaseFragment
 import co.icanteach.apps.android.droidfeeds.core.StatusViewState
+import co.icanteach.apps.android.droidfeeds.core.extensions.showSnackbar
 import co.icanteach.apps.android.droidfeeds.databinding.FragmentHomeFeedBinding
 import co.icanteach.apps.android.droidfeeds.news.NewsItem
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-
 
 @AndroidEntryPoint
 class HomeFeedFragment : BaseFragment<FragmentHomeFeedBinding>() {
@@ -24,21 +23,21 @@ class HomeFeedFragment : BaseFragment<FragmentHomeFeedBinding>() {
 
     private val homeFeedViewModel: HomeFeedViewModel by viewModels()
 
-    override fun getLayoutId(): Int = R.layout.fragment_home_feed
+    override fun getViewBinding() = FragmentHomeFeedBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         with(homeFeedViewModel) {
-            homeFeedListing_.observe(viewLifecycleOwner, Observer {
+            homeFeedListing_.observe(viewLifecycleOwner, {
                 homeFeedAdapter.submitList(it.newsList)
             })
 
-            status_.observe(viewLifecycleOwner, Observer { viewState ->
+            status_.observe(viewLifecycleOwner, { viewState ->
                 onRenderPageStatusState(viewState)
             })
 
-            bookmarkSuccessResult.observe(viewLifecycleOwner, Observer {
+            bookmarkSuccessResult.observe(viewLifecycleOwner, {
                 showBookmarkSuccessResult()
             })
         }
@@ -59,10 +58,7 @@ class HomeFeedFragment : BaseFragment<FragmentHomeFeedBinding>() {
     }
 
     private fun showBookmarkSuccessResult() {
-        Snackbar.make(
-            requireActivity().findViewById(android.R.id.content),
-            requireContext().getString(R.string.add_bookmark_success_message), Snackbar.LENGTH_SHORT
-        ).show()
+        view.showSnackbar(getString(R.string.add_bookmark_success_message), Snackbar.LENGTH_SHORT)
     }
 
     private fun onRenderPageStatusState(viewState: StatusViewState) {

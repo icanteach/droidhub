@@ -6,7 +6,6 @@ import co.icanteach.apps.android.droidfeeds.core.map
 import co.icanteach.apps.android.droidfeeds.data.repository.BookmarkRepository
 import co.icanteach.apps.android.droidfeeds.home.domain.HomeFeedListing
 import co.icanteach.apps.android.droidfeeds.news.NewsItemMapper
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -40,7 +39,6 @@ class BookmarkActionsUseCase @Inject constructor(
         return bookmarkRepository.addBookmark(bookmarkItem, documentId)
     }
 
-    @ExperimentalCoroutinesApi
     fun removeBookmark(
         originUrl: String,
         title: String,

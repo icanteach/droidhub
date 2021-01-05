@@ -28,7 +28,6 @@ class BookmarkActionsUseCaseTest {
     @MockK
     lateinit var mapper: NewsItemMapper
 
-
     lateinit var bookmarkActionsUseCase: BookmarkActionsUseCase
 
     @Before

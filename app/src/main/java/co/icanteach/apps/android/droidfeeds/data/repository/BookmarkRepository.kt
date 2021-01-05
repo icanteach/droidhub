@@ -6,7 +6,6 @@ import co.icanteach.apps.android.droidfeeds.data.repository.model.FeedDocumentRe
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
@@ -92,7 +91,6 @@ class BookmarkRepository @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
 
-    @ExperimentalCoroutinesApi
     fun removeBookmark(
         bookmarkItem: Map<String, Any>,
         documentId: String,
@@ -106,7 +104,6 @@ class BookmarkRepository @Inject constructor(
         bookmarkDocument
             .update(BOOKMARK_PARENT_FIELD, FieldValue.arrayRemove(bookmarkItem))
             .await()
-
 
         // Register listener
         val listener = bookmarkDocument.addSnapshotListener { snapshot, exception ->
@@ -129,7 +126,7 @@ class BookmarkRepository @Inject constructor(
                 )
             )
 
-            // If exception occurs, cancel this scope with exception message.
+            // If an exception occurs, cancel this scope with an exception message.
             exception?.let {
                 offer(Resource.Error(exception))
                 cancel(it.message.toString())
@@ -137,7 +134,7 @@ class BookmarkRepository @Inject constructor(
         }
 
         awaitClose {
-            // This block is executed when producer channel is cancelled
+            // This block is executed when the producer channel is canceled
             // This function resumes with a cancellation exception.
             // Dispose listener
             listener.remove()

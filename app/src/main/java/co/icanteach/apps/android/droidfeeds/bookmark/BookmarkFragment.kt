@@ -5,15 +5,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment.findNavController
-import co.icanteach.apps.android.droidfeeds.R
 import co.icanteach.apps.android.droidfeeds.core.BaseFragment
 import co.icanteach.apps.android.droidfeeds.core.StatusViewState
 import co.icanteach.apps.android.droidfeeds.databinding.FragmentBookmarkBinding
-import co.icanteach.apps.android.droidfeeds.home.HomeFeedAdapter
 import co.icanteach.apps.android.droidfeeds.news.NewsItem
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -25,16 +21,16 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
 
     private val bookmarkViewModel: BookmarkViewModel by viewModels()
 
-    override fun getLayoutId(): Int = R.layout.fragment_bookmark
+    override fun getViewBinding() = FragmentBookmarkBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         with(bookmarkViewModel) {
-            homeFeedListing_.observe(viewLifecycleOwner, Observer {
+            homeFeedListing_.observe(viewLifecycleOwner, {
                 bookmarkAdapter.submitList(it.newsList)
             })
-            status_.observe(viewLifecycleOwner, Observer { viewState ->
+            status_.observe(viewLifecycleOwner, { viewState ->
                 onRenderPageStatusState(viewState)
             })
         }
@@ -59,7 +55,8 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
     }
 
     private fun navigateToHomeFeed() {
-        findNavController(this@BookmarkFragment).navigate(R.id.action_to_homefeed)
+        val direction = BookmarkFragmentDirections.actionToHomefeed()
+        findNavController(this@BookmarkFragment).navigate(direction)
     }
 
     private fun removeBookmark(newsItem: NewsItem) {

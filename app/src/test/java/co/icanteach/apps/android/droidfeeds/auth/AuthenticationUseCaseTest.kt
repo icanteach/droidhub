@@ -16,7 +16,6 @@ import org.junit.Test
 
 class AuthenticationUseCaseTest {
 
-
     @MockK
     lateinit var authenticationRepository: AuthenticationDataRepository
 
@@ -30,7 +29,6 @@ class AuthenticationUseCaseTest {
 
         MockKAnnotations.init(this)
 
-
         authenticationUseCase = AuthenticationUseCase(
             authenticationRepository, bookmarkRepository
         )
@@ -43,26 +41,58 @@ class AuthenticationUseCaseTest {
             // Given
             val userId = "999"
 
-            val flowResult = flow {
+            val authenticateCallResult = flow {
                 emit(Resource.Success(UserResponse(userId)))
             }
 
-            val flowResult2 = flow {
+            val documentCreationResult = flow {
                 emit(Resource.Success(true))
             }
 
             every {
                 authenticationRepository.authenticate()
-            } returns flowResult
+            } returns authenticateCallResult
             every {
                 bookmarkRepository.createBookmarkDocument(userId)
-            } returns flowResult2
+            } returns documentCreationResult
 
             // When
             authenticationUseCase.authenticate().collect { }
 
             // Then
             verify(exactly = 1) {
+                bookmarkRepository.createBookmarkDocument(userId)
+            }
+        }
+    }
+
+    @Test
+    fun `given error authenticate result from authenticationRepository, then should not call createBookmarkDocument`() {
+
+        runBlocking {
+            // Given
+            val userId = "999"
+
+            val authenticateCallResult = flow {
+                emit(Resource.Error(Exception()))
+            }
+
+            val documentCreationResult = flow {
+                emit(Resource.Success(true))
+            }
+
+            every {
+                authenticationRepository.authenticate()
+            } returns authenticateCallResult
+            every {
+                bookmarkRepository.createBookmarkDocument(userId)
+            } returns documentCreationResult
+
+            // When
+            authenticationUseCase.authenticate().collect { }
+
+            // Then
+            verify(exactly = 0) {
                 bookmarkRepository.createBookmarkDocument(userId)
             }
         }

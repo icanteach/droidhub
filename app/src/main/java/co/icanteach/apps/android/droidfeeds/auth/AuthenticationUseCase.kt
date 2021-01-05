@@ -1,13 +1,9 @@
 package co.icanteach.apps.android.droidfeeds.auth
 
 import co.icanteach.apps.android.droidfeeds.core.Resource
-import co.icanteach.apps.android.droidfeeds.core.doOnSuccess
 import co.icanteach.apps.android.droidfeeds.data.repository.AuthenticationDataRepository
 import co.icanteach.apps.android.droidfeeds.data.repository.BookmarkRepository
-import co.icanteach.apps.android.droidfeeds.data.repository.model.UserResponse
-import com.google.firebase.auth.AuthResult
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 /**
@@ -19,17 +15,20 @@ class AuthenticationUseCase @Inject constructor(
     private val bookmarkRepository: BookmarkRepository
 ) {
 
-
     /**
      * authenticate user via AuthenticationDataRepository.
      *
      * If the authentication process is successful, create an empty bookmark collection for the user.
      */
-    fun authenticate(): Flow<Resource<UserResponse>> {
+    fun authenticate(): Flow<Resource<Any>> {
         return authenticationRepository
             .authenticate()
-            .doOnSuccess { userResponse ->
-                bookmarkRepository.createBookmarkDocument(userResponse.userId)
+            .flatMapConcat {
+                return@flatMapConcat if (it is Resource.Success) {
+                    bookmarkRepository.createBookmarkDocument(it.data.userId)
+                } else {
+                    flow { emit(it) }
+                }
             }
     }
 
