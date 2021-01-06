@@ -6,12 +6,14 @@ import co.icanteach.apps.android.droidfeeds.data.repository.AuthenticationDataRe
 import co.icanteach.apps.android.droidfeeds.data.repository.BookmarkRepository
 import co.icanteach.apps.android.droidfeeds.data.repository.model.UserResponse
 import io.mockk.MockKAnnotations
+import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
@@ -97,5 +99,10 @@ class AuthenticationUseCaseTest {
                 bookmarkRepository.createBookmarkDocument(userId)
             }
         }
+    }
+
+    @After
+    fun clear() {
+        clearAllMocks()
     }
 }

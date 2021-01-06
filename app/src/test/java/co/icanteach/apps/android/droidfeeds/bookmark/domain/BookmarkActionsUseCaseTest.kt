@@ -7,12 +7,14 @@ import co.icanteach.apps.android.droidfeeds.data.repository.model.NewsResponse
 import co.icanteach.apps.android.droidfeeds.home.domain.HomeFeedListing
 import co.icanteach.apps.android.droidfeeds.news.NewsItemMapper
 import io.mockk.MockKAnnotations
+import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
@@ -139,7 +141,7 @@ class BookmarkActionsUseCaseTest {
                 authenticationUseCase.getUserId()
             }
 
-            verify (exactly = 1){
+            verify(exactly = 1) {
                 mapper.mapFrom(bookmarkResponse)
             }
 
@@ -148,5 +150,10 @@ class BookmarkActionsUseCaseTest {
                     .removeBookmark(bookmarkItem = requestMap, documentId = userId)
             }
         }
+    }
+
+    @After
+    fun clear() {
+        clearAllMocks()
     }
 }
