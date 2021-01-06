@@ -1,8 +1,10 @@
 package co.icanteach.apps.android.droidfeeds.data.repository
 
 import co.icanteach.apps.android.droidfeeds.core.Resource
+import co.icanteach.apps.android.droidfeeds.data.IoDispatcher
 import co.icanteach.apps.android.droidfeeds.data.repository.model.FeedDocumentResponse
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -15,7 +17,8 @@ private const val HOME_FEED_COLLECTION_PATH = "home-feed"
 private const val MAIN_FEED_COLLECTION_PATH = "main-feed"
 
 class DroidFeedsRepository @Inject constructor(
-    private val firestore: FirebaseFirestore
+    private val firestore: FirebaseFirestore,
+    @IoDispatcher val dispatcher: CoroutineDispatcher
 ) {
 
     private val mPostsCollection =
@@ -35,5 +38,5 @@ class DroidFeedsRepository @Inject constructor(
         }
     }.catch { exception ->
         emit(Resource.Error(exception))
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(dispatcher)
 }

@@ -2,10 +2,11 @@ package co.icanteach.apps.android.droidfeeds.data.repository
 
 import co.icanteach.apps.android.droidfeeds.core.NoContentListingException
 import co.icanteach.apps.android.droidfeeds.core.Resource
+import co.icanteach.apps.android.droidfeeds.data.IoDispatcher
 import co.icanteach.apps.android.droidfeeds.data.repository.model.FeedDocumentResponse
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
@@ -20,7 +21,8 @@ private const val BOOKMARK_PARENT_FIELD = "contents"
 private const val BOOKMARK_CREATE_CONFIRM_DATA = "exists"
 
 class BookmarkRepository @Inject constructor(
-    firestore: FirebaseFirestore
+    private val firestore: FirebaseFirestore,
+    @IoDispatcher val dispatcher: CoroutineDispatcher
 ) {
 
     private val bookmarkCollections =
@@ -43,7 +45,7 @@ class BookmarkRepository @Inject constructor(
 
     }.catch {
         emit(Resource.Error(it))
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(dispatcher)
 
     fun fetchUserBookmarks(documentId: String) = flow {
 
@@ -69,7 +71,7 @@ class BookmarkRepository @Inject constructor(
         )
     }.catch { exception ->
         emit(Resource.Error(exception))
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(dispatcher)
 
     fun addBookmark(
         bookmarkItem: Map<String, Any>,
@@ -88,7 +90,7 @@ class BookmarkRepository @Inject constructor(
 
     }.catch {
         emit(Resource.Error(it))
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(dispatcher)
 
 
     fun removeBookmark(
@@ -142,6 +144,5 @@ class BookmarkRepository @Inject constructor(
         }
     }.catch {
         emit(Resource.Error(it))
-    }.flowOn(Dispatchers.IO)
-
+    }.flowOn(dispatcher)
 }
