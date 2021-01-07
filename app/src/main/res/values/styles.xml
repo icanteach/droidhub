@@ -18,6 +18,7 @@
         <item name="fontFamily">@font/droidfeed_font</item>
         <item name="android:fontFamily">@font/droidfeed_font</item>
         <item name="materialCardViewStyle">@style/AppCard</item>
+        <item name="chipStyle">@style/AppChip</item>
         <item name="bottomNavigationStyle">@style/AppBottomNavigation</item>
     </style>
 
@@ -26,5 +27,10 @@
     </style>
 
     <style name="AppBottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView.Colored" />
+
+    <style name="AppChip" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">?attr/colorAccent</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 
 </resources>

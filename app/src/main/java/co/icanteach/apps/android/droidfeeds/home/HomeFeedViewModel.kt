@@ -17,7 +17,7 @@ import co.icanteach.apps.android.droidfeeds.core.Status
 import co.icanteach.apps.android.droidfeeds.core.StatusViewState
 import co.icanteach.apps.android.droidfeeds.home.domain.FetchHomeFeedUseCase
 import co.icanteach.apps.android.droidfeeds.home.domain.HomeFeedListing
-import co.icanteach.apps.android.droidfeeds.news.NewsItem
+import co.icanteach.apps.android.droidfeeds.news.FeedItem
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 
@@ -53,7 +53,7 @@ class HomeFeedViewModel @ViewModelInject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun addBookmark(newsItem: NewsItem) {
+    fun addBookmark(newsItem: FeedItem) {
 
         analyticsUseCase.sendClickEvent(AnalyticsKeys.CLICK.SAVE, AnalyticsKeys.PAGE.HOME)
 

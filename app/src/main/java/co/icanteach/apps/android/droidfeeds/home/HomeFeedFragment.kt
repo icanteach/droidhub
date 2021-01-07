@@ -10,7 +10,7 @@ import co.icanteach.apps.android.droidfeeds.core.BaseFragment
 import co.icanteach.apps.android.droidfeeds.core.StatusViewState
 import co.icanteach.apps.android.droidfeeds.core.extensions.showSnackbar
 import co.icanteach.apps.android.droidfeeds.databinding.FragmentHomeFeedBinding
-import co.icanteach.apps.android.droidfeeds.news.NewsItem
+import co.icanteach.apps.android.droidfeeds.news.FeedItem
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -66,7 +66,7 @@ class HomeFeedFragment : BaseFragment<FragmentHomeFeedBinding>() {
         binding.executePendingBindings()
     }
 
-    private fun addBookmark(newsItem: NewsItem) {
+    private fun addBookmark(newsItem: FeedItem) {
         homeFeedViewModel.addBookmark(newsItem)
     }
 

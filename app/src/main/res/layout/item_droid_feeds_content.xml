@@ -32,6 +32,18 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:clickable="false"
+                app:isVisible="@{viewState.shouldShowCategoryInfo()}"
+                android:text="@{viewState.newsItem.category}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@tools:sample/lorem" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/textView_feed_news_item_title"
                 android:layout_width="0dp"

@@ -6,16 +6,16 @@ import androidx.recyclerview.widget.RecyclerView
 import co.icanteach.apps.android.droidfeeds.core.BaseAdapter
 import co.icanteach.apps.android.droidfeeds.core.DataClassDiffCallback
 import co.icanteach.apps.android.droidfeeds.databinding.ItemDroidFeedsContentBinding
-import co.icanteach.apps.android.droidfeeds.news.NewsItem
+import co.icanteach.apps.android.droidfeeds.news.FeedItem
 import javax.inject.Inject
 
 class HomeFeedAdapter @Inject constructor() :
-    BaseAdapter<NewsItem, HomeFeedAdapter.HomeFeedItemViewHolder>(
+    BaseAdapter<FeedItem, HomeFeedAdapter.HomeFeedItemViewHolder>(
         DataClassDiffCallback { it.originUrl }
     ) {
 
     var onExploreClicked: ((String) -> Unit)? = null
-    var onBookmarkClicked: ((NewsItem) -> Unit)? = null
+    var onBookmarkClicked: ((FeedItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeFeedItemViewHolder {
         val binding = ItemDroidFeedsContentBinding.inflate(LayoutInflater.from(parent.context),parent, false)
@@ -42,7 +42,7 @@ class HomeFeedAdapter @Inject constructor() :
             }
         }
 
-        fun bind(newsItem: NewsItem) {
+        fun bind(newsItem: FeedItem) {
             binding.viewState = HomeFeedItemViewState(newsItem = newsItem)
             binding.executePendingBindings()
         }

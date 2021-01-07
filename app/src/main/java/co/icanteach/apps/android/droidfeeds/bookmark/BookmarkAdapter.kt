@@ -6,16 +6,16 @@ import androidx.recyclerview.widget.RecyclerView
 import co.icanteach.apps.android.droidfeeds.core.BaseAdapter
 import co.icanteach.apps.android.droidfeeds.core.DataClassDiffCallback
 import co.icanteach.apps.android.droidfeeds.databinding.ItemBookmarkContentBinding
-import co.icanteach.apps.android.droidfeeds.news.NewsItem
+import co.icanteach.apps.android.droidfeeds.news.FeedItem
 import javax.inject.Inject
 
 class BookmarkAdapter @Inject constructor() :
-    BaseAdapter<NewsItem, BookmarkAdapter.BookmarkItemViewHolder>(
+    BaseAdapter<FeedItem, BookmarkAdapter.BookmarkItemViewHolder>(
         DataClassDiffCallback { it.originUrl }
     ) {
 
     var onExploreClicked: ((String) -> Unit)? = null
-    var onRemoveClicked: ((NewsItem) -> Unit)? = null
+    var onRemoveClicked: ((FeedItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkItemViewHolder {
         val binding =
@@ -43,7 +43,7 @@ class BookmarkAdapter @Inject constructor() :
             }
         }
 
-        fun bind(newsItem: NewsItem) {
+        fun bind(newsItem: FeedItem) {
             binding.viewState = BookmarkItemViewState(newsItem = newsItem)
             binding.executePendingBindings()
         }

@@ -9,7 +9,7 @@ import androidx.navigation.fragment.NavHostFragment.findNavController
 import co.icanteach.apps.android.droidfeeds.core.BaseFragment
 import co.icanteach.apps.android.droidfeeds.core.StatusViewState
 import co.icanteach.apps.android.droidfeeds.databinding.FragmentBookmarkBinding
-import co.icanteach.apps.android.droidfeeds.news.NewsItem
+import co.icanteach.apps.android.droidfeeds.news.FeedItem
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -59,7 +59,7 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
         findNavController(this@BookmarkFragment).navigate(direction)
     }
 
-    private fun removeBookmark(newsItem: NewsItem) {
+    private fun removeBookmark(newsItem: FeedItem) {
         bookmarkViewModel.removeBookmark(newsItem)
     }
 

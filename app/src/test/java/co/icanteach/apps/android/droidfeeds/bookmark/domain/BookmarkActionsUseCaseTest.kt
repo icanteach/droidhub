@@ -5,7 +5,7 @@ import co.icanteach.apps.android.droidfeeds.core.Resource
 import co.icanteach.apps.android.droidfeeds.data.repository.BookmarkRepository
 import co.icanteach.apps.android.droidfeeds.data.repository.model.NewsResponse
 import co.icanteach.apps.android.droidfeeds.home.domain.HomeFeedListing
-import co.icanteach.apps.android.droidfeeds.news.NewsItemMapper
+import co.icanteach.apps.android.droidfeeds.news.FeedItemMapper
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.every
@@ -28,7 +28,7 @@ class BookmarkActionsUseCaseTest {
     lateinit var bookmarkRepository: BookmarkRepository
 
     @MockK
-    lateinit var mapper: NewsItemMapper
+    lateinit var mapper: FeedItemMapper
 
     lateinit var bookmarkActionsUseCase: BookmarkActionsUseCase
 

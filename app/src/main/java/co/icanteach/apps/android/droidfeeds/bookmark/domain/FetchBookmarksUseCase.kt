@@ -5,7 +5,7 @@ import co.icanteach.apps.android.droidfeeds.core.Resource
 import co.icanteach.apps.android.droidfeeds.core.map
 import co.icanteach.apps.android.droidfeeds.data.repository.BookmarkRepository
 import co.icanteach.apps.android.droidfeeds.home.domain.HomeFeedListing
-import co.icanteach.apps.android.droidfeeds.news.NewsItemMapper
+import co.icanteach.apps.android.droidfeeds.news.FeedItemMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -13,7 +13,7 @@ import javax.inject.Inject
 class FetchBookmarksUseCase @Inject constructor(
     private val repository: BookmarkRepository,
     private val authenticationUseCase: AuthenticationUseCase,
-    private val mapper: NewsItemMapper
+    private val mapper: FeedItemMapper
 ) {
 
     fun fetchContent(): Flow<Resource<HomeFeedListing>> {

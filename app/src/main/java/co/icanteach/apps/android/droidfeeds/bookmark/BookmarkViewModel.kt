@@ -14,7 +14,7 @@ import co.icanteach.apps.android.droidfeeds.core.StatusViewState
 import co.icanteach.apps.android.droidfeeds.core.extensions.doOnStatusChanged
 import co.icanteach.apps.android.droidfeeds.core.extensions.doOnSuccess
 import co.icanteach.apps.android.droidfeeds.home.domain.HomeFeedListing
-import co.icanteach.apps.android.droidfeeds.news.NewsItem
+import co.icanteach.apps.android.droidfeeds.news.FeedItem
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 
@@ -47,7 +47,7 @@ class BookmarkViewModel @ViewModelInject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun removeBookmark(newsItem: NewsItem) {
+    fun removeBookmark(newsItem: FeedItem) {
 
         analyticsUseCase.sendClickEvent(AnalyticsKeys.CLICK.REMOVE, AnalyticsKeys.PAGE.READING_LIST)
 
