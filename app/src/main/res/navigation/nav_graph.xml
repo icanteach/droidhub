@@ -6,13 +6,13 @@
     app:startDestination="@id/homeFeedFragment">
     <fragment
         android:id="@+id/homeFeedFragment"
-        android:name="co.icanteach.apps.android.droidfeeds.home.HomeFeedFragment"
+        android:name="co.icanteach.apps.android.droidhub.home.HomeFeedFragment"
         android:label="@string/bottom_nav_menu_1"
         tools:layout="@layout/fragment_home_feed" />
 
     <fragment
         android:id="@+id/bookmarkFragment"
-        android:name="co.icanteach.apps.android.droidfeeds.bookmark.BookmarkFragment"
+        android:name="co.icanteach.apps.android.droidhub.bookmark.BookmarkFragment"
         android:label="@string/bottom_nav_menu_2"
         tools:layout="@layout/fragment_bookmark">
         <action

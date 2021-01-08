@@ -8,7 +8,7 @@
 
         <variable
             name="viewState"
-            type="co.icanteach.apps.android.droidfeeds.bookmark.BookmarkItemViewState" />
+            type="co.icanteach.apps.android.droidhub.bookmark.BookmarkItemViewState" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

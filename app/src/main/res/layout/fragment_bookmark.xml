@@ -7,7 +7,7 @@
 
         <variable
             name="viewState"
-            type="co.icanteach.apps.android.droidfeeds.core.StatusViewState" />
+            type="co.icanteach.apps.android.droidhub.core.StatusViewState" />
     </data>
 
     <com.erkutaras.statelayout.StateLayout

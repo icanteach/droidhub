@@ -7,11 +7,11 @@
 
         <variable
             name="viewState"
-            type="co.icanteach.apps.android.droidfeeds.core.StatusViewState" />
+            type="co.icanteach.apps.android.droidhub.core.StatusViewState" />
 
         <variable
             name="filterViewState"
-            type="co.icanteach.apps.android.droidfeeds.home.DroidhubFiltersViewState" />
+            type="co.icanteach.apps.android.droidhub.home.DroidhubFiltersViewState" />
     </data>
 
 

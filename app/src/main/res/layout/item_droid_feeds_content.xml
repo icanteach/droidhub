@@ -8,7 +8,7 @@
 
         <variable
             name="viewState"
-            type="co.icanteach.apps.android.droidfeeds.home.HomeFeedItemViewState" />
+            type="co.icanteach.apps.android.droidhub.home.HomeFeedItemViewState" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
