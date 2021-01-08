@@ -15,6 +15,7 @@ import co.icanteach.apps.android.droidfeeds.core.extensions.doOnLoading
 import co.icanteach.apps.android.droidfeeds.core.extensions.doOnError
 import co.icanteach.apps.android.droidfeeds.core.Status
 import co.icanteach.apps.android.droidfeeds.core.StatusViewState
+import co.icanteach.apps.android.droidfeeds.home.domain.FetchFiltersUseCase
 import co.icanteach.apps.android.droidfeeds.home.domain.FetchHomeFeedUseCase
 import co.icanteach.apps.android.droidfeeds.home.domain.HomeFeedListing
 import co.icanteach.apps.android.droidfeeds.news.FeedItem
@@ -24,7 +25,8 @@ import kotlinx.coroutines.launch
 class HomeFeedViewModel @ViewModelInject constructor(
     private val fetchHomeFeedUseCase: FetchHomeFeedUseCase,
     private val bookmarkActionsUseCase: BookmarkActionsUseCase,
-    private val analyticsUseCase: AnalyticsUseCase
+    private val analyticsUseCase: AnalyticsUseCase,
+    private val fetchFiltersUseCase: FetchFiltersUseCase
 ) : ViewModel() {
 
     private val homeFeedListing = MutableLiveData<HomeFeedListing>()
@@ -32,6 +34,9 @@ class HomeFeedViewModel @ViewModelInject constructor(
 
     private val statusState = MutableLiveData<StatusViewState>()
     val status_: LiveData<StatusViewState> = statusState
+
+    private val filtersViewState = MutableLiveData<DroidhubFiltersViewState>()
+    val filtersViewState_: LiveData<DroidhubFiltersViewState> = filtersViewState
 
     val bookmarkSuccessResult: ActionEvent = ActionEvent()
 
@@ -46,9 +51,29 @@ class HomeFeedViewModel @ViewModelInject constructor(
             .fetchContent()
             .doOnSuccess { data ->
                 homeFeedListing.value = data
+                fetchFilters()
             }
             .doOnStatusChanged { status ->
                 statusState.value = StatusViewState(status)
+            }
+            .launchIn(viewModelScope)
+    }
+
+    private fun fetchFilters() {
+
+        fetchFiltersUseCase
+            .fetchFilters()
+            .doOnSuccess { data ->
+                filtersViewState.value = DroidhubFiltersViewState(
+                    filters = data,
+                    status = Status.Content
+                )
+            }
+            .doOnLoading {
+                filtersViewState.value = DroidhubFiltersViewState(status = Status.Loading)
+            }
+            .doOnError {
+                filtersViewState.value = DroidhubFiltersViewState(status = Status.Error(it))
             }
             .launchIn(viewModelScope)
     }
@@ -74,5 +99,9 @@ class HomeFeedViewModel @ViewModelInject constructor(
                 }
                 .launchIn(viewModelScope)
         }
+    }
+
+    fun getFilters(): List<String> {
+        return filtersViewState.value?.filters ?: mutableListOf()
     }
 }

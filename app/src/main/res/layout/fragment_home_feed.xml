@@ -8,22 +8,42 @@
         <variable
             name="viewState"
             type="co.icanteach.apps.android.droidfeeds.core.StatusViewState" />
+
+        <variable
+            name="filterViewState"
+            type="co.icanteach.apps.android.droidfeeds.home.DroidhubFiltersViewState" />
     </data>
 
-    <com.erkutaras.statelayout.StateLayout
-        android:id="@+id/stateLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:showState="@{viewState.getStateInfo(context)}"
-        tools:sl_state="content">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView_home_feeds"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.erkutaras.statelayout.StateLayout
+            android:id="@+id/stateLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:spanCount="1"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_droid_feeds_content" />
-    </com.erkutaras.statelayout.StateLayout>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:showState="@{viewState.getStateInfo(context)}"
+            tools:sl_state="content">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_home_feeds"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_droid_feeds_content" />
+        </com.erkutaras.statelayout.StateLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/buttonFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:isVisible="@{filterViewState.shouldShowFilterButton()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_filter_list" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -11,6 +11,7 @@ import co.icanteach.apps.android.droidfeeds.core.StatusViewState
 import co.icanteach.apps.android.droidfeeds.core.extensions.showSnackbar
 import co.icanteach.apps.android.droidfeeds.databinding.FragmentHomeFeedBinding
 import co.icanteach.apps.android.droidfeeds.news.FeedItem
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -40,10 +41,18 @@ class HomeFeedFragment : BaseFragment<FragmentHomeFeedBinding>() {
             bookmarkSuccessResult.observe(viewLifecycleOwner, {
                 showBookmarkSuccessResult()
             })
+
+            filtersViewState_.observe(viewLifecycleOwner, { filtersViewState ->
+                onRenderFiltersViewState(filtersViewState)
+            })
         }
 
         binding.recyclerViewHomeFeeds.apply {
             adapter = homeFeedAdapter
+        }
+
+        binding.buttonFilter.setOnClickListener {
+            show()
         }
 
         with(homeFeedAdapter) {
@@ -55,6 +64,11 @@ class HomeFeedFragment : BaseFragment<FragmentHomeFeedBinding>() {
                 addBookmark(newsItem)
             }
         }
+    }
+
+    private fun onRenderFiltersViewState(filtersViewState: DroidhubFiltersViewState) {
+        binding.filterViewState = filtersViewState
+        binding.executePendingBindings()
     }
 
     private fun showBookmarkSuccessResult() {
@@ -75,5 +89,20 @@ class HomeFeedFragment : BaseFragment<FragmentHomeFeedBinding>() {
         val intentBuilder = CustomTabsIntent.Builder()
         val customTabsIntent = intentBuilder.build()
         customTabsIntent.launchUrl(requireContext(), uri)
+    }
+
+    private fun show() {
+
+        val filters = homeFeedViewModel.getFilters().map {
+            it as CharSequence
+        }.toTypedArray()
+        val checkedItem = 0
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(resources.getString(R.string.filters))
+            .setSingleChoiceItems(filters, checkedItem) { dialog, which ->
+                // TODO fetchSelectedFilterContent
+                dialog.dismiss()
+            }.show()
     }
 }
