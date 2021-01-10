@@ -38,6 +38,23 @@ class DroidFeedsRepository @Inject constructor(
         emit(Resource.Error(exception))
     }.flowOn(dispatcher)
 
+    fun fetchHomeFeedByFilter(filterContent: String) = flow {
+
+        val homeFeedCollection = firestore.collection("home-feed")
+        // Emit loading state
+        emit(Resource.Loading)
+
+        val snapshot = homeFeedCollection.whereEqualTo("category", filterContent).get().await()
+        val homeFeed = snapshot.documents.mapNotNull {
+            it.toObject(NewsResponse::class.java)
+        }
+
+        // Emit success state with data
+        emit(Resource.Success(homeFeed))
+    }.catch { exception ->
+        emit(Resource.Error(exception))
+    }.flowOn(dispatcher)
+
     fun fetchFilters() = flow {
 
         val filtersCollection = firestore.collection("droidhub-filters")

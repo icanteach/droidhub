@@ -101,7 +101,7 @@ class HomeFeedFragment : BaseFragment<FragmentHomeFeedBinding>() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(resources.getString(R.string.filters))
             .setSingleChoiceItems(filters, checkedItem) { dialog, which ->
-                // TODO fetchSelectedFilterContent
+                homeFeedViewModel.fetchHomeFeed(which)
                 dialog.dismiss()
             }.show()
     }

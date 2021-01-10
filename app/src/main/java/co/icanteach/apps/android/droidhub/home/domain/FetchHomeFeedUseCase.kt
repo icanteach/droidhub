@@ -13,9 +13,19 @@ class FetchHomeFeedUseCase @Inject constructor(
     private val mapper: FeedItemMapper
 ) {
 
-    fun fetchContent(): Flow<Resource<HomeFeedListing>> {
+    fun fetchHomeFeed(): Flow<Resource<HomeFeedListing>> {
         return repository
             .fetchHomeFeed()
+            .map {
+                it.map { response ->
+                    mapper.mapFrom(response)
+                }
+            }
+    }
+
+    fun fetchHomeFeed(filterContent: String): Flow<Resource<HomeFeedListing>> {
+        return repository
+            .fetchHomeFeedByFilter(filterContent)
             .map {
                 it.map { response ->
                     mapper.mapFrom(response)

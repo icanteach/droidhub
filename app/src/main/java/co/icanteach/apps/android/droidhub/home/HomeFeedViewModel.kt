@@ -48,7 +48,7 @@ class HomeFeedViewModel @ViewModelInject constructor(
     private fun fetchHomeFeed() {
 
         fetchHomeFeedUseCase
-            .fetchContent()
+            .fetchHomeFeed()
             .doOnSuccess { data ->
                 homeFeedListing.value = data
                 fetchFilters()
@@ -99,6 +99,26 @@ class HomeFeedViewModel @ViewModelInject constructor(
                 }
                 .launchIn(viewModelScope)
         }
+    }
+
+    fun fetchHomeFeed(filterPosition: Int) {
+
+        val filters = filtersViewState.value?.filters
+            ?: throw IllegalAccessException("filter list can not be empty!")
+
+        fetchHomeFeedUseCase
+            .fetchHomeFeed(filters[filterPosition])
+            .doOnSuccess { data ->
+                statusState.value = StatusViewState(status = Status.Content)
+                homeFeedListing.value = data
+            }
+            .doOnLoading {
+                statusState.value = StatusViewState(status = Status.ContentWithLoading)
+            }
+            .doOnError {
+                statusState.value = StatusViewState(status = Status.Error(it))
+            }
+            .launchIn(viewModelScope)
     }
 
     fun getFilters(): List<String> {
