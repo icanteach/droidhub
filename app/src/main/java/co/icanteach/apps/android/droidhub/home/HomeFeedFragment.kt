@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.viewModels
+import co.icanteach.apps.android.droidhub.MainActivity
 import co.icanteach.apps.android.droidhub.R
 import co.icanteach.apps.android.droidhub.core.BaseFragment
 import co.icanteach.apps.android.droidhub.core.StatusViewState
@@ -47,12 +48,13 @@ class HomeFeedFragment : BaseFragment<FragmentHomeFeedBinding>() {
             })
         }
 
-        binding.recyclerViewHomeFeeds.apply {
-            adapter = homeFeedAdapter
-        }
-
-        binding.buttonFilter.setOnClickListener {
-            show()
+        with(binding) {
+            recyclerViewHomeFeeds.apply {
+                adapter = homeFeedAdapter
+            }
+            buttonFilter.setOnClickListener {
+                renderHomePageFilters()
+            }
         }
 
         with(homeFeedAdapter) {
@@ -72,7 +74,13 @@ class HomeFeedFragment : BaseFragment<FragmentHomeFeedBinding>() {
     }
 
     private fun showBookmarkSuccessResult() {
-        view.showSnackbar(getString(R.string.add_bookmark_success_message), Snackbar.LENGTH_SHORT)
+
+        with(requireActivity() as MainActivity) {
+            this.binding.bottomNavigation.showSnackbar(
+                getString(R.string.add_bookmark_success_message),
+                Snackbar.LENGTH_SHORT
+            )
+        }
     }
 
     private fun onRenderPageStatusState(viewState: StatusViewState) {
@@ -91,7 +99,7 @@ class HomeFeedFragment : BaseFragment<FragmentHomeFeedBinding>() {
         customTabsIntent.launchUrl(requireContext(), uri)
     }
 
-    private fun show() {
+    private fun renderHomePageFilters() {
 
         val filters = homeFeedViewModel.getFilters().map {
             it as CharSequence

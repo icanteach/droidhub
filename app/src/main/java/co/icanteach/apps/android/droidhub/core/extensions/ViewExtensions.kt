@@ -5,7 +5,9 @@ import androidx.databinding.BindingAdapter
 import com.google.android.material.snackbar.Snackbar
 
 fun View?.showSnackbar(snackbarText: String, timeLength: Int) {
-    Snackbar.make(this!!, snackbarText, timeLength).show()
+    Snackbar.make(this!!, snackbarText, timeLength).apply {
+        anchorView = this@showSnackbar
+    }.show()
 }
 
 @BindingAdapter("isVisible")
