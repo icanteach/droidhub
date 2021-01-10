@@ -17,7 +17,7 @@ class FetchFiltersUseCase @Inject constructor(
             .fetchFilters()
             .map {
                 it.map { response ->
-                    response.filters
+                    response.filters.sorted()
                 }
             }
     }

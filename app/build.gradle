@@ -12,7 +12,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "co.icanteach.apps.android.droidfeeds"
+        applicationId "co.icanteach.apps.android.droidhub"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
