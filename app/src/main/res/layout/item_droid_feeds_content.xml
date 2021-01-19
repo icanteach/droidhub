@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:ellipsize="end"
-                android:singleLine="true"
+                android:maxLines="2"
                 android:text="@{viewState.newsItem.title}"
                 android:textAppearance="?attr/textAppearanceHeadline6"
                 app:layout_constraintEnd_toEndOf="@+id/guideline_end"
