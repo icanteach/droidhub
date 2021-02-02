@@ -10,3 +10,4 @@ class ResourceError(
     @StringRes
     val errorDesc: Int
 )
+
