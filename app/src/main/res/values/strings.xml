@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Droidhub</string>
+
+    <!-- Bottom Navigation -->
+    <string name="nav_home_title">Home</string>
+    <string name="nav_home_bookmarks">Bookmarks</string>
+    <string name="nav_home_account">Account</string>
 </resources>
