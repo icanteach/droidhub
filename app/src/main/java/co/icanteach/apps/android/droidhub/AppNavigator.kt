@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import co.icanteach.apps.android.droidhub.features.AccountScreen
 
 @Composable
 fun AppNavigator(navController: NavHostController) {
@@ -15,7 +16,9 @@ fun AppNavigator(navController: NavHostController) {
 
         composable(Screens.BookmarkScreen.route) {}
 
-        composable(Screens.AccountScreen.route) {}
+        composable(Screens.AccountScreen.route) {
+            AccountScreen()
+        }
     }
 }
 

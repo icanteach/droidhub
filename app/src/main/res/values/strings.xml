@@ -5,4 +5,21 @@
     <string name="nav_home_title">Home</string>
     <string name="nav_home_bookmarks">Bookmarks</string>
     <string name="nav_home_account">Account</string>
+
+    <!-- Account Page -->
+    <string name="account_share_this_application_title">Share this application!</string>
+    <string name="account_share_this_application_desc">Invite your friend to #droidhub</string>
+    <string name="account_dark_mode_title">Dark mode</string>
+    <string name="account_dark_mode_desc">Enable dark mode</string>
+    <string name="account_need_to_login_title">Let\'s login into app</string>
+    <string name="account_need_to_login_desc">Discover unique features inside the app</string>
+    <string name="account_interested_in_title">What are you interested in?</string>
+    <string name="account_interested_in_desc">Follow some topics to discover more</string>
+    <string name="account_invite_your_friend_title">Invite your friend to #androidmustsee</string>
+    <string name="account_report_a_problem_title">Report a problem</string>
+    <string name="account_report_a_problem_desc">Help us make #droidhub better</string>
+    <string name="account_rate_us_title">Rate us!</string>
+    <string name="account_rate_us_desc">Share your feedback with us</string>
+    <string name="account_app_version_desc">Version: %1$s</string>
+    <string name="account_app_version_title">Current application version</string>
 </resources>

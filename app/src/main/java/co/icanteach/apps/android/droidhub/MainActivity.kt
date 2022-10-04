@@ -36,6 +36,6 @@ fun MainScreen() {
 
     Scaffold(
         topBar = { TopAppBar(title = { Text(stringResource(id = R.string.app_name)) }) },
-        content = { },
+        content = { AppNavigator(navController) },
         bottomBar = { BottomNavigationBar(navController = navController) })
 }
