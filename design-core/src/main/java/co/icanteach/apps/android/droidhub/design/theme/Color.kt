@@ -1,36 +1,29 @@
-package co.icanteach.apps.android.droidhub.design
+package co.icanteach.apps.android.droidhub.design.theme
 
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.ui.graphics.Color
 
+
+val purple200 = Color(0xFFBB86FC)
+val purple500 = Color(0xFF6200EE)
+val purple700 = Color(0xFF3700B3)
 val teal200 = Color(0xFF03DAC5)
-val teal700 = Color(0xFF018786)
-val black = Color(0xFF000000)
 val white = Color(0xFFFFFFFF)
 
-internal val lightColors = lightColors(
-    primary = black,
-    primaryVariant = black,
-    onPrimary = white,
-    secondary = teal200,
-    secondaryVariant = teal700,
-    onSecondary = black,
-    surface = white,
-    onSurface = black,
-    background = white,
-    onBackground = black,
+internal val DarkColorPalette = darkColors(
+    primary = purple200, primaryVariant = purple700, secondary = teal200
 )
 
-internal val darkColors = darkColors(
-    primary = black,
-    primaryVariant = black,
-    onPrimary = white,
-    secondary = teal200,
-    secondaryVariant = teal200,
-    onSecondary = black,
-    surface = black,
-    onSurface = white,
-    background = black,
-    onBackground = white,
+internal val LightColorPalette = lightColors(
+    primary = purple500, primaryVariant = purple700, secondary = teal200
+
+    /* Other default colors to override
+background = Color.White,
+surface = Color.White,
+onPrimary = Color.White,
+onSecondary = Color.Black,
+onBackground = Color.Black,
+onSurface = Color.Black,
+*/
 )
