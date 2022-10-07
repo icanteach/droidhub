@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import co.icanteach.apps.android.droidhub.features.AccountScreen
+import co.icanteach.apps.android.droidhub.features.account.AccountScreen
 
 @Composable
 fun AppNavigator(navController: NavHostController) {

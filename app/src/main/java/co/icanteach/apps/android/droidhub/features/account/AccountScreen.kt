@@ -1,14 +1,17 @@
-package co.icanteach.apps.android.droidhub.features
+package co.icanteach.apps.android.droidhub.features.account
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import co.icanteach.apps.android.droidhub.BuildConfig
 import co.icanteach.apps.android.droidhub.R
 import co.icanteach.apps.android.droidhub.design.composables.VerticalSpacer
@@ -16,10 +19,17 @@ import co.icanteach.apps.android.droidhub.features.composables.SingleItem
 import co.icanteach.apps.android.droidhub.features.composables.SwitchableItem
 
 @Composable
-fun AccountScreen() {
+fun AccountScreen(
+    accountViewModel: AccountViewModel = hiltViewModel(),
+) {
+
+    val scrollableState = rememberScrollState()
+    val screenState = accountViewModel.accountScreenState
+
 
     Column(
         modifier = Modifier
+            .verticalScroll(scrollableState)
             .fillMaxSize()
             .padding(16.dp)
     ) {
@@ -86,9 +96,9 @@ fun AccountScreen() {
             title = stringResource(id = R.string.account_dark_mode_title),
             description = stringResource(id = R.string.account_dark_mode_desc),
             icon = painterResource(id = R.drawable.ic_dark_mode),
-            isChecked = true
-        ) {
-            // TODO : https://github.com/icanteach/droidhub/issues/19
+            isChecked = screenState.isDarkThemeSelected,
+        ) { result ->
+            accountViewModel.onEvent(AccountScreenEvent.OnDarkThemeChanged(result))
         }
 
         VerticalSpacer(value = 32.dp)

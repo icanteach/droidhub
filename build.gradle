@@ -1,6 +1,7 @@
 buildscript {
     ext {
         compose_ui_version = '1.2.1'
+        accompanist_version = "0.26.1-alpha"
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
