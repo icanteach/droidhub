@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import co.icanteach.apps.android.droidhub.features.account.AccountScreen
+import co.icanteach.apps.android.droidhub.features.feed.FeedScreen
 
 @Composable
 fun AppNavigator(navController: NavHostController) {
@@ -12,7 +13,9 @@ fun AppNavigator(navController: NavHostController) {
     NavHost(
         navController = navController, startDestination = Screens.FeedScreen.route
     ) {
-        composable(Screens.FeedScreen.route) {}
+        composable(Screens.FeedScreen.route) {
+            FeedScreen()
+        }
 
         composable(Screens.BookmarkScreen.route) {}
 
