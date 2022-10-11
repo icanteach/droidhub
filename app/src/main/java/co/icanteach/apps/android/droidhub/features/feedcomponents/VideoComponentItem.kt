@@ -8,6 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -73,6 +75,7 @@ fun VideoComponent(
                 }
 
                 Image(
+                    colorFilter = ColorFilter.tint(Color.White),
                     painter = painterResource(R.drawable.ic_play),
                     contentDescription = item.title,
                     modifier = modifier
