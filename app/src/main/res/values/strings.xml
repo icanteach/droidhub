@@ -22,4 +22,7 @@
     <string name="account_rate_us_desc">Share your feedback with us</string>
     <string name="account_app_version_desc">Version: %1$s</string>
     <string name="account_app_version_title">Current application version</string>
+
+    <!-- Feed Page -->
+    <string name="feed_post_date_and_posted_by">%1$s - Shared by %2$s</string>
 </resources>
