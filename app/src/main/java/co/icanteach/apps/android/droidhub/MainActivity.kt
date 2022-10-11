@@ -28,11 +28,7 @@ class MainActivity : ComponentActivity() {
         mainViewModel.userThemePreference.observe(this) { result ->
             setContent {
                 DroidhubTheme(isSystemInDarkTheme = result.isDarkThemeSelected) {
-                    Surface(
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        MainScreen()
-                    }
+                    MainScreen()
                 }
             }
         }
