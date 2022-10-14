@@ -41,8 +41,7 @@ fun VideoComponent(
             .fillMaxWidth()
             .padding(4.dp), elevation = 4.dp
     ) {
-        Column(
-        ) {
+        Column {
             Box(
                 modifier = Modifier.fillMaxWidth()
             ) {

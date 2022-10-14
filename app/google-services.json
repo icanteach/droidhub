@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1010054027735",
+    "project_id": "droidhub-d2415",
+    "storage_bucket": "droidhub-d2415.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1010054027735:android:b94a5952d0f7ed369f1392",
+        "android_client_info": {
+          "package_name": "co.icanteach.apps.android.droidhub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1010054027735-nj11h3tfi13flulfhgbfb3quvdfd5f76.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.icanteach.apps.android.droidhub",
+            "certificate_hash": "3fac2fff4217dc9db592a8d2583e0260461fdcd6"
+          }
+        },
+        {
+          "client_id": "1010054027735-rtqp53ccm2919ur131vh6oc6iovb3qav.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARdsGsdqLcqe_w9GnFXVy2RDnqBWeRNQc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1010054027735-rtqp53ccm2919ur131vh6oc6iovb3qav.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
