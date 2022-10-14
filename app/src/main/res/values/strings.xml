@@ -25,4 +25,9 @@
 
     <!-- Feed Page -->
     <string name="feed_post_date_and_posted_by">%1$s - Shared by %2$s</string>
+
+    <!-- Auth Page -->
+    <string name="auth_desc">Discover unique features inside the app</string>
+    <string name="auth_facebook_login">Login with Facebook</string>
+    <string name="auth_google_login">Login with Google</string>
 </resources>

@@ -1,16 +1,11 @@
 package co.icanteach.apps.android.droidhub.features.feedcomponents
 
 import android.content.res.Configuration
-import androidx.annotation.ColorRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,7 +28,7 @@ data class ArticleComponentItem(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ArticleComponent(
-    item: ArticleComponentItem, modifier: Modifier = Modifier
+    item: ArticleComponentItem
 ) {
 
     Card(

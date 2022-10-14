@@ -1,5 +1,6 @@
 package co.icanteach.apps.android.droidhub.features.account
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -12,21 +13,39 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import co.icanteach.apps.android.droidhub.BuildConfig
 import co.icanteach.apps.android.droidhub.R
+import co.icanteach.apps.android.droidhub.Screens
 import co.icanteach.apps.android.droidhub.design.composables.VerticalSpacer
 import co.icanteach.apps.android.droidhub.features.composables.SingleItem
 import co.icanteach.apps.android.droidhub.features.composables.SwitchableItem
 
 @Composable
 fun AccountScreen(
-    accountViewModel: AccountViewModel = hiltViewModel(),
+    accountViewModel: AccountViewModel = hiltViewModel(), navController: NavHostController
 ) {
 
     val scrollableState = rememberScrollState()
     val screenState = accountViewModel.accountScreenState
 
+    AccountScreenContent(scrollableState = scrollableState,
+        screenUiState = screenState,
+        onDarkModeChanged = { event ->
+            accountViewModel.onEvent(event)
+        },
+        onAuthScreenNavigated = {
+            navController.navigate(Screens.AuthScreen.route)
+        })
+}
 
+@Composable
+fun AccountScreenContent(
+    scrollableState: ScrollState,
+    screenUiState: AccountScreenUiState,
+    onDarkModeChanged: (AccountScreenEvent) -> Unit,
+    onAuthScreenNavigated: () -> Unit
+) {
     Column(
         modifier = Modifier
             .verticalScroll(scrollableState)
@@ -39,10 +58,7 @@ fun AccountScreen(
             description = stringResource(id = R.string.account_need_to_login_desc),
             icon = painterResource(id = R.drawable.ic_login)
         ) {
-            /**
-             * TODO : open Login Dialog.
-             * https://github.com/icanteach/droidhub/issues/15
-             */
+            onAuthScreenNavigated()
         }
 
         VerticalSpacer(value = 32.dp)
@@ -96,9 +112,9 @@ fun AccountScreen(
             title = stringResource(id = R.string.account_dark_mode_title),
             description = stringResource(id = R.string.account_dark_mode_desc),
             icon = painterResource(id = R.drawable.ic_dark_mode),
-            isChecked = screenState.isDarkThemeSelected,
+            isChecked = screenUiState.isDarkThemeSelected,
         ) { result ->
-            accountViewModel.onEvent(AccountScreenEvent.OnDarkThemeChanged(result))
+            onDarkModeChanged.invoke(AccountScreenEvent.OnDarkThemeChanged(result))
         }
 
         VerticalSpacer(value = 32.dp)
@@ -115,6 +131,24 @@ fun AccountScreen(
 
 @Preview(showSystemUi = true)
 @Composable
-fun SingleItem_Preview() {
-    AccountScreen()
+fun AccountScreenDarkModeNotSelected_Preview() {
+    AccountScreen_Preview(AccountScreenUiState(isDarkThemeSelected = false))
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun AccountScreenDarkModeSelected_Preview() {
+    AccountScreen_Preview(AccountScreenUiState(isDarkThemeSelected = true))
+}
+
+@Composable
+fun AccountScreen_Preview(screenUiState: AccountScreenUiState) {
+    val scrollableState = rememberScrollState()
+    AccountScreenContent(
+        scrollableState,
+        screenUiState,
+        onDarkModeChanged = {},
+        onAuthScreenNavigated = {},
+
+        )
 }

@@ -76,9 +76,24 @@ dependencies {
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
 
     implementation("io.coil-kt:coil-compose:2.2.2")
+
+    // Firebase
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:31.0.0')
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.android.gms:play-services-auth:20.3.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4'
+
+    // room
+    def room_version = "2.4.2"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
 }
 
 // Allow references to generated code
 kapt {
     correctErrorTypes true
 }
+
+apply plugin: 'com.google.gms.google-services'
