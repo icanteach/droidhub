@@ -30,4 +30,18 @@
     <string name="auth_desc">Discover unique features inside the app</string>
     <string name="auth_facebook_login">Login with Facebook</string>
     <string name="auth_google_login">Login with Google</string>
+
+    <!-- Submission Page -->
+    <string name="submission_page_title">Share your content</string>
+    <string name="submission_page_url_placeholder">Put url here</string>
+    <string name="submission_choose_category">Choose post category</string>
+    <string name="submission_choose_type_title">Choose post type</string>
+    <string name="submission_choose_type_placeholder">Post type</string>
+    <string name="submission_share_button">Share</string>
+
+    <string-array name="submission_post_types">
+        <item>Article</item>
+        <item>Video</item>
+        <item>Podcast</item>
+    </string-array>
 </resources>

@@ -22,7 +22,6 @@ fun AppNavigator(navController: NavHostController) {
         composable(Screens.AuthScreen.route) {
             AuthScreen()
         }
-
         composable(Screens.AccountScreen.route) {
             AccountScreen(navController = navController)
         }

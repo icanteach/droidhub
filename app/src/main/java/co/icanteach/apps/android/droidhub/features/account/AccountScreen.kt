@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -18,8 +19,9 @@ import co.icanteach.apps.android.droidhub.BuildConfig
 import co.icanteach.apps.android.droidhub.R
 import co.icanteach.apps.android.droidhub.Screens
 import co.icanteach.apps.android.droidhub.design.composables.VerticalSpacer
-import co.icanteach.apps.android.droidhub.features.composables.SingleItem
-import co.icanteach.apps.android.droidhub.features.composables.SwitchableItem
+import co.icanteach.apps.android.droidhub.design.theme.DroidhubTheme
+import co.icanteach.apps.android.droidhub.features.account.composables.SingleItem
+import co.icanteach.apps.android.droidhub.features.account.composables.SwitchableItem
 
 @Composable
 fun AccountScreen(
@@ -63,6 +65,10 @@ fun AccountScreenContent(
 
         VerticalSpacer(value = 32.dp)
 
+        /**
+         * TODO : open Interest Selection Dialog.
+         * https://github.com/icanteach/droidhub/issues/16
+         */
         SingleItem(
             title = stringResource(id = R.string.account_interested_in_title),
             description = stringResource(id = R.string.account_interested_in_desc),
@@ -76,6 +82,9 @@ fun AccountScreenContent(
 
         VerticalSpacer(value = 32.dp)
 
+        /**
+         * TODO : https://github.com/icanteach/droidhub/issues/20
+         */
         SingleItem(
             title = stringResource(id = R.string.account_report_a_problem_title),
             description = stringResource(id = R.string.account_report_a_problem_desc),
@@ -138,7 +147,11 @@ fun AccountScreenDarkModeNotSelected_Preview() {
 @Preview(showSystemUi = true)
 @Composable
 fun AccountScreenDarkModeSelected_Preview() {
-    AccountScreen_Preview(AccountScreenUiState(isDarkThemeSelected = true))
+    DroidhubTheme {
+        Surface {
+            AccountScreen_Preview(AccountScreenUiState(isDarkThemeSelected = true))
+        }
+    }
 }
 
 @Composable

@@ -1,4 +1,4 @@
-package co.icanteach.apps.android.droidhub.features.composables
+package co.icanteach.apps.android.droidhub.features.account.composables
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
