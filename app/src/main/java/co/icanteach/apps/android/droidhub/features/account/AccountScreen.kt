@@ -1,5 +1,6 @@
 package co.icanteach.apps.android.droidhub.features.account
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,6 +39,9 @@ fun AccountScreen(
         },
         onAuthScreenNavigated = {
             navController.navigate(Screens.AuthScreen.route)
+        },
+        onInterestsScreenNavigated = {
+            navController.navigate(Screens.InterestsScreen.route)
         })
 }
 
@@ -46,7 +50,8 @@ fun AccountScreenContent(
     scrollableState: ScrollState,
     screenUiState: AccountScreenUiState,
     onDarkModeChanged: (AccountScreenEvent) -> Unit,
-    onAuthScreenNavigated: () -> Unit
+    onAuthScreenNavigated: () -> Unit,
+    onInterestsScreenNavigated: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -65,19 +70,12 @@ fun AccountScreenContent(
 
         VerticalSpacer(value = 32.dp)
 
-        /**
-         * TODO : open Interest Selection Dialog.
-         * https://github.com/icanteach/droidhub/issues/16
-         */
         SingleItem(
             title = stringResource(id = R.string.account_interested_in_title),
             description = stringResource(id = R.string.account_interested_in_desc),
             icon = painterResource(id = R.drawable.ic_topics)
         ) {
-            /**
-             * TODO : open Interest Selection Dialog.
-             * https://github.com/icanteach/droidhub/issues/16
-             */
+            onInterestsScreenNavigated.invoke()
         }
 
         VerticalSpacer(value = 32.dp)
@@ -144,9 +142,27 @@ fun AccountScreenDarkModeNotSelected_Preview() {
     AccountScreen_Preview(AccountScreenUiState(isDarkThemeSelected = false))
 }
 
+@Preview(showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
+@Composable
+fun AccountScreenDarkModeNotSelected_DarkPreview() {
+    DroidhubTheme {
+        Surface {
+            AccountScreen_Preview(AccountScreenUiState(isDarkThemeSelected = false))
+        }
+    }
+}
+
 @Preview(showSystemUi = true)
 @Composable
 fun AccountScreenDarkModeSelected_Preview() {
+    Surface {
+        AccountScreen_Preview(AccountScreenUiState(isDarkThemeSelected = true))
+    }
+}
+
+@Preview(showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
+@Composable
+fun AccountScreenDarkModeSelected_DarkPreview() {
     DroidhubTheme {
         Surface {
             AccountScreen_Preview(AccountScreenUiState(isDarkThemeSelected = true))
@@ -157,11 +173,9 @@ fun AccountScreenDarkModeSelected_Preview() {
 @Composable
 fun AccountScreen_Preview(screenUiState: AccountScreenUiState) {
     val scrollableState = rememberScrollState()
-    AccountScreenContent(
-        scrollableState,
+    AccountScreenContent(scrollableState,
         screenUiState,
         onDarkModeChanged = {},
         onAuthScreenNavigated = {},
-
-        )
+        onInterestsScreenNavigated = {})
 }

@@ -13,7 +13,7 @@ object SubmissionError : SubmissionFormResult()
 
 
 class SendSubmissionFormUseCase @Inject constructor(
-    val firestore: FirebaseFirestore,
+    private val firestore: FirebaseFirestore,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
 

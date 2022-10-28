@@ -18,9 +18,7 @@ class AccountViewModel @Inject constructor(
 ) : ViewModel() {
 
     var accountScreenState by mutableStateOf(
-        AccountScreenUiState(
-            isDarkThemeSelected = false
-        )
+        AccountScreenUiState(isDarkThemeSelected = false)
     )
         private set
 

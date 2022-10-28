@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import co.icanteach.apps.android.droidhub.R
 import co.icanteach.apps.android.droidhub.design.composables.HorizontalSpacer
 import co.icanteach.apps.android.droidhub.design.composables.VerticalSpacer
+import co.icanteach.apps.android.droidhub.design.theme.DroidhubTheme
 
 data class PodcastComponentItem(
     override val id: String, val title: String, val source: String
@@ -88,5 +90,9 @@ fun PodcastComponent() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun PodcastComponent_DarkModePreview() {
-    PodcastComponent(ComponentFactory.createPodcastComponentItem())
+    DroidhubTheme {
+        Surface {
+            PodcastComponent(ComponentFactory.createPodcastComponentItem())
+        }
+    }
 }

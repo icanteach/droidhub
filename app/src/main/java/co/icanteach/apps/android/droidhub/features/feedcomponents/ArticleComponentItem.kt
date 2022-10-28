@@ -12,6 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import co.icanteach.apps.android.droidhub.R
 import co.icanteach.apps.android.droidhub.design.composables.VerticalSpacer
+import co.icanteach.apps.android.droidhub.design.theme.DroidhubTheme
 import coil.compose.AsyncImage
 
 
@@ -113,5 +114,9 @@ fun ArticleComponent_Preview() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun ArticleComponent_DarkModePreview() {
-    ArticleComponent(ComponentFactory.createArticleComponentItem())
+    DroidhubTheme {
+        Surface {
+            ArticleComponent(ComponentFactory.createArticleComponentItem())
+        }
+    }
 }

@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import co.icanteach.apps.android.droidhub.features.account.AccountScreen
 import co.icanteach.apps.android.droidhub.features.auth.AuthScreen
 import co.icanteach.apps.android.droidhub.features.feed.FeedScreen
+import co.icanteach.apps.android.droidhub.features.interests.InterestsScreen
 
 @Composable
 fun AppNavigator(navController: NavHostController) {
@@ -25,6 +26,10 @@ fun AppNavigator(navController: NavHostController) {
         composable(Screens.AccountScreen.route) {
             AccountScreen(navController = navController)
         }
+
+        composable(Screens.InterestsScreen.route) {
+            InterestsScreen()
+        }
     }
 }
 
@@ -33,4 +38,5 @@ sealed class Screens(val route: String) {
     object BookmarkScreen : Screens("bookmark_screen")
     object AccountScreen : Screens("account_screen")
     object AuthScreen : Screens("auth_screen")
+    object InterestsScreen : Screens("interests_screen")
 }
