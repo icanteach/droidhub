@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import co.icanteach.apps.android.droidhub.features.account.AccountScreen
+import co.icanteach.apps.android.droidhub.features.account.presentation.AccountScreen
 import co.icanteach.apps.android.droidhub.features.auth.AuthScreen
 import co.icanteach.apps.android.droidhub.features.feed.FeedScreen
 import co.icanteach.apps.android.droidhub.features.interests.InterestsScreen

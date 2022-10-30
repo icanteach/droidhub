@@ -1,4 +1,4 @@
-package co.icanteach.apps.android.droidhub.features.account.composables
+package co.icanteach.apps.android.droidhub.features.account.presentation.composables
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon

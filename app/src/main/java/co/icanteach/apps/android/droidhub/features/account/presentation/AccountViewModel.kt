@@ -1,12 +1,16 @@
-package co.icanteach.apps.android.droidhub.features.account
+package co.icanteach.apps.android.droidhub.features.account.presentation
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import co.icanteach.apps.android.droidhub.features.account.domain.User
+import co.icanteach.apps.android.droidhub.features.user.data.UserEntity
+import co.icanteach.apps.android.droidhub.features.user.data.UserRepository
 import co.icanteach.apps.android.droidhub.features.userpref.UserPreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -14,11 +18,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AccountViewModel @Inject constructor(
-    private val userPreferencesRepository: UserPreferencesRepository
+    private val userPreferencesRepository: UserPreferencesRepository,
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     var accountScreenState by mutableStateOf(
-        AccountScreenUiState(isDarkThemeSelected = false)
+        AccountScreenUiState.idle()
     )
         private set
 
@@ -35,15 +40,19 @@ class AccountViewModel @Inject constructor(
     }
 
     private fun initAccountScreen() {
-        userPreferencesRepository.userPreferencesFlow.onEach { result ->
-            onUpdateAccountScreenState(
-                accountScreenState.copy(isDarkThemeSelected = result.isDarkThemeSelected)
-            )
-        }.launchIn(viewModelScope)
+        userPreferencesRepository
+            .userPreferencesFlow.combine(userRepository.getUser()) { userPreferences, userEntity ->
+                accountScreenState =
+                    accountScreenState.copy(isDarkThemeSelected = userPreferences.isDarkThemeSelected,
+                        isUserLoggedIn = userEntity != null,
+                        user = userEntity?.let { mapTo(it) } ?: User())
+            }.onEach {
+                println(it)
+            }.launchIn(viewModelScope)
     }
 
     private fun onDarkThemeChanged(isDarkThemeSelected: Boolean) {
-        onUpdateAccountScreenState(accountScreenState.copy(isDarkThemeSelected = isDarkThemeSelected))
+        onUpdateAccountScreenState(accountScreenState.onDarkThemeChanged(isDarkThemeSelected = isDarkThemeSelected))
         viewModelScope.launch {
             userPreferencesRepository.updateOnDarkThemeSelection(isDarkThemeSelected)
         }
@@ -51,5 +60,9 @@ class AccountViewModel @Inject constructor(
 
     private fun onUpdateAccountScreenState(screenState: AccountScreenUiState) {
         accountScreenState = screenState
+    }
+
+    private fun mapTo(userEntity: UserEntity): User {
+        return User(name = userEntity.name, email = userEntity.email)
     }
 }

@@ -1,4 +1,4 @@
-package co.icanteach.apps.android.droidhub.features.account.composables
+package co.icanteach.apps.android.droidhub.features.account.presentation.composables
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -20,7 +20,10 @@ import co.icanteach.apps.android.droidhub.design.composables.VerticalSpacer
 
 @Composable
 internal fun SingleItem(
-    title: String, description: String, icon: Painter, onItemClicked: () -> Unit = {}
+    title: String,
+    description: String,
+    icon: Painter,
+    onItemClicked: () -> Unit = {}
 ) {
     Row(
         modifier = Modifier
