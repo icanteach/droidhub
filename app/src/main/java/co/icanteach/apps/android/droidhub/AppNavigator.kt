@@ -21,7 +21,7 @@ fun AppNavigator(navController: NavHostController) {
 
         composable(Screens.BookmarkScreen.route) {}
         composable(Screens.AuthScreen.route) {
-            AuthScreen()
+            AuthScreen(navController = navController)
         }
         composable(Screens.AccountScreen.route) {
             AccountScreen(navController = navController)

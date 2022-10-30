@@ -57,15 +57,15 @@ fun AccountScreenContent(
 
         if (screenUiState.isUserLoggedIn) {
             UserProfileInfo(screenUiState.user)
+            InterestedIn {
+                onInterestsScreenNavigated.invoke()
+            }
         } else {
             UserShouldLogin {
                 onAuthScreenNavigated.invoke()
             }
         }
 
-        InterestedIn {
-            onInterestsScreenNavigated.invoke()
-        }
         ReportAProblem()
         RateTheApp()
         ShareTheApp()
