@@ -10,7 +10,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class InterestsViewModel @Inject constructor(
     private val updateUserInterestsUseCase: UpdateUserInterestsUseCase,
@@ -29,8 +28,10 @@ class InterestsViewModel @Inject constructor(
 
     private fun fetchInterests() {
         viewModelScope.launch {
-            val result = fetchInterestsUseCase.fetchInterests()
-            interestScreenState = interestScreenState.copy(items = result)
+            fetchInterestsUseCase.fetchInterests().collect { result ->
+                interestScreenState = interestScreenState.copy(items = result)
+
+            }
         }
     }
 

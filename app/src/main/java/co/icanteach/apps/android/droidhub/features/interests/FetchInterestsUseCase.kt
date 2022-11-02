@@ -1,10 +1,12 @@
 package co.icanteach.apps.android.droidhub.features.interests
 
 import co.icanteach.apps.android.droidhub.features.core.data.IoDispatcher
-import co.icanteach.apps.android.droidhub.features.user.data.UserResponse
-import com.google.firebase.auth.FirebaseAuth
+import co.icanteach.apps.android.droidhub.features.user.data.UserRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -15,36 +17,31 @@ private const val USERS_COLLECTION = "droidhub-users"
 
 class FetchInterestsUseCase @Inject constructor(
     private val firestore: FirebaseFirestore,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    private val userRepository: UserRepository
 ) {
 
-    @Suppress("UNCHECKED_CAST")
+    @OptIn(ExperimentalCoroutinesApi::class)
     suspend fun fetchInterests(
-    ): List<InterestItem> {
+    ): Flow<List<InterestItem>> {
         val mainInterestDocumentRef = firestore.document(MAIN_INTERESTS_PATH)
         val mainInterestDocument = mainInterestDocumentRef.get().await()
 
-        return mainInterestDocument.data?.mapNotNull { result ->
-            val userInterests = fetchUserInterests()
-            val interestResult = result.value as HashMap<String, String>
-            InterestItem(
-                id = interestResult[INTEREST_ID].toString(),
-                displayName = interestResult[INTEREST_DISPLAY_NAME].toString(),
-                isSelected = userInterests.contains(interestResult[INTEREST_ID].toString())
-            )
-        }?.sortedByDescending { item ->
-            item.isSelected
-        } ?: listOf()
+        return userRepository.getInterests().mapLatest { interests ->
+            mainInterestDocument.data?.mapNotNull { result ->
+                val interestResult = result.value as HashMap<String, String>
+                InterestItem(id = interestResult[INTEREST_ID].toString(),
+                    displayName = interestResult[INTEREST_DISPLAY_NAME].toString(),
+                    isSelected = interests.any { it.id == interestResult[INTEREST_ID].toString() })
+            } ?: listOf()
+        }
+
+
     }
 
-    private suspend fun fetchUserInterests(): List<String> {
-        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
-        val document = firestore.collection(USERS_COLLECTION).document(userId).get().await()
-        val user = document.toObject(UserResponse::class.java)
-        return user?.interests ?: emptyList()
-    }
 }
 
-data class InterestItem constructor(
+
+data class InterestItem(
     val id: String, val displayName: String, val isSelected: Boolean
 )

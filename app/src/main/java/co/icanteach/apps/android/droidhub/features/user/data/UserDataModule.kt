@@ -16,15 +16,21 @@ object UserDataModule {
     @Singleton
     fun provideUserDatabase(app: Application): UserDatabase {
         return Room.databaseBuilder(
-            app,
-            UserDatabase::class.java,
-            UserDatabase.DATABASE_NAME
+            app, UserDatabase::class.java, UserDatabase.DATABASE_NAME
         ).build()
     }
 
     @Provides
     @Singleton
-    fun provideUserRepository(db: UserDatabase): UserRepository {
-        return UserRepositoryImpl(db.userDao)
+    fun provideInterestsDatabase(app: Application): InterestsDatabase {
+        return Room.databaseBuilder(
+            app, InterestsDatabase::class.java, InterestsDatabase.DATABASE_NAME
+        ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(userDb: UserDatabase, interestDb: InterestsDatabase): UserRepository {
+        return UserRepositoryImpl(userDb.userDao, interestDb.interestsDao)
     }
 }
