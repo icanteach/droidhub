@@ -18,11 +18,10 @@ import co.icanteach.apps.android.droidhub.design.theme.DroidhubTheme
 import co.icanteach.apps.android.droidhub.features.submission.SubmissionViewModel.*
 import kotlinx.coroutines.flow.collectLatest
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SubmissionScreen(
     viewModel: SubmissionViewModel = hiltViewModel(),
-    sheetState: ModalBottomSheetState
+    onSubmissionSuccess: () -> (Unit),
 ) {
 
     val uiState = viewModel.state
@@ -38,7 +37,7 @@ fun SubmissionScreen(
                     )
                 }
                 is UiEvent.ClosePage -> {
-                    sheetState.hide()
+                    onSubmissionSuccess.invoke()
                 }
             }
         }

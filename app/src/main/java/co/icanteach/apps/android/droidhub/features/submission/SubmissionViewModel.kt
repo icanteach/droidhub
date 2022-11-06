@@ -3,6 +3,7 @@ package co.icanteach.apps.android.droidhub.features.submission
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.icanteach.apps.android.droidhub.features.submission.domain.SendSubmissionFormUseCase
@@ -17,8 +18,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SubmissionViewModel @Inject constructor(
-    private val submissionUseCase: SendSubmissionFormUseCase
+    private val submissionUseCase: SendSubmissionFormUseCase,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
+
+    init {
+        savedStateHandle.get<String>("incomingUrl")?.let { incomingUrl ->
+            onEvent(SubmissionScreenEvent.ContentUrlChanged(incomingUrl))
+        }
+    }
 
     var state by mutableStateOf(SubmissionScreenUiState.idle())
 
