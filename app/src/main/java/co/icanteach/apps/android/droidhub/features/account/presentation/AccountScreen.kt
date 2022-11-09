@@ -13,30 +13,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import co.icanteach.apps.android.droidhub.Screens
 import co.icanteach.apps.android.droidhub.design.theme.DroidhubTheme
 import co.icanteach.apps.android.droidhub.features.account.domain.User
 import co.icanteach.apps.android.droidhub.features.account.presentation.items.*
 
 @Composable
 fun AccountScreen(
-    accountViewModel: AccountViewModel = hiltViewModel(), navController: NavHostController
+    accountViewModel: AccountViewModel = hiltViewModel(),
+    onAuthScreenNavigated: () -> Unit,
+    onInterestsScreenNavigated: () -> Unit
 ) {
 
     val scrollableState = rememberScrollState()
     val screenState = accountViewModel.accountScreenState
 
-    AccountScreenContent(scrollableState = scrollableState,
+    AccountScreenContent(
+        scrollableState = scrollableState,
         screenUiState = screenState,
         onDarkModeChanged = { event ->
             accountViewModel.onEvent(event)
         },
         onAuthScreenNavigated = {
-            navController.navigate(Screens.AuthScreen.route)
+            onAuthScreenNavigated.invoke()
         },
         onInterestsScreenNavigated = {
-            navController.navigate(Screens.InterestsScreen.route)
+            onInterestsScreenNavigated.invoke()
         })
 }
 
