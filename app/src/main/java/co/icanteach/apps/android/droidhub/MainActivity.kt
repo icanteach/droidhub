@@ -1,6 +1,7 @@
 package co.icanteach.apps.android.droidhub
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,6 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
@@ -28,24 +30,38 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setContent {
 
-        mainViewModel.userThemePreference
-            .observe(this) { result ->
-                setContent {
+            val sheetState = rememberModalBottomSheetState(
+                initialValue = ModalBottomSheetValue.Hidden, skipHalfExpanded = true
+            )
+            val bottomSheetNavigator = remember { BottomSheetNavigator(sheetState) }
+            val navController = rememberNavController(bottomSheetNavigator)
 
-                    val sheetState = rememberModalBottomSheetState(
-                        initialValue = ModalBottomSheetValue.Hidden, skipHalfExpanded = true
-                    )
-                    val bottomSheetNavigator = remember { BottomSheetNavigator(sheetState) }
-                    val navController = rememberNavController(bottomSheetNavigator)
+            val userThemePreference = mainViewModel.userThemePreference.observeAsState()
 
-                    DroidhubTheme(
-                        isSystemInDarkTheme = result.isDarkThemeSelected
-                    ) {
-                        MainScreen(navController, bottomSheetNavigator)
-                    }
-                }
+            DroidhubTheme(
+                isSystemInDarkTheme = userThemePreference.value?.isDarkThemeSelected ?: false
+            ) {
+                MainScreen(navController, bottomSheetNavigator)
             }
+
+            mainViewModel.openSubmissonPage.observe(this) { incomingUrl ->
+                navController.navigate(
+                    Screens.SubmissionScreen.route + "?incomingUrl=${incomingUrl}"
+                )
+            }
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        if ((intent?.action == Intent.ACTION_SEND) && ("text/plain" == intent.type)) {
+            intent.getStringExtra(Intent.EXTRA_TEXT)?.let { incomingUrl ->
+                mainViewModel.onOpenSubmissonPage(incomingUrl)
+            }
+        }
     }
 }
 

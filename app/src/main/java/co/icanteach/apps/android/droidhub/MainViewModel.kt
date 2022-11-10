@@ -20,13 +20,20 @@ class MainViewModel @Inject constructor(
     private val _userThemePreference = MutableLiveData<UserPreferences>()
     val userThemePreference: LiveData<UserPreferences> = _userThemePreference
 
+    private val _openSubmissonPage = MutableLiveData<String>()
+    val openSubmissonPage: LiveData<String> = _openSubmissonPage
+
     init {
         observeUserPreferences()
     }
 
     private fun observeUserPreferences() {
         userPreferencesRepository.userPreferencesFlow.onEach { result ->
-                _userThemePreference.value = result
-            }.launchIn(viewModelScope)
+            _userThemePreference.value = result
+        }.launchIn(viewModelScope)
+    }
+
+    fun onOpenSubmissonPage(incomingUrl: String) {
+        _openSubmissonPage.value = incomingUrl
     }
 }

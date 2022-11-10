@@ -38,8 +38,12 @@ fun AppNavigator(
             }
             composable(Screens.AccountScreen.route) {
                 AccountScreen(
-                    navController = navController
-                )
+                    onAuthScreenNavigated = {
+                        navController.navigate(Screens.AuthScreen.route)
+                    }
+                ) {
+                    navController.navigate(Screens.InterestsScreen.route)
+                }
             }
 
             composable(Screens.InterestsScreen.route) {
