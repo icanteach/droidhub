@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class InterestsViewModel @Inject constructor(
     private val updateUserInterestsUseCase: UpdateUserInterestsUseCase,
-    private val fetchInterestsUseCase: FetchInterestsUseCase
+    private val initUseCase: InitInterestsUseCase
 ) : ViewModel() {
 
 
@@ -28,7 +28,7 @@ class InterestsViewModel @Inject constructor(
 
     private fun fetchInterests() {
         viewModelScope.launch {
-            fetchInterestsUseCase.fetchInterests().collect { result ->
+            initUseCase.fetchInterests().collect { result ->
                 interestScreenState = interestScreenState.copy(items = result)
 
             }

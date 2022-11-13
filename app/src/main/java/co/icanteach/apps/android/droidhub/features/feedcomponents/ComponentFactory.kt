@@ -45,10 +45,11 @@ object ComponentFactory {
     fun createPodcastComponentItem(
         id: String = "123e4567-e89b-12d3-a456-426614174000",
         title: String = "A pragmatic guide to Hilt with Kotlin",
-        source: String = "Youtube"
+        source: String = "Youtube",
+        category: String = "Podcast"
     ): PodcastComponentItem {
         return PodcastComponentItem(
-            id = id, title = title, source = source
+            id = id, title = title, source = source, category
         )
     }
 }

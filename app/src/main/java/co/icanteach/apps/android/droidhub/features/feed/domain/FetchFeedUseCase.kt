@@ -4,18 +4,18 @@ import co.icanteach.apps.android.droidhub.features.feedcomponents.ComponentFacto
 import co.icanteach.apps.android.droidhub.features.feedcomponents.ComponentItem
 import javax.inject.Inject
 
-class FetchDroidhubMainFeedUseCase @Inject constructor() {
+class FetchFeedUseCase @Inject constructor(
+) {
 
-    fun fetchMainFeed(): List<ComponentItem> {
+    fun fetchFeed(): List<ComponentItem> {
         return mutableListOf(
-            ComponentFactory.createPodcastComponentItem(),
             ComponentFactory.createArticleComponentItem(),
             ComponentFactory.createVideoComponentItem(),
             ComponentFactory.createArticleComponentItem(),
+            ComponentFactory.createPodcastComponentItem(),
             ComponentFactory.createVideoComponentItem(),
             ComponentFactory.createArticleComponentItem(),
             ComponentFactory.createVideoComponentItem(),
         )
     }
-
 }
