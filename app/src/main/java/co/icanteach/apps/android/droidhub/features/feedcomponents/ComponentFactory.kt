@@ -8,7 +8,6 @@ object ComponentFactory {
         desc: String = "An easy way to use dependency injection in your Android app",
         category: String = "Dagger Hilt",
         imageUrl: String = "https://miro.medium.com/max/1400/1*9cp9m4LO4zkpgv2s30Cg9A.png",
-        date: String = "23.10.2022",
         sharedBy: String = "Droidhub"
     ): ArticleComponentItem {
         return ArticleComponentItem(
@@ -17,7 +16,6 @@ object ComponentFactory {
             desc = desc,
             category = category,
             imageUrl = imageUrl,
-            date = date,
             sharedBy = sharedBy
         )
     }
@@ -37,7 +35,6 @@ object ComponentFactory {
             source = source,
             category = category,
             imageUrl = imageUrl,
-            date = date,
             sharedBy = sharedBy
         )
     }

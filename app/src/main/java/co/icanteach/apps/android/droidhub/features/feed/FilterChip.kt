@@ -14,9 +14,10 @@ fun FilterChip(
     onSelectedCategoryChanged: (String) -> Unit,
 ) {
 
-    Chip(modifier = Modifier.padding(horizontal = 8.dp), onClick = {
-        onSelectedCategoryChanged(item.id)
-    }) {
+    Chip(
+        modifier = Modifier.padding(horizontal = 8.dp), onClick = {
+            onSelectedCategoryChanged(item.id)
+        }) {
         Text(
             text = item.displayName,
             style = MaterialTheme.typography.body2,

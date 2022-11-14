@@ -27,7 +27,6 @@ data class VideoComponentItem(
     val title: String,
     val source: String,
     val imageUrl: String,
-    val date: String,
     val sharedBy: String
 ) : ComponentItem
 
@@ -48,7 +47,7 @@ fun VideoComponent(
             ) {
 
                 val imageModifier = Modifier
-                    .heightIn(min = 160.dp)
+                    .height(160.dp)
                     .fillMaxWidth()
 
                 AsyncImage(
@@ -70,7 +69,7 @@ fun VideoComponent(
                         style = MaterialTheme.typography.caption,
                         maxLines = 1,
                         color = MaterialTheme.colors.onBackground,
-                        text = item.category,
+                        text = item.source,
                     )
                 }
 
@@ -99,7 +98,7 @@ fun VideoComponent(
             Text(
                 modifier = Modifier.padding(horizontal = 8.dp),
                 text = stringResource(
-                    id = R.string.feed_post_date_and_posted_by, item.date, item.sharedBy
+                    id = R.string.feed_post_content_and_posted_by, item.category, item.sharedBy
                 ),
                 style = MaterialTheme.typography.caption
             )

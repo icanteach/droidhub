@@ -22,11 +22,9 @@ data class ArticleComponentItem(
     val title: String,
     val desc: String,
     val imageUrl: String,
-    val sharedBy: String,
-    val date: String
+    val sharedBy: String
 ) : ComponentItem
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ArticleComponent(
     item: ArticleComponentItem
@@ -41,7 +39,7 @@ fun ArticleComponent(
 
             Box {
                 val imageModifier = Modifier
-                    .heightIn(min = 180.dp)
+                    .height(180.dp)
                     .fillMaxWidth()
 
                 AsyncImage(
@@ -50,20 +48,6 @@ fun ArticleComponent(
                     contentDescription = item.title,
                     modifier = imageModifier
                 )
-
-                Chip(
-                    modifier = Modifier.padding(horizontal = 8.dp),
-                    onClick = {},
-                    border = ChipDefaults.outlinedBorder,
-                    colors = ChipDefaults.outlinedChipColors(),
-                ) {
-                    Text(
-                        style = MaterialTheme.typography.caption,
-                        maxLines = 1,
-                        color = MaterialTheme.colors.onBackground,
-                        text = item.category,
-                    )
-                }
             }
 
             VerticalSpacer(value = 8.dp)
@@ -91,9 +75,10 @@ fun ArticleComponent(
             VerticalSpacer(value = 4.dp)
 
             Text(
+
                 modifier = Modifier.padding(horizontal = 8.dp),
                 text = stringResource(
-                    id = R.string.feed_post_date_and_posted_by, item.date, item.sharedBy
+                    id = R.string.feed_post_content_and_posted_by, item.category, item.sharedBy
                 ),
                 style = MaterialTheme.typography.caption
             )

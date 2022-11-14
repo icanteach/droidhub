@@ -6,12 +6,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -66,14 +69,13 @@ class MainActivity : ComponentActivity() {
 }
 
 @OptIn(ExperimentalMaterialNavigationApi::class)
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen(
     navController: NavHostController,
     bottomSheetNavigator: BottomSheetNavigator,
 ) {
 
-    Scaffold(topBar = {
+    Scaffold(bottomBar = { BottomNavigationBar(navController = navController) }, topBar = {
         TopAppBar(actions = {
             IconButton(onClick = {
                 navController.navigate(
@@ -83,8 +85,11 @@ fun MainScreen(
                 Icon(Icons.Default.Add, "")
             }
         }, title = { Text(stringResource(id = R.string.app_name)) })
-    },
-        content = { AppNavigator(navController, bottomSheetNavigator) },
-        bottomBar = { BottomNavigationBar(navController = navController) })
+    }) { innerPadding ->
+        // Apply the padding globally to the whole BottomNavScreensController
+        Box(modifier = Modifier.padding(innerPadding)) {
+            AppNavigator(navController, bottomSheetNavigator)
+        }
+    }
 }
 

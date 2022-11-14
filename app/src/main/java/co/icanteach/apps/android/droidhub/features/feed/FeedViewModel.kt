@@ -41,8 +41,31 @@ class FeedViewModel @Inject constructor(
         }
     }
 
+    private fun fetchFeedBy(queryValues: List<String>) {
+        viewModelScope.launch {
+            val result = fetchFeedUseCase.fetchFeedBy(queryValues)
+            feedScreenState = feedScreenState.copy(components = result)
+        }
+    }
+
     fun onSelectedFilterChanged(selectedFilter: String) {
-        feedScreenState =
-            feedScreenState.copy(filters = feedScreenState.onSelectedFilterChanged(selectedFilter))
+        onUpdateSelectedFilterItem(selectedFilter)
+
+        val selectedFilters = feedScreenState.filters.filter { it.isSelected }
+
+        if (selectedFilters.isEmpty()) {
+            fetchFeed()
+            return
+        } else {
+            fetchFeedBy(selectedFilters.map { it.id })
+        }
+    }
+
+    private fun onUpdateSelectedFilterItem(selectedFilter: String) {
+        feedScreenState = feedScreenState.copy(
+            filters = feedScreenState.onSelectedFilterChanged(
+                selectedFilter
+            )
+        )
     }
 }
