@@ -17,6 +17,10 @@ import androidx.compose.ui.unit.max
 import co.icanteach.apps.android.droidhub.R
 import co.icanteach.apps.android.droidhub.design.composables.VerticalSpacer
 import co.icanteach.apps.android.droidhub.design.theme.DroidhubTheme
+import co.icanteach.apps.android.droidhub.features.feedcomponents.composables.ComponentCaption
+import co.icanteach.apps.android.droidhub.features.feedcomponents.composables.ComponentChip
+import co.icanteach.apps.android.droidhub.features.feedcomponents.composables.ComponentImage
+import co.icanteach.apps.android.droidhub.features.feedcomponents.composables.ComponentTitle
 
 data class PodcastComponentItem(
     override val id: String, val title: String, val source: String, val category: String
@@ -38,48 +42,21 @@ fun PodcastComponent(
                 val imageModifier = Modifier
                     .height(100.dp)
                     .fillMaxWidth()
-                val image: Painter = painterResource(id = R.drawable.ic_launcher_background)
-                Image(
-                    contentScale = ContentScale.Crop,
-                    painter = image,
-                    contentDescription = item.title,
-                    modifier = imageModifier
+                val imageSource: Painter = painterResource(id = R.drawable.ic_launcher_background)
+                ComponentImage(
+                    modifier = imageModifier, image = imageSource, contentDescription = item.source
                 )
-
                 VerticalSpacer(value = 8.dp)
-
-                Chip(
-                    modifier = Modifier.padding(horizontal = 8.dp),
-                    onClick = {},
-                    border = ChipDefaults.outlinedBorder,
-                    colors = ChipDefaults.outlinedChipColors(),
-                ) {
-                    Text(
-                        style = MaterialTheme.typography.caption,
-                        maxLines = 1,
-                        color = MaterialTheme.colors.onBackground,
-                        text = item.source,
-                    )
-                }
+                ComponentChip(item.source)
             }
             VerticalSpacer(value = 4.dp)
-            Text(
-                modifier = Modifier.padding(horizontal = 8.dp),
-                color = MaterialTheme.colors.onBackground,
-                text = item.title,
-                style = MaterialTheme.typography.subtitle1,
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis,
-            )
-
+            ComponentTitle(item.title)
             VerticalSpacer(value = 4.dp)
-
-            Text(
-                modifier = Modifier.padding(horizontal = 8.dp), text = stringResource(
+            ComponentCaption(
+                text = stringResource(
                     id = R.string.feed_post_content_and_on, item.category, item.source
-                ), style = MaterialTheme.typography.caption
+                )
             )
-
             VerticalSpacer(value = 8.dp)
         }
     }

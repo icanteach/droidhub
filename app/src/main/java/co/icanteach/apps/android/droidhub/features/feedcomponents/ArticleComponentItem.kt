@@ -13,6 +13,10 @@ import androidx.compose.ui.unit.dp
 import co.icanteach.apps.android.droidhub.R
 import co.icanteach.apps.android.droidhub.design.composables.VerticalSpacer
 import co.icanteach.apps.android.droidhub.design.theme.DroidhubTheme
+import co.icanteach.apps.android.droidhub.features.feedcomponents.composables.ComponentCaption
+import co.icanteach.apps.android.droidhub.features.feedcomponents.composables.ComponentDescription
+import co.icanteach.apps.android.droidhub.features.feedcomponents.composables.ComponentImage
+import co.icanteach.apps.android.droidhub.features.feedcomponents.composables.ComponentTitle
 import coil.compose.AsyncImage
 
 
@@ -42,47 +46,23 @@ fun ArticleComponent(
                     .height(180.dp)
                     .fillMaxWidth()
 
-                AsyncImage(
-                    contentScale = ContentScale.Crop,
-                    model = item.imageUrl,
-                    contentDescription = item.title,
-                    modifier = imageModifier
+                ComponentImage(
+                    modifier = imageModifier,
+                    imageUrl = item.imageUrl,
+                    contentDescription = item.title
                 )
             }
 
             VerticalSpacer(value = 8.dp)
-
-            Text(
-                modifier = Modifier.padding(horizontal = 8.dp),
-                text = item.title,
-                style = MaterialTheme.typography.subtitle1,
-                maxLines = 3,
-                color = MaterialTheme.colors.onBackground,
-                overflow = TextOverflow.Ellipsis,
-            )
-
+            ComponentTitle(item.title)
             VerticalSpacer(value = 4.dp)
-
-            Text(
-                modifier = Modifier.padding(horizontal = 8.dp),
-                text = item.desc,
-                style = MaterialTheme.typography.subtitle2,
-                maxLines = 3,
-                color = MaterialTheme.colors.onBackground,
-                overflow = TextOverflow.Ellipsis,
-            )
-
+            ComponentDescription(item.desc)
             VerticalSpacer(value = 4.dp)
-
-            Text(
-
-                modifier = Modifier.padding(horizontal = 8.dp),
+            ComponentCaption(
                 text = stringResource(
                     id = R.string.feed_post_content_and_posted_by, item.category, item.sharedBy
-                ),
-                style = MaterialTheme.typography.caption
+                )
             )
-
             VerticalSpacer(value = 8.dp)
         }
     }
