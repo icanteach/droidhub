@@ -30,7 +30,23 @@ object UserDataModule {
 
     @Provides
     @Singleton
-    fun provideUserRepository(userDb: UserDatabase, interestDb: InterestsDatabase): UserRepository {
-        return UserRepositoryImpl(userDb.userDao, interestDb.interestsDao)
+    fun provideBookmarksDatabase(app: Application): BookmarksDatabase {
+        return Room.databaseBuilder(
+            app, BookmarksDatabase::class.java, BookmarksDatabase.DATABASE_NAME
+        ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(
+        userDb: UserDatabase,
+        interestDb: InterestsDatabase,
+        bookmarksDb: BookmarksDatabase
+    ): UserRepository {
+        return UserRepositoryImpl(
+            userDb.userDao,
+            interestDb.interestsDao,
+            bookmarksDb.bookmarksDao
+        )
     }
 }

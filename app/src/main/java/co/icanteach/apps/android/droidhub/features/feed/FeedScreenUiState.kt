@@ -1,7 +1,7 @@
 package co.icanteach.apps.android.droidhub.features.feed
 
+import co.icanteach.apps.android.droidhub.components.core.ComponentItem
 import co.icanteach.apps.android.droidhub.features.feed.domain.FilterItem
-import co.icanteach.apps.android.droidhub.features.feedcomponents.ComponentItem
 
 data class FeedScreenUiState(
     val filters: List<FilterItem> = mutableListOf(),

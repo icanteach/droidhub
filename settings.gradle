@@ -15,3 +15,5 @@ dependencyResolutionManagement {
 rootProject.name = "Droidhub"
 include ':app'
 include ':design-core'
+include ':components:core'
+include ':components:feed-items'

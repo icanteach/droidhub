@@ -13,9 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import co.icanteach.apps.android.droidhub.components.core.*
+import co.icanteach.apps.android.droidhub.components.items.ArticleComponent
+import co.icanteach.apps.android.droidhub.components.items.PodcastComponent
+import co.icanteach.apps.android.droidhub.components.items.VideoComponent
 import co.icanteach.apps.android.droidhub.design.theme.DroidhubTheme
 import co.icanteach.apps.android.droidhub.features.feed.domain.FakeFilterItemsProvider
-import co.icanteach.apps.android.droidhub.features.feedcomponents.*
 
 
 @Composable
@@ -23,17 +26,19 @@ fun FeedScreen(
     feedViewModel: FeedViewModel = hiltViewModel(),
 ) {
     val screenState = feedViewModel.feedScreenState
-    FeedScreen(
-        screenState,
+    FeedScreen(screenState,
         onSelectedFilterChanged = { selectedFilter ->
             feedViewModel.onSelectedFilterChanged(selectedFilter)
+        }, onBookmarkItemClicked = { component ->
+            feedViewModel.onBookmarkItemClicked(component)
         })
 }
 
 @Composable
 fun FeedScreen(
     screenState: FeedScreenUiState,
-    onSelectedFilterChanged: (String) -> (Unit)
+    onSelectedFilterChanged: (String) -> (Unit),
+    onBookmarkItemClicked: (ComponentItem) -> (Unit)
 ) {
 
     val scrollState = rememberLazyListState()
@@ -67,7 +72,9 @@ fun FeedScreen(
             when (item) {
                 is ArticleComponentItem -> ArticleComponent(
                     item = item
-                )
+                ) {
+                    onBookmarkItemClicked.invoke(item)
+                }
                 is VideoComponentItem -> VideoComponent(
                     item = item
                 )
@@ -86,19 +93,23 @@ fun FeedScreen_Preview() {
     val filters = FakeFilterItemsProvider().filters
     val articleComponentItem = ComponentFactory.createArticleComponentItem()
     val items = mutableListOf<ComponentItem>(articleComponentItem, articleComponentItem)
-    FeedScreen(FeedScreenUiState(components = items, filters = filters)) {}
+    FeedScreen(FeedScreenUiState(components = items, filters = filters), {}, {})
 }
 
 @Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun FeedScreen_DarkModePreview() {
     val filters = FakeFilterItemsProvider().filters
-    val articleComponentItem = ComponentFactory.createArticleComponentItem()
-    val items = mutableListOf<ComponentItem>(articleComponentItem, articleComponentItem)
+    val articleComponentItem =
+        ComponentFactory.createArticleComponentItem()
+    val items = mutableListOf<ComponentItem>(
+        articleComponentItem,
+        articleComponentItem
+    )
 
     DroidhubTheme {
         Surface {
-            FeedScreen(FeedScreenUiState(components = items, filters = filters)) {}
+            FeedScreen(FeedScreenUiState(components = items, filters = filters), {}, {})
         }
     }
 }

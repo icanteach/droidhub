@@ -16,7 +16,7 @@ class FetchInterestsUseCase @Inject constructor(
         val mainInterestDocumentRef = firestore.document(MAIN_INTERESTS_PATH)
         val mainInterestDocument = mainInterestDocumentRef.get().await()
         return mainInterestDocument.data?.mapNotNull { result ->
-            val interestResult = result.value as HashMap<String, String>
+            val interestResult = result.value as HashMap<*, *>
             InterestItemResponse(
                 id = interestResult[INTEREST_ID].toString(),
                 displayName = interestResult[INTEREST_DISPLAY_NAME].toString(),

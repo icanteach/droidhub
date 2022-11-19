@@ -1,14 +1,12 @@
 package co.icanteach.apps.android.droidhub.features.user.domain
 
-import co.icanteach.apps.android.droidhub.features.user.data.InterestEntity
-import co.icanteach.apps.android.droidhub.features.user.data.UserEntity
-import co.icanteach.apps.android.droidhub.features.user.data.UserRepository
-import co.icanteach.apps.android.droidhub.features.user.data.UserRequest
+import co.icanteach.apps.android.droidhub.features.user.data.*
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 private const val USERS_COLLECTION = "droidhub-users"
+private const val USERS_BOOKMARKS = "user_bookmarks"
 
 class InsertUserUseCase @Inject constructor(
     private val firestore: FirebaseFirestore, private val repository: UserRepository
@@ -40,16 +38,40 @@ class InsertUserUseCase @Inject constructor(
                 )
 
                 val interests = user?.get("interests")
+                val bookmarks = user?.get("bookmarks")
+
                 if (interests is List<*>) {
-                    val interestEntities = interests.map { item ->
-                        item as String
-                        InterestEntity(item)
-                    }
-                    repository.insertAllInterests(interestEntities)
+                    insertAllInterests(interests)
                 }
+
+                if (bookmarks is List<*>) {
+                    insertAllBookmarks(bookmarks)
+                }
+
             }
+            val bookmarkItem = hashMapOf(
+                "visible" to false,
+            )
+
+            firestore.collection(USERS_BOOKMARKS).document(id).set(bookmarkItem).await()
         } catch (e: Exception) {
             // todo handle exception.
         }
+    }
+
+    private suspend fun insertAllInterests(interests: List<*>) {
+        val interestEntities = interests.map { item ->
+            item as String
+            InterestEntity(item)
+        }
+        repository.insertAllInterests(interestEntities)
+    }
+
+    private suspend fun insertAllBookmarks(interests: List<*>) {
+        val bookmarkEntities = interests.map { item ->
+            item as String
+            BookmarkEntity(item)
+        }
+        repository.insertAllBookmarks(bookmarkEntities)
     }
 }

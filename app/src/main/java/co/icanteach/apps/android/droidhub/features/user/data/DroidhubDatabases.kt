@@ -22,12 +22,23 @@ abstract class UserDatabase : RoomDatabase() {
 @Database(
     entities = [InterestEntity::class], version = 1, exportSchema = false
 )
-@TypeConverters(ListStringConverter::class)
 abstract class InterestsDatabase : RoomDatabase() {
 
     abstract val interestsDao: InterestsDao
 
     companion object {
         const val DATABASE_NAME = "droidhub_interests_db"
+    }
+}
+
+@Database(
+    entities = [BookmarkEntity::class], version = 1, exportSchema = false
+)
+abstract class BookmarksDatabase : RoomDatabase() {
+
+    abstract val bookmarksDao: BookmarksDao
+
+    companion object {
+        const val DATABASE_NAME = "droidhub_bookmarks_db"
     }
 }

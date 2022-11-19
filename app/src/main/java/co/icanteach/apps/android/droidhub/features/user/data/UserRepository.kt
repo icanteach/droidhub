@@ -9,4 +9,8 @@ interface UserRepository {
     suspend fun insertInterest(interest: InterestEntity)
     suspend fun deleteInterest(interest: InterestEntity)
     suspend fun insertAllInterests(interests: List<InterestEntity>)
+    suspend fun insertBookmark(bookmark: BookmarkEntity)
+    suspend fun deleteBookmark(bookmark: BookmarkEntity)
+    suspend fun insertAllBookmarks(bookmars: List<BookmarkEntity>)
+    suspend fun getBookmarks(): Flow<List<BookmarkEntity>>
 }

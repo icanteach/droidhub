@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="component_item_content_and_posted_by">%1$s - Shared by %2$s</string>
+    <string name="component_item_content_and_on">%1$s - on %2$s</string>
+</resources>

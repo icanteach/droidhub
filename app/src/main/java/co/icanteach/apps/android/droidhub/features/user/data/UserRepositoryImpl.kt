@@ -4,7 +4,9 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
-    private val dao: UserDao, private val interestsDao: InterestsDao
+    private val dao: UserDao,
+    private val interestsDao: InterestsDao,
+    private val bookmarksDao: BookmarksDao
 ) : UserRepository {
     override fun getUser(): Flow<UserEntity> {
         return dao.getUser()
@@ -28,5 +30,21 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun insertAllInterests(interests: List<InterestEntity>) {
         interestsDao.insertAll(interests)
+    }
+
+    override suspend fun insertBookmark(bookmark: BookmarkEntity) {
+        bookmarksDao.insert(bookmark)
+    }
+
+    override suspend fun deleteBookmark(bookmark: BookmarkEntity) {
+        bookmarksDao.delete(bookmark)
+    }
+
+    override suspend fun insertAllBookmarks(bookmars: List<BookmarkEntity>) {
+        bookmarksDao.insertAll(bookmars)
+    }
+
+    override suspend fun getBookmarks(): Flow<List<BookmarkEntity>> {
+        return bookmarksDao.getBookmarks()
     }
 }

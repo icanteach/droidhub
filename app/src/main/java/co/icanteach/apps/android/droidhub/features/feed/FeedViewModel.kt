@@ -5,6 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import co.icanteach.apps.android.droidhub.components.core.ComponentItem
+import co.icanteach.apps.android.droidhub.features.bookmark.AddToBookmarkUseCase
+import co.icanteach.apps.android.droidhub.features.bookmark.RemoveFromBookmarkUseCase
 import co.icanteach.apps.android.droidhub.features.feed.domain.FetchFeedUseCase
 import co.icanteach.apps.android.droidhub.features.feed.domain.FetchFiltersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +17,9 @@ import javax.inject.Inject
 @HiltViewModel
 class FeedViewModel @Inject constructor(
     private val fetchFeedUseCase: FetchFeedUseCase,
-    private val fetchFiltersUseCase: FetchFiltersUseCase
+    private val fetchFiltersUseCase: FetchFiltersUseCase,
+    private val addToBookmarkUseCase: AddToBookmarkUseCase,
+    private val removeFromBookmarkUseCase: RemoveFromBookmarkUseCase
 ) : ViewModel() {
 
     var feedScreenState by mutableStateOf(
@@ -36,8 +41,10 @@ class FeedViewModel @Inject constructor(
 
     private fun fetchFeed() {
         viewModelScope.launch {
-            val result = fetchFeedUseCase.fetchFeed()
-            feedScreenState = feedScreenState.copy(components = result)
+            fetchFeedUseCase.fetchFeed().collect { result ->
+                feedScreenState = feedScreenState.copy(components = result)
+
+            }
         }
     }
 
@@ -67,5 +74,15 @@ class FeedViewModel @Inject constructor(
                 selectedFilter
             )
         )
+    }
+
+    fun onBookmarkItemClicked(component: ComponentItem) {
+        viewModelScope.launch {
+            if (component.addedToBookmark) {
+                removeFromBookmarkUseCase.removeFromBookmark(component.toMap())
+            } else {
+                addToBookmarkUseCase.addToBookmark(component.toMap())
+            }
+        }
     }
 }
