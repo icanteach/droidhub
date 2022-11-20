@@ -1,4 +1,4 @@
-package co.icanteach.apps.android.droidhub.features.feed
+package co.icanteach.apps.android.droidhub.features.bookmark
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -7,61 +7,59 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.icanteach.apps.android.droidhub.components.core.ComponentItem
 import co.icanteach.apps.android.droidhub.features.bookmark.domain.AddToBookmarkUseCase
+import co.icanteach.apps.android.droidhub.features.bookmark.domain.FetchUserBookmarkUseCase
 import co.icanteach.apps.android.droidhub.features.bookmark.domain.RemoveFromBookmarkUseCase
-import co.icanteach.apps.android.droidhub.features.feed.domain.FetchFeedUseCase
 import co.icanteach.apps.android.droidhub.features.feed.domain.FetchFiltersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FeedViewModel @Inject constructor(
-    private val fetchFeedUseCase: FetchFeedUseCase,
+class BookmarkScreenViewModel @Inject constructor(
+    private val fetchUserBookmarksUseCase: FetchUserBookmarkUseCase,
     private val fetchFiltersUseCase: FetchFiltersUseCase,
     private val addToBookmarkUseCase: AddToBookmarkUseCase,
     private val removeFromBookmarkUseCase: RemoveFromBookmarkUseCase
 ) : ViewModel() {
 
-    var feedScreenState by mutableStateOf(
-        FeedScreenUiState()
+    var bookmarkScreenState by mutableStateOf(
+        BookmarkScreenUiState()
     )
         private set
 
     init {
-        fetchFeed()
+        fetchBookmarks()
         fetchFilters()
     }
 
     private fun fetchFilters() {
         viewModelScope.launch {
             val result = fetchFiltersUseCase.fetchFilters()
-            feedScreenState = feedScreenState.copy(filters = result.toMutableList())
+            bookmarkScreenState = bookmarkScreenState.copy(filters = result.toMutableList())
         }
     }
 
-    private fun fetchFeed() {
+    private fun fetchBookmarks() {
         viewModelScope.launch {
-            fetchFeedUseCase.fetchFeed().collect { result ->
-                feedScreenState = feedScreenState.copy(components = result)
-
-            }
+            val result = fetchUserBookmarksUseCase.fetchBookmarks()
+            bookmarkScreenState = bookmarkScreenState.copy(components = result)
         }
     }
 
     private fun fetchFeedBy(queryValues: List<String>) {
         viewModelScope.launch {
-            val result = fetchFeedUseCase.fetchFeedBy(queryValues)
-            feedScreenState = feedScreenState.copy(components = result)
+            // val result = fetchFeedUseCase.fetchFeedBy(queryValues)
+            //bookmarkScreenState = bookmarkScreenState.copy(components = result)
         }
     }
 
     fun onSelectedFilterChanged(selectedFilter: String) {
         onUpdateSelectedFilterItem(selectedFilter)
 
-        val selectedFilters = feedScreenState.filters.filter { it.isSelected }
+        val selectedFilters = bookmarkScreenState.filters.filter { it.isSelected }
 
         if (selectedFilters.isEmpty()) {
-            fetchFeed()
+            fetchBookmarks()
             return
         } else {
             fetchFeedBy(selectedFilters.map { it.id })
@@ -69,8 +67,8 @@ class FeedViewModel @Inject constructor(
     }
 
     private fun onUpdateSelectedFilterItem(selectedFilter: String) {
-        feedScreenState = feedScreenState.copy(
-            filters = feedScreenState.onSelectedFilterChanged(
+        bookmarkScreenState = bookmarkScreenState.copy(
+            filters = bookmarkScreenState.onSelectedFilterChanged(
                 selectedFilter
             )
         )

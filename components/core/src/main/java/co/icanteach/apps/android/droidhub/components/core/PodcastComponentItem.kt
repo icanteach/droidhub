@@ -9,10 +9,11 @@ data class PodcastComponentItem(
 ) : ComponentItem {
     override fun toMap(): Map<String, String> {
         return mapOf(
-            "id" to id,
-            "category" to category,
-            "title" to title,
-            "source" to source,
+            ID_FIELD to id,
+            CATEGORY_FIELD to category,
+            TITLE_FIELD to title,
+            SOURCE_FIELD to source,
+            TYPE_FIELD to COMPONENT_PODCAST,
         )
     }
 }

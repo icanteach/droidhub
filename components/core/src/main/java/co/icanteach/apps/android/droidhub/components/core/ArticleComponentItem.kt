@@ -12,12 +12,13 @@ data class ArticleComponentItem(
 
     override fun toMap(): Map<String, String> {
         return mapOf(
-            "id" to id,
-            "sharedBy" to sharedBy,
-            "category" to category,
-            "title" to title,
-            "desc" to desc,
-            "imageUrl" to imageUrl
+            ID_FIELD to id,
+            SHARED_BY_FIELD to sharedBy,
+            CATEGORY_FIELD to category,
+            TITLE_FIELD to title,
+            DESC_FIELD to desc,
+            IMAGE_FIELD to imageUrl,
+            TYPE_FIELD to COMPONENT_ARTICLE_TYPE,
         )
     }
 }

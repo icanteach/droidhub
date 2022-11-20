@@ -11,12 +11,13 @@ data class VideoComponentItem(
 ) : ComponentItem {
     override fun toMap(): Map<String, String> {
         return mapOf(
-            "id" to id,
-            "sharedBy" to sharedBy,
-            "category" to category,
-            "title" to title,
-            "source" to source,
-            "imageUrl" to imageUrl
+            ID_FIELD to id,
+            SHARED_BY_FIELD to sharedBy,
+            IMAGE_FIELD to imageUrl,
+            CATEGORY_FIELD to category,
+            TITLE_FIELD to title,
+            SOURCE_FIELD to source,
+            TYPE_FIELD to COMPONENT_VIDEO,
         )
     }
 }

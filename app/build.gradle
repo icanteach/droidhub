@@ -53,6 +53,7 @@ dependencies {
     implementation project(':design-core')
     implementation project(':components:core')
     implementation project(':components:feed-items')
+    implementation project(':core:network')
 
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'

@@ -1,9 +1,6 @@
 package co.icanteach.apps.android.droidhub.features.feed.domain
 
-import co.icanteach.apps.android.droidhub.components.core.ComponentItem
-import co.icanteach.apps.android.droidhub.components.core.ComponentItemResponse
-import co.icanteach.apps.android.droidhub.components.core.ComponentMapper
-import co.icanteach.apps.android.droidhub.features.interests.InterestItem
+import co.icanteach.apps.android.droidhub.components.core.*
 import co.icanteach.apps.android.droidhub.features.user.data.UserRepository
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -14,14 +11,6 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 private const val HOME_FEED_PATH = "home-feed"
-private const val CATEGORY_FIELD = "category"
-private const val TITLE_FIELD = "title"
-private const val DESC_FIELD = "description"
-private const val TYPE_FIELD = "type"
-private const val IMAGE_FIELD = "image"
-private const val SHARED_BY_FIELD = "sharedBy"
-private const val SOURCE_FIELD = "source"
-private const val ID_FIELD = "id"
 
 class FetchFeedUseCase @Inject constructor(
     private val firestore: FirebaseFirestore,
