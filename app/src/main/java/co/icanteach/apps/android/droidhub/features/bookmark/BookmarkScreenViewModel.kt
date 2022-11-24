@@ -1,16 +1,17 @@
 package co.icanteach.apps.android.droidhub.features.bookmark
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.icanteach.apps.android.droidhub.components.core.ComponentItem
 import co.icanteach.apps.android.droidhub.features.bookmark.domain.AddToBookmarkUseCase
 import co.icanteach.apps.android.droidhub.features.bookmark.domain.FetchUserBookmarkUseCase
 import co.icanteach.apps.android.droidhub.features.bookmark.domain.RemoveFromBookmarkUseCase
+import co.icanteach.apps.android.droidhub.features.feed.FeedScreenUiState
 import co.icanteach.apps.android.droidhub.features.feed.domain.FetchFiltersUseCase
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,56 +23,46 @@ class BookmarkScreenViewModel @Inject constructor(
     private val removeFromBookmarkUseCase: RemoveFromBookmarkUseCase
 ) : ViewModel() {
 
-    var bookmarkScreenState by mutableStateOf(
-        BookmarkScreenUiState()
-    )
-        private set
+    private val _bookScreenUiState =
+        MutableStateFlow<BookmarkScreenUiState>(BookmarkScreenUiState.Loading)
+    val bookScreenUiState: StateFlow<BookmarkScreenUiState> = _bookScreenUiState
 
     init {
-        fetchBookmarks()
-        fetchFilters()
+        initFeed()
     }
 
-    private fun fetchFilters() {
-        viewModelScope.launch {
-            val result = fetchFiltersUseCase.fetchFilters()
-            bookmarkScreenState = bookmarkScreenState.copy(filters = result.toMutableList())
-        }
-    }
+    private fun initFeed() {
+        val currentUser = FirebaseAuth.getInstance().currentUser
 
-    private fun fetchBookmarks() {
-        viewModelScope.launch {
-            val result = fetchUserBookmarksUseCase.fetchBookmarks()
-            bookmarkScreenState = bookmarkScreenState.copy(components = result)
-        }
-    }
+        if (currentUser != null) {
+            viewModelScope.launch {
+                val filters = fetchFiltersUseCase.fetchFilters()
+                val components = fetchUserBookmarksUseCase.fetchBookmarks()
+                _bookScreenUiState.value =
+                    BookmarkScreenUiState.Success(filters = filters, components = components)
+            }
+        } else {
 
-    private fun fetchFeedBy(queryValues: List<String>) {
-        viewModelScope.launch {
-            // val result = fetchFeedUseCase.fetchFeedBy(queryValues)
-            //bookmarkScreenState = bookmarkScreenState.copy(components = result)
         }
     }
 
     fun onSelectedFilterChanged(selectedFilter: String) {
         onUpdateSelectedFilterItem(selectedFilter)
-
-        val selectedFilters = bookmarkScreenState.filters.filter { it.isSelected }
+        val selectedFilters =
+            (_bookScreenUiState.value as FeedScreenUiState.Success).filters.filter { it.isSelected }
 
         if (selectedFilters.isEmpty()) {
-            fetchBookmarks()
+            //7 fetchFeed()
             return
         } else {
-            fetchFeedBy(selectedFilters.map { it.id })
+            // fetchFeedBy(selectedFilters.map { it.id })
         }
     }
 
     private fun onUpdateSelectedFilterItem(selectedFilter: String) {
-        bookmarkScreenState = bookmarkScreenState.copy(
-            filters = bookmarkScreenState.onSelectedFilterChanged(
-                selectedFilter
-            )
-        )
+        val oldScreenUiState = _bookScreenUiState.value as BookmarkScreenUiState.Success
+        _bookScreenUiState.value =
+            oldScreenUiState.copy(filters = oldScreenUiState.onSelectedFilterChanged(selectedFilter))
     }
 
     fun onBookmarkItemClicked(component: ComponentItem) {

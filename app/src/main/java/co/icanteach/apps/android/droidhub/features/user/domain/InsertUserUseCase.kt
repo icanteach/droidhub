@@ -50,7 +50,7 @@ class InsertUserUseCase @Inject constructor(
 
             }
             val bookmarkItem = hashMapOf(
-                "visible" to false,
+                "bookmark_items" to emptyList<Any>(),
             )
 
             firestore.collection(USERS_BOOKMARKS).document(id).set(bookmarkItem).await()
