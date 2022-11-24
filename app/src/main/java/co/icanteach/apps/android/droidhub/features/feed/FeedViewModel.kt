@@ -1,8 +1,5 @@
 package co.icanteach.apps.android.droidhub.features.feed
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.icanteach.apps.android.droidhub.components.core.ComponentItem
@@ -11,6 +8,8 @@ import co.icanteach.apps.android.droidhub.features.bookmark.domain.RemoveFromBoo
 import co.icanteach.apps.android.droidhub.features.feed.domain.FetchFeedUseCase
 import co.icanteach.apps.android.droidhub.features.feed.domain.FetchFiltersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,43 +21,29 @@ class FeedViewModel @Inject constructor(
     private val removeFromBookmarkUseCase: RemoveFromBookmarkUseCase
 ) : ViewModel() {
 
-    var feedScreenState by mutableStateOf(
-        FeedScreenUiState()
-    )
-        private set
+    private val _feedScreenState = MutableStateFlow<FeedScreenUiState>(FeedScreenUiState.Loading)
+    val feedScreenState: StateFlow<FeedScreenUiState> = _feedScreenState
 
     init {
-        fetchFeed()
-        fetchFilters()
+        initFeed()
     }
 
-    private fun fetchFilters() {
+    private fun initFeed() {
         viewModelScope.launch {
-            val result = fetchFiltersUseCase.fetchFilters()
-            feedScreenState = feedScreenState.copy(filters = result.toMutableList())
-        }
-    }
+            val filters = fetchFiltersUseCase.fetchFilters()
 
-    private fun fetchFeed() {
-        viewModelScope.launch {
-            fetchFeedUseCase.fetchFeed().collect { result ->
-                feedScreenState = feedScreenState.copy(components = result)
+            fetchFeedUseCase.fetchFeed().collect { components ->
+                _feedScreenState.value =
+                    FeedScreenUiState.Success(filters = filters, components = components)
 
             }
         }
     }
 
-    private fun fetchFeedBy(queryValues: List<String>) {
-        viewModelScope.launch {
-            val result = fetchFeedUseCase.fetchFeedBy(queryValues)
-            feedScreenState = feedScreenState.copy(components = result)
-        }
-    }
-
     fun onSelectedFilterChanged(selectedFilter: String) {
         onUpdateSelectedFilterItem(selectedFilter)
-
-        val selectedFilters = feedScreenState.filters.filter { it.isSelected }
+        val selectedFilters =
+            (feedScreenState.value as FeedScreenUiState.Success).filters.filter { it.isSelected }
 
         if (selectedFilters.isEmpty()) {
             fetchFeed()
@@ -68,12 +53,27 @@ class FeedViewModel @Inject constructor(
         }
     }
 
+    private fun fetchFeed() {
+        viewModelScope.launch {
+            fetchFeedUseCase.fetchFeed().collect { result ->
+                val oldScreenUiState = feedScreenState.value as FeedScreenUiState.Success
+                _feedScreenState.value = oldScreenUiState.copy(components = result)
+            }
+        }
+    }
+
+    private fun fetchFeedBy(queryValues: List<String>) {
+        viewModelScope.launch {
+            val result = fetchFeedUseCase.fetchFeedBy(queryValues)
+            val oldScreenUiState = feedScreenState.value as FeedScreenUiState.Success
+            _feedScreenState.value = oldScreenUiState.copy(components = result)
+        }
+    }
+
     private fun onUpdateSelectedFilterItem(selectedFilter: String) {
-        feedScreenState = feedScreenState.copy(
-            filters = feedScreenState.onSelectedFilterChanged(
-                selectedFilter
-            )
-        )
+        val oldScreenUiState = feedScreenState.value as FeedScreenUiState.Success
+        _feedScreenState.value =
+            oldScreenUiState.copy(filters = oldScreenUiState.onSelectedFilterChanged(selectedFilter))
     }
 
     fun onBookmarkItemClicked(component: ComponentItem) {
