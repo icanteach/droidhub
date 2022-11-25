@@ -50,24 +50,6 @@ fun SocialLoginButton(
         })
 }
 
-@Preview
-@Composable
-fun FacebookLoginButton_Preview() {
-    SocialLoginButton(
-        buttonIcon = R.drawable.ic_launcher_background, buttonText = R.string.auth_facebook_login
-    ) {}
-}
-
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-fun FacebookLoginButtonDark_Preview() {
-    DroidhubTheme {
-        SocialLoginButton(
-            buttonIcon = R.drawable.ic_launcher_background, buttonText = R.string.auth_facebook_login
-        ) {}
-    }
-}
-
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun GoogleLoginButtonDark_Preview() {
