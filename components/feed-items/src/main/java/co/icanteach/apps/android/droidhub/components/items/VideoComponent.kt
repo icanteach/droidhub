@@ -72,7 +72,7 @@ fun VideoComponent(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
                         .padding(8.dp),
-                    image = painterResource(id = R.drawable.ic_add_bookmark),
+                    isSelected = item.addedToBookmark,
                     contentDescription = item.source
                 ) {
 

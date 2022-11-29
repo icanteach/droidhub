@@ -7,7 +7,6 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,8 +18,7 @@ import co.icanteach.apps.android.droidhub.design.theme.DroidhubTheme
 
 @Composable
 fun ArticleComponent(
-    item: ArticleComponentItem,
-    onBookmarkItemClicked: () -> (Unit)
+    item: ArticleComponentItem, onBookmarkItemClicked: () -> (Unit)
 ) {
 
     Card(
@@ -47,7 +45,7 @@ fun ArticleComponent(
 
                 ComponentBookmark(
                     modifier = modifier,
-                    image = painterResource(id = R.drawable.ic_add_bookmark),
+                    isSelected = item.addedToBookmark,
                     contentDescription = item.title
                 ) {
                     onBookmarkItemClicked.invoke()
@@ -61,10 +59,7 @@ fun ArticleComponent(
             VerticalSpacer(value = 4.dp)
             ComponentCaption(
                 text = stringResource(
-                    id =
-                    R.string.component_item_content_and_posted_by,
-                    item.category,
-                    item.sharedBy
+                    id = R.string.component_item_content_and_posted_by, item.category, item.sharedBy
                 )
             )
             VerticalSpacer(value = 8.dp)

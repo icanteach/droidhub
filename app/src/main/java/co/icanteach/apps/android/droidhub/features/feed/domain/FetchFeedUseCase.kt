@@ -20,7 +20,7 @@ class FetchFeedUseCase @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     suspend fun fetchFeed(): Flow<List<ComponentItem>> {
-        return userRepository.getInterests().mapLatest { bookmarks ->
+        return userRepository.getBookmarks().mapLatest { bookmarks ->
             val feedCollection = firestore.collection(HOME_FEED_PATH)
             val allFeedDocuments = feedCollection.get().await()
 

@@ -35,7 +35,6 @@ class FeedViewModel @Inject constructor(
             fetchFeedUseCase.fetchFeed().collect { components ->
                 _feedScreenState.value =
                     FeedScreenUiState.Success(filters = filters, components = components)
-
             }
         }
     }

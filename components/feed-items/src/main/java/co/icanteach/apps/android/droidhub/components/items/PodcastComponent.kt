@@ -50,7 +50,7 @@ fun PodcastComponent(
 
                 ComponentBookmark(
                     modifier = modifier,
-                    image = painterResource(id = drawable.ic_add_bookmark),
+                    isSelected = item.addedToBookmark,
                     contentDescription = item.source
                 ) {
 
