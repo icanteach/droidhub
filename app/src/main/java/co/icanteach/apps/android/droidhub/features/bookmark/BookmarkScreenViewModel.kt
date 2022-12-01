@@ -37,12 +37,22 @@ class BookmarkScreenViewModel @Inject constructor(
         if (currentUser != null) {
             viewModelScope.launch {
                 val filters = fetchFiltersUseCase.fetchFilters()
-                val components = fetchUserBookmarksUseCase.fetchBookmarks()
-                _bookScreenUiState.value =
-                    BookmarkScreenUiState.Success(filters = filters, components = components)
+                fetchUserBookmarksUseCase.fetchBookmarks().collect { components ->
+                    _bookScreenUiState.value =
+                        BookmarkScreenUiState.Success(filters = filters, components = components)
+                }
             }
         } else {
 
+        }
+    }
+
+    private fun x() {
+        viewModelScope.launch {
+            fetchUserBookmarksUseCase.fetchBookmarks().collect { components ->
+                _bookScreenUiState.value =
+                    BookmarkScreenUiState.Success(components = components)
+            }
         }
     }
 
