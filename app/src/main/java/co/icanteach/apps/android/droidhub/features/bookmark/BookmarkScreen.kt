@@ -20,29 +20,32 @@ import co.icanteach.apps.android.droidhub.components.items.ArticleComponent
 import co.icanteach.apps.android.droidhub.components.items.PodcastComponent
 import co.icanteach.apps.android.droidhub.components.items.VideoComponent
 import co.icanteach.apps.android.droidhub.design.theme.DroidhubTheme
-import co.icanteach.apps.android.droidhub.features.feed.FeedScreenUiState
-import co.icanteach.apps.android.droidhub.features.feed.FeedViewModel
+import co.icanteach.apps.android.droidhub.features.auth.AuthScreen
 import co.icanteach.apps.android.droidhub.features.feed.FilterChip
 import co.icanteach.apps.android.droidhub.features.feed.domain.FakeFilterItemsProvider
 
 @Composable
 fun BookmarkScreen(
-    screenViewModel: BookmarkScreenViewModel = hiltViewModel(),
+    screenViewModel: BookmarkScreenViewModel = hiltViewModel()
 ) {
     val screenState = screenViewModel.bookScreenUiState.collectAsState().value
 
-    BookmarkScreen(screenState, onSelectedFilterChanged = { selectedFilter ->
-        screenViewModel.onSelectedFilterChanged(selectedFilter)
-    }, onBookmarkItemClicked = { component ->
-        screenViewModel.onBookmarkItemClicked(component)
-    })
+    BookmarkScreen(screenState,
+        onSelectedFilterChanged = { selectedFilter ->
+            screenViewModel.onSelectedFilterChanged(selectedFilter)
+        }, onBookmarkItemClicked = { component ->
+            screenViewModel.onBookmarkItemClicked(component)
+        }, onAuthScreenNavigated = {
+            screenViewModel.refreshBookmarkContent()
+        })
 }
 
 @Composable
 fun BookmarkScreen(
     screenState: BookmarkScreenUiState,
     onSelectedFilterChanged: (String) -> (Unit),
-    onBookmarkItemClicked: (ComponentItem) -> (Unit)
+    onBookmarkItemClicked: (ComponentItem) -> (Unit),
+    onAuthScreenNavigated: () -> (Unit)
 ) {
 
     when (screenState) {
@@ -50,7 +53,7 @@ fun BookmarkScreen(
 
         }
         is BookmarkScreenUiState.Success -> {
-            BookmarkScreenResultScreen(
+            BookmarkScreenSuccessResult(
                 screenState = screenState,
                 onSelectedFilterChanged = {
                     onSelectedFilterChanged.invoke(it)
@@ -59,13 +62,18 @@ fun BookmarkScreen(
                 })
         }
         BookmarkScreenUiState.Loading -> {
-            BookmarkScreenLoadingScreen()
+            BookmarkScreenLoading()
+        }
+        BookmarkScreenUiState.UserNotLoggedIn -> {
+            BookmarkScreenUserNotLoggedIn {
+                onAuthScreenNavigated.invoke()
+            }
         }
     }
 }
 
 @Composable
-fun BookmarkScreenLoadingScreen(
+fun BookmarkScreenLoading(
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -77,7 +85,16 @@ fun BookmarkScreenLoadingScreen(
 }
 
 @Composable
-fun BookmarkScreenResultScreen(
+fun BookmarkScreenUserNotLoggedIn(
+    onAuthScreenNavigated: () -> (Unit)
+) {
+    AuthScreen {
+        onAuthScreenNavigated.invoke()
+    }
+}
+
+@Composable
+fun BookmarkScreenSuccessResult(
     screenState: BookmarkScreenUiState.Success,
     onSelectedFilterChanged: (String) -> (Unit),
     onBookmarkItemClicked: (ComponentItem) -> (Unit)
@@ -131,7 +148,13 @@ fun BookmarkScreenResultScreen(
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun BookmarkScreenLoading_Preview() {
-    BookmarkScreen(BookmarkScreenUiState.Loading, {}, {})
+    BookmarkScreen_Preview(BookmarkScreenUiState.Loading)
+}
+
+@Preview(showSystemUi = true, showBackground = true)
+@Composable
+fun BookmarkUserNotLoggedIn_Preview() {
+    BookmarkScreen_Preview(BookmarkScreenUiState.UserNotLoggedIn)
 }
 
 @Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
@@ -139,7 +162,7 @@ fun BookmarkScreenLoading_Preview() {
 fun BookmarkScreenLoading_DarkPreview() {
     DroidhubTheme {
         Surface {
-            BookmarkScreen(BookmarkScreenUiState.Loading, {}, {})
+            BookmarkScreen_Preview(BookmarkScreenUiState.Loading)
         }
     }
 }
@@ -150,7 +173,12 @@ fun BookmarkScreenSuccess_Preview() {
     val filters = FakeFilterItemsProvider().filters
     val articleComponentItem = ComponentFactory.createArticleComponentItem()
     val items = mutableListOf<ComponentItem>(articleComponentItem, articleComponentItem)
-    BookmarkScreen(BookmarkScreenUiState.Success(components = items, filters = filters), {}, {})
+    BookmarkScreen_Preview(
+        BookmarkScreenUiState.Success(
+            components = items,
+            filters = filters
+        )
+    )
 }
 
 @Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
@@ -163,10 +191,20 @@ fun BookmarkScreenSuccess_DarkModePreview() {
     )
     DroidhubTheme {
         Surface {
-            BookmarkScreen(
-                BookmarkScreenUiState.Success(components = items, filters = filters),
-                {},
-                {})
+            BookmarkScreen_Preview(
+                BookmarkScreenUiState.Success(
+                    components = items,
+                    filters = filters
+                )
+            )
         }
     }
+}
+
+@Composable
+fun BookmarkScreen_Preview(screenUiState: BookmarkScreenUiState) {
+    BookmarkScreen(screenUiState,
+        onSelectedFilterChanged = {},
+        onBookmarkItemClicked = {},
+        onAuthScreenNavigated = {})
 }

@@ -43,7 +43,7 @@ class BookmarkScreenViewModel @Inject constructor(
                 }
             }
         } else {
-
+            _bookScreenUiState.value = BookmarkScreenUiState.UserNotLoggedIn
         }
     }
 
@@ -83,5 +83,9 @@ class BookmarkScreenViewModel @Inject constructor(
                 addToBookmarkUseCase.addToBookmark(component.toMap())
             }
         }
+    }
+
+    fun refreshBookmarkContent() {
+        initFeed()
     }
 }

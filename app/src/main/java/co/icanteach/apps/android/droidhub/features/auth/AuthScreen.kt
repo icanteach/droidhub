@@ -20,8 +20,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import co.icanteach.apps.android.droidhub.R.drawable
 import co.icanteach.apps.android.droidhub.R.string
 import co.icanteach.apps.android.droidhub.design.composables.VerticalSpacer
@@ -35,7 +33,7 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun AuthScreen(
     viewModel: AuthViewModel = hiltViewModel(),
-    navController: NavHostController,
+    onAuthActionResultSuccess: () -> (Unit),
 ) {
 
     val context = LocalContext.current
@@ -67,7 +65,7 @@ fun AuthScreen(
                     )
                 }
                 is AuthViewModel.UiEvent.ClosePage -> {
-                    navController.navigateUp()
+                    onAuthActionResultSuccess.invoke()
                 }
             }
         }
@@ -126,17 +124,15 @@ fun AuthScreen(
 @Preview(showSystemUi = true)
 @Composable
 fun AuthScreen_Preview() {
-    val navController = rememberNavController()
-    AuthScreen(navController = navController)
+    AuthScreen {}
 }
 
 @Preview(showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun AuthScreenDark_Preview() {
-    val navController = rememberNavController()
     DroidhubTheme {
         Surface {
-            AuthScreen(navController = navController)
+            AuthScreen {}
         }
     }
 }

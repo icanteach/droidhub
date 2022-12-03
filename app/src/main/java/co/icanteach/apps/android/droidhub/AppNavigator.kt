@@ -35,9 +35,9 @@ fun AppNavigator(
                 BookmarkScreen()
             }
             composable(Screens.AuthScreen.route) {
-                AuthScreen(
-                    navController = navController
-                )
+                AuthScreen {
+                    navController.navigateUp()
+                }
             }
             composable(Screens.AccountScreen.route) {
                 AccountScreen(
