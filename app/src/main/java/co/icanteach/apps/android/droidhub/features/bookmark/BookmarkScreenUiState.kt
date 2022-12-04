@@ -6,6 +6,7 @@ import co.icanteach.apps.android.droidhub.features.feed.domain.FilterItem
 sealed class BookmarkScreenUiState {
     object UserNotLoggedIn : BookmarkScreenUiState()
     object Loading : BookmarkScreenUiState()
+    object Empty : BookmarkScreenUiState()
     data class Success(
         val filters: List<FilterItem> = mutableListOf(),
         val components: List<ComponentItem> = emptyList()

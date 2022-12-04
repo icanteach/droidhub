@@ -1,8 +1,9 @@
-package co.icanteach.apps.android.droidhub.features.bookmark
+package co.icanteach.apps.android.droidhub.features.bookmark.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.icanteach.apps.android.droidhub.components.core.ComponentItem
+import co.icanteach.apps.android.droidhub.features.bookmark.BookmarkScreenUiState
 import co.icanteach.apps.android.droidhub.features.bookmark.domain.AddToBookmarkUseCase
 import co.icanteach.apps.android.droidhub.features.bookmark.domain.FetchUserBookmarkUseCase
 import co.icanteach.apps.android.droidhub.features.bookmark.domain.RemoveFromBookmarkUseCase
@@ -38,13 +39,25 @@ class BookmarkScreenViewModel @Inject constructor(
             viewModelScope.launch {
                 val filters = fetchFiltersUseCase.fetchFilters()
                 fetchUserBookmarksUseCase.fetchBookmarks().collect { components ->
-                    _bookScreenUiState.value =
-                        BookmarkScreenUiState.Success(filters = filters, components = components)
+                    if (components.isEmpty()) {
+                        onInitBookmarkResult(BookmarkScreenUiState.Empty)
+                    } else {
+                        onInitBookmarkResult(
+                            BookmarkScreenUiState.Success(
+                                filters = filters,
+                                components = components
+                            )
+                        )
+                    }
                 }
             }
         } else {
-            _bookScreenUiState.value = BookmarkScreenUiState.UserNotLoggedIn
+            onInitBookmarkResult(BookmarkScreenUiState.UserNotLoggedIn)
         }
+    }
+
+    private fun onInitBookmarkResult(uiState: BookmarkScreenUiState) {
+        _bookScreenUiState.value = uiState
     }
 
     private fun x() {

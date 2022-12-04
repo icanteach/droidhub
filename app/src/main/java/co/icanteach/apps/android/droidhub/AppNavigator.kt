@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import co.icanteach.apps.android.droidhub.features.account.presentation.AccountScreen
 import co.icanteach.apps.android.droidhub.features.auth.AuthScreen
-import co.icanteach.apps.android.droidhub.features.bookmark.BookmarkScreen
+import co.icanteach.apps.android.droidhub.features.bookmark.presentation.BookmarkScreen
 import co.icanteach.apps.android.droidhub.features.feed.FeedScreen
 import co.icanteach.apps.android.droidhub.features.interests.InterestsScreen
 import co.icanteach.apps.android.droidhub.features.submission.SubmissionScreen

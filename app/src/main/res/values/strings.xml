@@ -36,6 +36,10 @@
     <string name="submission_choose_type_placeholder">Post type</string>
     <string name="submission_share_button">Share</string>
 
+    <!-- Bookmark Page -->
+    <string name="bookmark_empty_page_title">Add bookmarks</string>
+    <string name="bookmark_empty_page_desc">Don\'t forget to bookmark the content you like so that you can find those easily over here</string>
+
     <string-array name="submission_post_types">
         <item>Article</item>
         <item>Video</item>
